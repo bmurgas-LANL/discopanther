@@ -1,6 +1,27 @@
 Applications:
     discopanter:
         app_types:
-            - discopanterApp
+            - discopanter
         content_directory: ${ROOT_DIR}/doc/content
+        remove:
+            - ${MOOSE_DIR}/framework/doc/remove.yml
         log_default: WARNING
+        show_warning: false
+
+Documents:
+    software_requirements_specification: sqa/discopanter_srs.md
+    software_design_description: sqa/discopanter_sdd.md
+    software_test_plan: sqa/discopanter_stp.md
+    requirements_traceability_matrix: sqa/discopanter_rtm.md
+    verification_validation_report: sqa/discopanter_vvr.md
+    failure_analysis_report: sqa/discopanter_far.md
+    software_library_list: sqa/discopanter_sll.md
+    log_default: WARNING
+    show_warning: false
+
+Requirements:
+    discopanter:
+        directories:
+            - ${ROOT_DIR}/test
+        log_default: WARNING
+        show_warning: false
