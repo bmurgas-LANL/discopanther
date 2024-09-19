@@ -59,6 +59,11 @@ DiscoFluxCPStressUpdate::validParams()
   params.addParam<Real>("c1", 2.0, "material parameter");
   params.addParam<Real>("temp", 300, "Temperature(K)");
 
+  params.addRequiredCoupledVar("DD_EdgePositive", "Coupled dislocation density, EdgePositive");
+  params.addRequiredCoupledVar("DD_EdgeNegative", "Coupled dislocation density, EdgeNegative");
+  params.addRequiredCoupledVar("DD_ScrewPositive", "Coupled dislocation density, ScrewPositive");
+  params.addRequiredCoupledVar("DD_ScrewNegative", "Coupled dislocation density, ScrewNegative");
+
   return params;
 }
 
@@ -99,7 +104,7 @@ DiscoFluxCPStressUpdate::DiscoFluxCPStressUpdate(const InputParameters & paramet
     _dislo_velocity_edge(declareProperty<std::vector<Real>>("dislo_velocity_edge")),
     _dislo_velocity_screw(declareProperty<std::vector<Real>>("dislo_velocity_screw")),
     _tau_old(getMaterialPropertyOld<std::vector<Real>>("applied_shear_stress")),
-    _GND_density(getMaterialProperty<std::vector<Real>>("GND_density")),
+    _GND_density(declareProperty<std::vector<Real>>("GND_density")),
     _tau_b(declareProperty<std::vector<Real>>("back_stress")),
 
     // DDC related variables
@@ -155,9 +160,11 @@ DiscoFluxCPStressUpdate::initQpStatefulProperties()
   _slip_plane_normalboth[_qp].resize(_number_slip_systems);
 
   _dislocation_immobile[_qp].resize(_number_slip_systems);
+  _dislocation_mobile[_qp].resize(_number_slip_systems);
   _dislo_velocity_edge[_qp].resize(_number_slip_systems);
   _dislo_velocity_screw[_qp].resize(_number_slip_systems);
   _kappa[_qp].resize(_number_slip_systems);
+  _tau_b[_qp].resize(_number_slip_systems);
 
   for (unsigned int i = 0; i < _number_slip_systems; ++i)
   {
