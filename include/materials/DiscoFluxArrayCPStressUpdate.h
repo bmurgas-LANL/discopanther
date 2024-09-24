@@ -18,14 +18,14 @@ permit others to do so.
 
 #include "CrystalPlasticityStressUpdateBase.h"
 
-class DiscoFluxCPStressUpdate;
+class DiscoFluxArrayCPStressUpdate;
 
-class DiscoFluxCPStressUpdate : public CrystalPlasticityStressUpdateBase
+class DiscoFluxArrayCPStressUpdate : public CrystalPlasticityStressUpdateBase
 {
 public:
   static InputParameters validParams();
 
-  DiscoFluxCPStressUpdate(const InputParameters & parameters);
+  DiscoFluxArrayCPStressUpdate(const InputParameters & parameters);
 
 protected:
   // initializes the stateful properties
@@ -97,109 +97,16 @@ protected:
   // const  Real temp =300;
   const Real omega0 = 2.0e+2; // 8.0e+11;
 
-  const VariableValue & _DD_EdgePositive_1;
-  const VariableValue & _DD_EdgePositive_2;
-  const VariableValue & _DD_EdgePositive_3;
-  const VariableValue & _DD_EdgePositive_4;
-  const VariableValue & _DD_EdgePositive_5;
-  const VariableValue & _DD_EdgePositive_6;
-  const VariableValue & _DD_EdgePositive_7;
-  const VariableValue & _DD_EdgePositive_8;
-  const VariableValue & _DD_EdgePositive_9;
-  const VariableValue & _DD_EdgePositive_10;
-  const VariableValue & _DD_EdgePositive_11;
-  const VariableValue & _DD_EdgePositive_12;
+  // const VariableValue & _Rho_EdgePositive_01;
+  const ArrayVariableValue & _DD_EdgePositive;
+  const ArrayVariableValue & _DD_EdgeNegative;
+  const ArrayVariableValue & _DD_ScrewPositive;
+  const ArrayVariableValue & _DD_ScrewNegative;
 
-  const VariableValue & _DD_EdgeNegative_1;
-  const VariableValue & _DD_EdgeNegative_2;
-  const VariableValue & _DD_EdgeNegative_3;
-  const VariableValue & _DD_EdgeNegative_4;
-  const VariableValue & _DD_EdgeNegative_5;
-  const VariableValue & _DD_EdgeNegative_6;
-  const VariableValue & _DD_EdgeNegative_7;
-  const VariableValue & _DD_EdgeNegative_8;
-  const VariableValue & _DD_EdgeNegative_9;
-  const VariableValue & _DD_EdgeNegative_10;
-  const VariableValue & _DD_EdgeNegative_11;
-  const VariableValue & _DD_EdgeNegative_12;
-
-  const VariableValue & _DD_ScrewPositive_1;
-  const VariableValue & _DD_ScrewPositive_2;
-  const VariableValue & _DD_ScrewPositive_3;
-  const VariableValue & _DD_ScrewPositive_4;
-  const VariableValue & _DD_ScrewPositive_5;
-  const VariableValue & _DD_ScrewPositive_6;
-  const VariableValue & _DD_ScrewPositive_7;
-  const VariableValue & _DD_ScrewPositive_8;
-  const VariableValue & _DD_ScrewPositive_9;
-  const VariableValue & _DD_ScrewPositive_10;
-  const VariableValue & _DD_ScrewPositive_11;
-  const VariableValue & _DD_ScrewPositive_12;
-
-  const VariableValue & _DD_ScrewNegative_1;
-  const VariableValue & _DD_ScrewNegative_2;
-  const VariableValue & _DD_ScrewNegative_3;
-  const VariableValue & _DD_ScrewNegative_4;
-  const VariableValue & _DD_ScrewNegative_5;
-  const VariableValue & _DD_ScrewNegative_6;
-  const VariableValue & _DD_ScrewNegative_7;
-  const VariableValue & _DD_ScrewNegative_8;
-  const VariableValue & _DD_ScrewNegative_9;
-  const VariableValue & _DD_ScrewNegative_10;
-  const VariableValue & _DD_ScrewNegative_11;
-  const VariableValue & _DD_ScrewNegative_12;
-
-  const VariableGradient & _DD_EdgePositive_1_Grad;
-  const VariableGradient & _DD_EdgePositive_2_Grad;
-  const VariableGradient & _DD_EdgePositive_3_Grad;
-  const VariableGradient & _DD_EdgePositive_4_Grad;
-  const VariableGradient & _DD_EdgePositive_5_Grad;
-  const VariableGradient & _DD_EdgePositive_6_Grad;
-  const VariableGradient & _DD_EdgePositive_7_Grad;
-  const VariableGradient & _DD_EdgePositive_8_Grad;
-  const VariableGradient & _DD_EdgePositive_9_Grad;
-  const VariableGradient & _DD_EdgePositive_10_Grad;
-  const VariableGradient & _DD_EdgePositive_11_Grad;
-  const VariableGradient & _DD_EdgePositive_12_Grad;
-
-  const VariableGradient & _DD_EdgeNegative_1_Grad;
-  const VariableGradient & _DD_EdgeNegative_2_Grad;
-  const VariableGradient & _DD_EdgeNegative_3_Grad;
-  const VariableGradient & _DD_EdgeNegative_4_Grad;
-  const VariableGradient & _DD_EdgeNegative_5_Grad;
-  const VariableGradient & _DD_EdgeNegative_6_Grad;
-  const VariableGradient & _DD_EdgeNegative_7_Grad;
-  const VariableGradient & _DD_EdgeNegative_8_Grad;
-  const VariableGradient & _DD_EdgeNegative_9_Grad;
-  const VariableGradient & _DD_EdgeNegative_10_Grad;
-  const VariableGradient & _DD_EdgeNegative_11_Grad;
-  const VariableGradient & _DD_EdgeNegative_12_Grad;
-
-  const VariableGradient & _DD_ScrewPositive_1_Grad;
-  const VariableGradient & _DD_ScrewPositive_2_Grad;
-  const VariableGradient & _DD_ScrewPositive_3_Grad;
-  const VariableGradient & _DD_ScrewPositive_4_Grad;
-  const VariableGradient & _DD_ScrewPositive_5_Grad;
-  const VariableGradient & _DD_ScrewPositive_6_Grad;
-  const VariableGradient & _DD_ScrewPositive_7_Grad;
-  const VariableGradient & _DD_ScrewPositive_8_Grad;
-  const VariableGradient & _DD_ScrewPositive_9_Grad;
-  const VariableGradient & _DD_ScrewPositive_10_Grad;
-  const VariableGradient & _DD_ScrewPositive_11_Grad;
-  const VariableGradient & _DD_ScrewPositive_12_Grad;
-
-  const VariableGradient & _DD_ScrewNegative_1_Grad;
-  const VariableGradient & _DD_ScrewNegative_2_Grad;
-  const VariableGradient & _DD_ScrewNegative_3_Grad;
-  const VariableGradient & _DD_ScrewNegative_4_Grad;
-  const VariableGradient & _DD_ScrewNegative_5_Grad;
-  const VariableGradient & _DD_ScrewNegative_6_Grad;
-  const VariableGradient & _DD_ScrewNegative_7_Grad;
-  const VariableGradient & _DD_ScrewNegative_8_Grad;
-  const VariableGradient & _DD_ScrewNegative_9_Grad;
-  const VariableGradient & _DD_ScrewNegative_10_Grad;
-  const VariableGradient & _DD_ScrewNegative_11_Grad;
-  const VariableGradient & _DD_ScrewNegative_12_Grad;
+  const ArrayVariableGradient & _DD_EdgePositive_Grad;
+  const ArrayVariableGradient & _DD_EdgeNegative_Grad;
+  const ArrayVariableGradient & _DD_ScrewPositive_Grad;
+  const ArrayVariableGradient & _DD_ScrewNegative_Grad;
 
   MaterialProperty<std::vector<Real>> & _dislocation_immobile;
   const MaterialProperty<std::vector<Real>> & _dislocation_immobile_old;
@@ -215,15 +122,6 @@ protected:
   // DDC related variables
   std::vector<RealVectorValue> _DD_grad;
   std::vector<Real> _tau_b_local;
-
-  std::vector<Real> _DD_EdgePositive;
-  std::vector<Real> _DD_EdgeNegative;
-  std::vector<Real> _DD_ScrewPositive;
-  std::vector<Real> _DD_ScrewNegative;
-  std::vector<RealVectorValue> _DD_EdgePositive_Grad;
-  std::vector<RealVectorValue> _DD_EdgeNegative_Grad;
-  std::vector<RealVectorValue> _DD_ScrewPositive_Grad;
-  std::vector<RealVectorValue> _DD_ScrewNegative_Grad;
 
   MaterialProperty<std::vector<RealVectorValue>> & _slip_direction_edge;
   MaterialProperty<std::vector<RealVectorValue>> & _slip_direction_screw;
