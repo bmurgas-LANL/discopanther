@@ -28,7 +28,7 @@ permit others to do so.
 #include "libmesh/quadrature_gauss.h"
 #include "libmesh/remote_elem.h"
 
-registerMooseObject("SolidMechanicsApp", DiscoFluxCPStressUpdate);
+registerMooseObject("discopanterApp", DiscoFluxCPStressUpdate);
 
 InputParameters
 DiscoFluxCPStressUpdate::validParams()
@@ -370,8 +370,13 @@ DiscoFluxCPStressUpdate::initQpStatefulProperties()
     _slip_resistance[_qp][i] = _lattice_friction;
     _slip_increment[_qp][i] = 0.0;
     // why 4? -> mobile + immobile = disloc density initial
-    _dislocation_mobile[_qp][i] = 0.5 * _dislo_density_initial;
-    _dislocation_immobile[_qp][i] = 0.5 * _dislo_density_initial; // why
+    // _dislocation_mobile[_qp][i] = 0.5 * _dislo_density_initial;
+    // _dislocation_immobile[_qp][i] = 0.5 * _dislo_density_initial; // why
+    _dislocation_mobile[_qp][i] =
+        (_DD_EdgeNegative[i] + _DD_EdgePositive[i]) *
+        _dislo_density_factor_CDT; // + _DD_ScrewNegative[i] +
+                                   // _DD_ScrewPositive[i])*_dislo_density_factor_CDT;
+    _dislocation_immobile[_qp][i] = _dislo_density_initial;
     _dislo_velocity_edge[_qp][i] = 0.00;
     _dislo_velocity_screw[_qp][i] = 0.00;
     _kappa[_qp][i] = 0.0;
@@ -443,7 +448,6 @@ DiscoFluxCPStressUpdate::setInitialConstitutiveVariableValues()
     // _DD_ScrewPositive[_qp][i] + _DD_ScrewNegative[_qp][i]) * _dislo_density_factor_CDT;
     _dislocation_mobile[_qp][i] =
         (_DD_EdgePositive[i] + _DD_EdgeNegative[i]) * _dislo_density_factor_CDT;
-    // _dislocation_mobile[_qp][i] = 4.0 * _dislo_density_factor_CDT;
     _previous_substep_dislocation_mobile[i] = _dislocation_mobile[_qp][i];
   }
   _dislocation_immobile[_qp] = _dislocation_immobile_old[_qp];
@@ -471,6 +475,7 @@ DiscoFluxCPStressUpdate::setSubstepConstitutiveVariableValues()
 {
   _slip_resistance[_qp] = _previous_substep_slip_resistance;
   _dislocation_immobile[_qp] = _previous_substep_dislocation_immobile;
+  _dislocation_mobile[_qp] = _previous_substep_dislocation_mobile;
 }
 
 bool
@@ -630,6 +635,7 @@ DiscoFluxCPStressUpdate::cacheStateVariablesBeforeUpdate()
 {
   _slip_resistance_before_update = _slip_resistance[_qp];
   _dislocation_immobile_before_update = _dislocation_immobile[_qp];
+  _dislocation_mobile_before_update = _dislocation_mobile[_qp];
 }
 
 void
@@ -655,7 +661,7 @@ DiscoFluxCPStressUpdate::getDDIncrements()
     {
       A_f_ij = 0.5 * std::abs(_slip_plane_normalboth[_qp][i] * (_slip_direction_edge[_qp][j])) +
                0.5 * std::abs(_slip_plane_normalboth[_qp][i] *
-                              (_slip_plane_normalboth[_qp][i].cross(_slip_direction_edge[_qp][j])));
+                              (_slip_plane_normalboth[_qp][j].cross(_slip_direction_edge[_qp][j])));
       dislocation_forest += A_f_ij * (_dislocation_mobile[_qp][j] + _dislocation_immobile[_qp][j]);
     }
 
@@ -683,6 +689,9 @@ DiscoFluxCPStressUpdate::updateStateVariables()
   {
     _dislocation_immobile[_qp][i] = _previous_substep_dislocation_immobile[i] +
                                     _dislocation_immobile_increment[i] * _substep_dt;
+    // Necessary to update mobile dislocation
+    _dislocation_mobile[_qp][i] =
+        (_DD_EdgePositive[i] + _DD_EdgeNegative[i]) * _dislo_density_factor_CDT;
   }
 
   for (unsigned int i = 0; i < _number_slip_systems; ++i)
