@@ -13,7 +13,7 @@ irrevocable worldwide license in this material to reproduce, prepare. derivative
 distribute copies to the public, perform publicly and display publicly, and to
 permit others to do so.
 ------------*/
-#include "DiscoFluxCPStressUpdate.h"
+#include "DiscoFluxCPOrowanStressUpdate.h"
 #include "RankTwoTensor.h"
 
 #include "SystemBase.h"
@@ -28,12 +28,12 @@ permit others to do so.
 #include "libmesh/quadrature_gauss.h"
 #include "libmesh/remote_elem.h"
 
-registerMooseObject("discopanterApp", DiscoFluxCPStressUpdate);
+registerMooseObject("discopanterApp", DiscoFluxCPOrowanStressUpdate);
 
 InputParameters
-DiscoFluxCPStressUpdate::validParams()
+DiscoFluxCPOrowanStressUpdate::validParams()
 {
-  InputParameters params = CrystalPlasticityStressUpdateBase::validParams();
+  InputParameters params = CrystalPlasticityOrowanStressUpdateBase::validParams();
 
   params.addClassDescription(
       "Calculates the plastic slip based on DiscoFlux crystal plasticity material model.");
@@ -59,63 +59,11 @@ DiscoFluxCPStressUpdate::validParams()
   params.addParam<Real>("c1", 2.0, "material parameter");
   params.addParam<Real>("temp", 300, "Temperature(K)");
 
-  params.addCoupledVar("DD_EdgePositive_1", 0.0, "Coupled dislocation density, EdgePositive");
-  params.addCoupledVar("DD_EdgePositive_2", 0.0, "Coupled dislocation density, EdgePositive");
-  params.addCoupledVar("DD_EdgePositive_3", 0.0, "Coupled dislocation density, EdgePositive");
-  params.addCoupledVar("DD_EdgePositive_4", 0.0, "Coupled dislocation density, EdgePositive");
-  params.addCoupledVar("DD_EdgePositive_5", 0.0, "Coupled dislocation density, EdgePositive");
-  params.addCoupledVar("DD_EdgePositive_6", 0.0, "Coupled dislocation density, EdgePositive");
-  params.addCoupledVar("DD_EdgePositive_7", 0.0, "Coupled dislocation density, EdgePositive");
-  params.addCoupledVar("DD_EdgePositive_8", 0.0, "Coupled dislocation density, EdgePositive");
-  params.addCoupledVar("DD_EdgePositive_9", 0.0, "Coupled dislocation density, EdgePositive");
-  params.addCoupledVar("DD_EdgePositive_10", 0.0, "Coupled dislocation density, EdgePositive");
-  params.addCoupledVar("DD_EdgePositive_11", 0.0, "Coupled dislocation density, EdgePositive");
-  params.addCoupledVar("DD_EdgePositive_12", 0.0, "Coupled dislocation density, EdgePositive");
-
-  params.addCoupledVar("DD_EdgeNegative_1", 0.0, "Coupled dislocation density, EdgeNegative");
-  params.addCoupledVar("DD_EdgeNegative_2", 0.0, "Coupled dislocation density, EdgeNegative");
-  params.addCoupledVar("DD_EdgeNegative_3", 0.0, "Coupled dislocation density, EdgeNegative");
-  params.addCoupledVar("DD_EdgeNegative_4", 0.0, "Coupled dislocation density, EdgeNegative");
-  params.addCoupledVar("DD_EdgeNegative_5", 0.0, "Coupled dislocation density, EdgeNegative");
-  params.addCoupledVar("DD_EdgeNegative_6", 0.0, "Coupled dislocation density, EdgeNegative");
-  params.addCoupledVar("DD_EdgeNegative_7", 0.0, "Coupled dislocation density, EdgeNegative");
-  params.addCoupledVar("DD_EdgeNegative_8", 0.0, "Coupled dislocation density, EdgeNegative");
-  params.addCoupledVar("DD_EdgeNegative_9", 0.0, "Coupled dislocation density, EdgeNegative");
-  params.addCoupledVar("DD_EdgeNegative_10", 0.0, "Coupled dislocation density, EdgeNegative");
-  params.addCoupledVar("DD_EdgeNegative_11", 0.0, "Coupled dislocation density, EdgeNegative");
-  params.addCoupledVar("DD_EdgeNegative_12", 0.0, "Coupled dislocation density, EdgeNegative");
-
-  params.addCoupledVar("DD_ScrewPositive_1", 0.0, "Coupled dislocation density, ScrewPositive");
-  params.addCoupledVar("DD_ScrewPositive_2", 0.0, "Coupled dislocation density, ScrewPositive");
-  params.addCoupledVar("DD_ScrewPositive_3", 0.0, "Coupled dislocation density, ScrewPositive");
-  params.addCoupledVar("DD_ScrewPositive_4", 0.0, "Coupled dislocation density, ScrewPositive");
-  params.addCoupledVar("DD_ScrewPositive_5", 0.0, "Coupled dislocation density, ScrewPositive");
-  params.addCoupledVar("DD_ScrewPositive_6", 0.0, "Coupled dislocation density, ScrewPositive");
-  params.addCoupledVar("DD_ScrewPositive_7", 0.0, "Coupled dislocation density, ScrewPositive");
-  params.addCoupledVar("DD_ScrewPositive_8", 0.0, "Coupled dislocation density, ScrewPositive");
-  params.addCoupledVar("DD_ScrewPositive_9", 0.0, "Coupled dislocation density, ScrewPositive");
-  params.addCoupledVar("DD_ScrewPositive_10", 0.0, "Coupled dislocation density, ScrewPositive");
-  params.addCoupledVar("DD_ScrewPositive_11", 0.0, "Coupled dislocation density, ScrewPositive");
-  params.addCoupledVar("DD_ScrewPositive_12", 0.0, "Coupled dislocation density, ScrewPositive");
-
-  params.addCoupledVar("DD_ScrewNegative_1", 0.0, "Coupled dislocation density, ScrewNegative");
-  params.addCoupledVar("DD_ScrewNegative_2", 0.0, "Coupled dislocation density, ScrewNegative");
-  params.addCoupledVar("DD_ScrewNegative_3", 0.0, "Coupled dislocation density, ScrewNegative");
-  params.addCoupledVar("DD_ScrewNegative_4", 0.0, "Coupled dislocation density, ScrewNegative");
-  params.addCoupledVar("DD_ScrewNegative_5", 0.0, "Coupled dislocation density, ScrewNegative");
-  params.addCoupledVar("DD_ScrewNegative_6", 0.0, "Coupled dislocation density, ScrewNegative");
-  params.addCoupledVar("DD_ScrewNegative_7", 0.0, "Coupled dislocation density, ScrewNegative");
-  params.addCoupledVar("DD_ScrewNegative_8", 0.0, "Coupled dislocation density, ScrewNegative");
-  params.addCoupledVar("DD_ScrewNegative_9", 0.0, "Coupled dislocation density, ScrewNegative");
-  params.addCoupledVar("DD_ScrewNegative_10", 0.0, "Coupled dislocation density, ScrewNegative");
-  params.addCoupledVar("DD_ScrewNegative_11", 0.0, "Coupled dislocation density, ScrewNegative");
-  params.addCoupledVar("DD_ScrewNegative_12", 0.0, "Coupled dislocation density, ScrewNegative");
-
   return params;
 }
 
-DiscoFluxCPStressUpdate::DiscoFluxCPStressUpdate(const InputParameters & parameters)
-  : CrystalPlasticityStressUpdateBase(parameters),
+DiscoFluxCPOrowanStressUpdate::DiscoFluxCPOrowanStressUpdate(const InputParameters & parameters)
+  : CrystalPlasticityOrowanStressUpdateBase(parameters),
     _lattice_friction(getParam<Real>("lattice_friction")),
     //
     _burgers_vector_mag(getParam<Real>("burgers_vector_mag")),
@@ -244,7 +192,9 @@ DiscoFluxCPStressUpdate::DiscoFluxCPStressUpdate(const InputParameters & paramet
         getMaterialPropertyOld<std::vector<Real>>(_base_name + "dislocation_mobile")),
     //
     _dislo_velocity_edge(declareProperty<std::vector<Real>>(_base_name + "dislo_velocity_edge")),
+    _dislo_velocity_edge_old(getMaterialPropertyOld<std::vector<Real>>("dislo_velocity_edge")),
     _dislo_velocity_screw(declareProperty<std::vector<Real>>(_base_name + "dislo_velocity_screw")),
+    _dislo_velocity_screw_old(getMaterialPropertyOld<std::vector<Real>>("dislo_velocity_screw")),
     _tau_old(getMaterialPropertyOld<std::vector<Real>>("applied_shear_stress")),
     _GND_density(declareProperty<std::vector<Real>>(_base_name + "GND_density")),
     _tau_b(declareProperty<std::vector<Real>>(_base_name + "back_stress")),
@@ -300,9 +250,9 @@ DiscoFluxCPStressUpdate::DiscoFluxCPStressUpdate(const InputParameters & paramet
 }
 
 void
-DiscoFluxCPStressUpdate::initQpStatefulProperties()
+DiscoFluxCPOrowanStressUpdate::initQpStatefulProperties()
 {
-  CrystalPlasticityStressUpdateBase::initQpStatefulProperties();
+  CrystalPlasticityOrowanStressUpdateBase::initQpStatefulProperties();
 
   _slip_direction_edge[_qp].resize(_number_slip_systems);
   _slip_direction_screw[_qp].resize(_number_slip_systems);
@@ -368,9 +318,18 @@ DiscoFluxCPStressUpdate::initQpStatefulProperties()
 
   for (unsigned int i = 0; i < _number_slip_systems; ++i)
   {
-    // _slip_direction_edge[_qp][i].zero();
-    // _slip_direction_screw[_qp][i].zero();
-    // _slip_plane_normalboth[_qp][i].zero();
+    //   _slip_direction_edge[_qp][i].zero();
+    //   _slip_direction_screw[_qp][i].zero();
+    //   _slip_plane_normalboth[_qp][i].zero();
+    _slip_direction_edge[_qp][i] = _slip_direction[i];
+    _slip_direction_edge[_qp][i] /= _slip_direction_edge[_qp][i].norm();
+
+    _slip_plane_normalboth[_qp][i] = _slip_plane_normal[i];
+    _slip_plane_normalboth[_qp][i] /= _slip_plane_normalboth[_qp][i].norm();
+
+    _slip_direction_screw[_qp][i] =
+        _slip_plane_normalboth[_qp][i].cross(_slip_direction_edge[_qp][i]);
+    _slip_direction_screw[_qp][i] /= _slip_direction_screw[_qp][i].norm();
 
     _slip_resistance[_qp][i] = _lattice_friction;
     _slip_increment[_qp][i] = 0.0;
@@ -387,7 +346,7 @@ DiscoFluxCPStressUpdate::initQpStatefulProperties()
 }
 
 void
-DiscoFluxCPStressUpdate::setInitialConstitutiveVariableValues()
+DiscoFluxCPOrowanStressUpdate::setInitialConstitutiveVariableValues()
 {
   storeDislocationMobilityInformation();
   _slip_resistance[_qp] = _slip_resistance_old[_qp];
@@ -458,9 +417,9 @@ DiscoFluxCPStressUpdate::setInitialConstitutiveVariableValues()
 }
 
 void
-DiscoFluxCPStressUpdate::storeDislocationMobilityInformation()
+DiscoFluxCPOrowanStressUpdate::storeDislocationMobilityInformation()
 {
-  // CrystalPlasticityStressUpdateBase::storeDislocationMobilityInformation();
+  // CrystalPlasticityOrowanStressUpdateBase::storeDislocationMobilityInformation();
   for (const auto i : make_range(_number_slip_systems))
   {
     _slip_direction_edge[_qp][i] = _slip_direction[i];
@@ -474,7 +433,7 @@ DiscoFluxCPStressUpdate::storeDislocationMobilityInformation()
 }
 
 void
-DiscoFluxCPStressUpdate::setSubstepConstitutiveVariableValues()
+DiscoFluxCPOrowanStressUpdate::setSubstepConstitutiveVariableValues()
 {
   _slip_resistance[_qp] = _previous_substep_slip_resistance;
   _dislocation_immobile[_qp] = _previous_substep_dislocation_immobile;
@@ -482,7 +441,7 @@ DiscoFluxCPStressUpdate::setSubstepConstitutiveVariableValues()
 }
 
 bool
-DiscoFluxCPStressUpdate::calculateSlipRate()
+DiscoFluxCPOrowanStressUpdate::calculateSlipRate()
 {
   _DD_EdgeNegative[0] = _DD_EdgeNegative_1[_qp];
   _DD_EdgeNegative[1] = _DD_EdgeNegative_2[_qp];
@@ -619,7 +578,7 @@ DiscoFluxCPStressUpdate::calculateSlipRate()
 }
 
 void
-DiscoFluxCPStressUpdate::calculateConstitutiveSlipDerivative(std::vector<Real> & dslip_dtau)
+DiscoFluxCPOrowanStressUpdate::calculateConstitutiveSlipDerivative(std::vector<Real> & dslip_dtau)
 {
   for (unsigned int i = 0; i < _number_slip_systems; ++i)
   {
@@ -634,7 +593,7 @@ DiscoFluxCPStressUpdate::calculateConstitutiveSlipDerivative(std::vector<Real> &
 }
 
 void
-DiscoFluxCPStressUpdate::cacheStateVariablesBeforeUpdate()
+DiscoFluxCPOrowanStressUpdate::cacheStateVariablesBeforeUpdate()
 {
   _slip_resistance_before_update = _slip_resistance[_qp];
   _dislocation_immobile_before_update = _dislocation_immobile[_qp];
@@ -642,7 +601,7 @@ DiscoFluxCPStressUpdate::cacheStateVariablesBeforeUpdate()
 }
 
 void
-DiscoFluxCPStressUpdate::calculateStateVariableEvolutionRateComponent()
+DiscoFluxCPOrowanStressUpdate::calculateStateVariableEvolutionRateComponent()
 {
   // calculate dislocation density increment
   getDDIncrements();
@@ -650,7 +609,7 @@ DiscoFluxCPStressUpdate::calculateStateVariableEvolutionRateComponent()
 
 // Calculate Dislocation Density increment
 void
-DiscoFluxCPStressUpdate::getDDIncrements()
+DiscoFluxCPOrowanStressUpdate::getDDIncrements()
 {
   Real small2 = 1.0e-5;
   Real A_f_ij, dislocation_forest;
@@ -684,7 +643,7 @@ DiscoFluxCPStressUpdate::getDDIncrements()
 }
 
 bool
-DiscoFluxCPStressUpdate::updateStateVariables()
+DiscoFluxCPOrowanStressUpdate::updateStateVariables()
 {
   Real Hij, eff_dislocation_density = 0.00;
 
@@ -717,7 +676,7 @@ DiscoFluxCPStressUpdate::updateStateVariables()
 }
 
 bool
-DiscoFluxCPStressUpdate::areConstitutiveStateVariablesConverged()
+DiscoFluxCPOrowanStressUpdate::areConstitutiveStateVariablesConverged()
 {
   bool flagSlipResistanceConverged;
 
@@ -732,7 +691,7 @@ DiscoFluxCPStressUpdate::areConstitutiveStateVariablesConverged()
 }
 
 void
-DiscoFluxCPStressUpdate::updateSubstepConstitutiveVariableValues()
+DiscoFluxCPOrowanStressUpdate::updateSubstepConstitutiveVariableValues()
 {
   _previous_substep_slip_resistance = _slip_resistance[_qp];
   _previous_substep_dislocation_immobile = _dislocation_immobile[_qp];
@@ -740,7 +699,7 @@ DiscoFluxCPStressUpdate::updateSubstepConstitutiveVariableValues()
 
 //----Compute the back stress based on Dislocation Deformation Compatibility(DDC)
 void
-DiscoFluxCPStressUpdate::DDCUpdate()
+DiscoFluxCPOrowanStressUpdate::DDCUpdate()
 {
   Stress_internal.zero();
 
@@ -772,7 +731,7 @@ DiscoFluxCPStressUpdate::DDCUpdate()
 }
 
 void
-DiscoFluxCPStressUpdate::getDisloVelocity()
+DiscoFluxCPOrowanStressUpdate::getDisloVelocity()
 {
   double athermal_shear_resistance = 0;
   //  compute velocity for each slip system

@@ -16,20 +16,20 @@ permit others to do so.
 
 #pragma once
 
-#include "CrystalPlasticityStressUpdateBase.h"
+#include "CrystalPlasticityOrowanStressUpdateBase.h"
 
 #include "MooseVariableFE.h"
 #include "MooseVariableScalar.h"
 #include "MooseVariableInterface.h" // for *mooseVariable() in _phi, _grad_phi
 
-class DiscoFluxCPStressUpdate;
+class DiscoFluxCPOrowanStressUpdate;
 
-class DiscoFluxCPStressUpdate : public CrystalPlasticityStressUpdateBase
+class DiscoFluxCPOrowanStressUpdate : public CrystalPlasticityOrowanStressUpdateBase
 {
 public:
   static InputParameters validParams();
 
-  DiscoFluxCPStressUpdate(const InputParameters & parameters);
+  DiscoFluxCPOrowanStressUpdate(const InputParameters & parameters);
 
 protected:
   // initializes the stateful properties
@@ -210,7 +210,9 @@ protected:
   MaterialProperty<std::vector<Real>> & _dislocation_mobile;
   const MaterialProperty<std::vector<Real>> & _dislocation_mobile_old;
   MaterialProperty<std::vector<Real>> & _dislo_velocity_edge;
+  const MaterialProperty<std::vector<Real>> & _dislo_velocity_edge_old;
   MaterialProperty<std::vector<Real>> & _dislo_velocity_screw;
+  const MaterialProperty<std::vector<Real>> & _dislo_velocity_screw_old;
   const MaterialProperty<std::vector<Real>> & _tau_old;
   const MaterialProperty<std::vector<Real>> & _GND_density;
   MaterialProperty<std::vector<Real>> & _tau_b;

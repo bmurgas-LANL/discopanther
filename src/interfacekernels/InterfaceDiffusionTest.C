@@ -8,8 +8,11 @@
 //* https://www.gnu.org/licenses/lgpl-2.1.html
 
 #include "InterfaceDiffusionTest.h"
+#include "SystemBase.h"
+#include "CrystalPlasticityOrowanStressUpdateBase.h"
+#include "DiscoFluxCPOrowanStressUpdate.h"
 
-registerMooseObject("MooseApp", InterfaceDiffusionTest);
+registerMooseObject("discopanterApp", InterfaceDiffusionTest);
 
 InputParameters
 InterfaceDiffusionTest::validParams()
@@ -29,7 +32,8 @@ InterfaceDiffusionTest::InterfaceDiffusionTest(const InputParameters & parameter
     _D_neighbor(getNeighborMaterialProperty<Real>("D_neighbor")),
     _slip_direction_edge(getMaterialProperty<std::vector<RealVectorValue>>("slip_direction_edge")),
     _slip_plane_normalboth(
-        getMaterialProperty<std::vector<RealVectorValue>>("slip_plane_normalboth"))
+        getMaterialProperty<std::vector<RealVectorValue>>("slip_plane_normalboth")),
+    _slip_resistance(getMaterialProperty<std::vector<Real>>("slip_resistance"))
 {
 }
 

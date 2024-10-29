@@ -32,4 +32,6 @@ protected:
   // slip direction and normal element
   const MaterialProperty<std::vector<RealVectorValue>> & _slip_direction_edge;
   const MaterialProperty<std::vector<RealVectorValue>> & _slip_plane_normalboth;
+
+  const MaterialProperty<std::vector<Real>> & _slip_resistance;
 };
