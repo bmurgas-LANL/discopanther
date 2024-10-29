@@ -371,6 +371,15 @@ DiscoFluxCPStressUpdate::initQpStatefulProperties()
     // _slip_direction_edge[_qp][i].zero();
     // _slip_direction_screw[_qp][i].zero();
     // _slip_plane_normalboth[_qp][i].zero();
+    _slip_direction_edge[_qp][i] = _slip_direction[i];
+    _slip_direction_edge[_qp][i] /= _slip_direction_edge[_qp][i].norm();
+
+    _slip_plane_normalboth[_qp][i] = _slip_plane_normal[i];
+    _slip_plane_normalboth[_qp][i] /= _slip_plane_normalboth[_qp][i].norm();
+
+    _slip_direction_screw[_qp][i] =
+        _slip_plane_normalboth[_qp][i].cross(_slip_direction_edge[_qp][i]);
+    _slip_direction_screw[_qp][i] /= _slip_direction_screw[_qp][i].norm();
 
     _slip_resistance[_qp][i] = _lattice_friction;
     _slip_increment[_qp][i] = 0.0;
