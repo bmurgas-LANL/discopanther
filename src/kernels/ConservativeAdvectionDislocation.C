@@ -15,7 +15,6 @@ permit others to do so.
 ------------*/
 
 #include "ConservativeAdvectionDislocation.h"
-#include "SystemBase.h"
 
 registerMooseObject("discopanterApp", ConservativeAdvectionDislocation);
 

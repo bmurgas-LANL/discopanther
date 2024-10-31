@@ -40,15 +40,14 @@ protected:
   const unsigned int _slip_system_index;
   const unsigned int _slip_system_index_neighbor;
 
+  /// Dislocation character
+  const enum class DislocationCharacter { edge, screw } _dislocationcharacter;
+  /// Dislocation sign
+  const enum class DislocationSign { positive, negative } _dislocationsign;
+
   // dislocation velocities
   const MaterialProperty<std::vector<Real>> & _dislo_velocity_CP_edge;
   const MaterialProperty<std::vector<Real>> & _dislo_velocity_CP_edge_neighbor;
-
-  /// Dislocation character
-  const enum class DislocationCharacter { edge, screw } _dislocationcharacter;
-
-  /// Dislocation sign
-  const enum class DislocationSign { positive, negative } _dislocationsign;
 
   // slip direction and normal element
   const MaterialProperty<std::vector<RealVectorValue>> & _slip_direction_edge;

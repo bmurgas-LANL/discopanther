@@ -56,24 +56,23 @@ InterfaceDiffusionDislocation::InterfaceDiffusionDislocation(const InputParamete
     _tau_critical(getParam<Real>("tau_critical")),
     _slip_system_index(getParam<int>("slip_system_index")),
     _slip_system_index_neighbor(getParam<int>("slip_system_index_neighbor")),
-    _dislo_velocity_CP_edge(getMaterialPropertyOld<std::vector<Real>>("dislo_velocity_edge")),
-    _dislo_velocity_CP_edge_neighbor(
-        getNeighborMaterialPropertyOld<std::vector<Real>>("dislo_velocity_edge")),
     _dislocationcharacter(
         getParam<MooseEnum>("dislocation_character").getEnum<DislocationCharacter>()),
     _dislocationsign(getParam<MooseEnum>("dislocation_sign").getEnum<DislocationSign>()),
-    _slip_direction_edge(
-        getMaterialPropertyOld<std::vector<RealVectorValue>>("slip_direction_edge")),
+    _dislo_velocity_CP_edge(getMaterialProperty<std::vector<Real>>("dislo_velocity_edge")),
+    _dislo_velocity_CP_edge_neighbor(
+        getNeighborMaterialProperty<std::vector<Real>>("dislo_velocity_edge")),
+    _slip_direction_edge(getMaterialProperty<std::vector<RealVectorValue>>("slip_direction_edge")),
     _slip_plane_normalboth(
-        getMaterialPropertyOld<std::vector<RealVectorValue>>("slip_plane_normalboth")),
+        getMaterialProperty<std::vector<RealVectorValue>>("slip_plane_normalboth")),
     _slip_direction_edge_neighbor(
-        getNeighborMaterialPropertyOld<std::vector<RealVectorValue>>("slip_direction_edge")),
+        getNeighborMaterialProperty<std::vector<RealVectorValue>>("slip_direction_edge")),
     _slip_plane_normalboth_neighbor(
-        getNeighborMaterialPropertyOld<std::vector<RealVectorValue>>("slip_plane_normalboth")),
-    _tau(getMaterialPropertyByName<std::vector<Real>>("applied_shear_stress")),
-    _slip_resistance(getMaterialPropertyByName<std::vector<Real>>("slip_resistance")),
-    _crysrot(getMaterialPropertyOld<RankTwoTensor>("crysrot")),
-    _crysrot_neighbor(getNeighborMaterialPropertyOld<RankTwoTensor>("crysrot"))
+        getNeighborMaterialProperty<std::vector<RealVectorValue>>("slip_plane_normalboth")),
+    _tau(getMaterialProperty<std::vector<Real>>("applied_shear_stress")),
+    _slip_resistance(getMaterialProperty<std::vector<Real>>("slip_resistance")),
+    _crysrot(getMaterialProperty<RankTwoTensor>("crysrot")),
+    _crysrot_neighbor(getNeighborMaterialProperty<RankTwoTensor>("crysrot"))
 {
 }
 
