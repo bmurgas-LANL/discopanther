@@ -202,8 +202,10 @@ ComputeMultipleCrystalPlasticityOrowanStress::updateStress(RankTwoTensor & cauch
                                                            RankFourTensor & jacobian_mult)
 {
   // Does not support face/boundary material property calculation
-  if (isBoundaryMaterial())
-    return;
+  // if (isBoundaryMaterial())
+  //   for (unsigned int i = 0; i < _num_models; ++i)
+  //     _models[i]->setInitialConstitutiveVariableValues();
+  //   return;
 
   // Initialize substepping variables
   unsigned int substep_iter = 1;
