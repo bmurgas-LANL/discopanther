@@ -61,9 +61,6 @@ protected:
   const MaterialProperty<std::vector<Real>> & _tau;
   const MaterialProperty<std::vector<Real>> & _slip_resistance;
 
-  const MaterialProperty<RankTwoTensor> & _crysrot;
-  const MaterialProperty<RankTwoTensor> & _crysrot_neighbor;
-
   unsigned int _number_slip_systems = 12;
 
   Real _dislo_transfer_amount = 0.0;

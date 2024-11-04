@@ -70,9 +70,7 @@ InterfaceDiffusionDislocation::InterfaceDiffusionDislocation(const InputParamete
     _slip_plane_normalboth_neighbor(
         getNeighborMaterialProperty<std::vector<RealVectorValue>>("slip_plane_normalboth")),
     _tau(getMaterialProperty<std::vector<Real>>("applied_shear_stress")),
-    _slip_resistance(getMaterialProperty<std::vector<Real>>("slip_resistance")),
-    _crysrot(getMaterialProperty<RankTwoTensor>("crysrot")),
-    _crysrot_neighbor(getNeighborMaterialProperty<RankTwoTensor>("crysrot"))
+    _slip_resistance(getMaterialProperty<std::vector<Real>>("slip_resistance"))
 {
 }
 
@@ -82,20 +80,20 @@ InterfaceDiffusionDislocation::computeQpResidual(Moose::DGResidualType type)
   Real r = 0;
 
   _dislo_transfer_amount = 1.0;
-  // computeInterfaceAdvCoeff();
+  computeInterfaceAdvCoeff();
 
   switch (type)
   {
     case Moose::Element:
       r = _test[_i][_qp] * -_dislo_transfer_amount *
           _dislo_velocity_CP_edge_neighbor[_qp][_slip_system_index_neighbor - 1] *
-          _neighbor_value[_qp] * _normals[_qp] * _crysrot_neighbor[_qp] *
+          _neighbor_value[_qp] * _normals[_qp] *
           _slip_direction_edge_neighbor[_qp][_slip_system_index_neighbor - 1];
       break;
 
     case Moose::Neighbor:
       r = _test_neighbor[_i][_qp] * _dislo_velocity_CP_edge[_qp][_slip_system_index - 1] * _u[_qp] *
-          _normals[_qp] * _crysrot[_qp] * _slip_direction_edge[_qp][_slip_system_index - 1];
+          _normals[_qp] * _slip_direction_edge[_qp][_slip_system_index - 1];
       break;
   }
 
@@ -108,7 +106,7 @@ InterfaceDiffusionDislocation::computeQpJacobian(Moose::DGJacobianType type)
   Real jac = 0;
 
   _dislo_transfer_amount = 1.0;
-  // computeInterfaceAdvCoeff();
+  computeInterfaceAdvCoeff();
 
   switch (type)
   {
@@ -118,14 +116,13 @@ InterfaceDiffusionDislocation::computeQpJacobian(Moose::DGJacobianType type)
 
     case Moose::NeighborElement:
       jac = _test_neighbor[_i][_qp] * _dislo_velocity_CP_edge[_qp][_slip_system_index - 1] *
-            _phi[_j][_qp] * _normals[_qp] * _crysrot[_qp] *
-            _slip_direction_edge[_qp][_slip_system_index - 1];
+            _phi[_j][_qp] * _normals[_qp] * _slip_direction_edge[_qp][_slip_system_index - 1];
       break;
 
     case Moose::ElementNeighbor:
       jac = _test[_i][_qp] * -_dislo_transfer_amount *
             _dislo_velocity_CP_edge_neighbor[_qp][_slip_system_index_neighbor - 1] *
-            _phi_neighbor[_j][_qp] * _normals[_qp] * _crysrot_neighbor[_qp] *
+            _phi_neighbor[_j][_qp] * _normals[_qp] *
             _slip_direction_edge_neighbor[_qp][_slip_system_index_neighbor - 1];
       break;
   }
@@ -158,18 +155,16 @@ InterfaceDiffusionDislocation::computeInterfaceAdvCoeff()
   {
     for (unsigned int i = 0; i < _number_slip_systems; i++)
     {
-      _slip_plane_normal_rotated = _crysrot[_qp] * _slip_plane_normalboth[_qp][i];
+      _slip_plane_normal_rotated = _slip_plane_normalboth[_qp][i];
       _dislo_transfer_amount = 0.00;
-      _slip_direction_rotated = _crysrot[_qp] * _slip_direction_edge[_qp][i];
+      _slip_direction_rotated = _slip_direction_edge[_qp][i];
 
       l1 = _slip_plane_normal_rotated.cross(_normals[_qp]);
       l1 /= l1.norm();
       for (unsigned int j = 0; j < _number_slip_systems; j++)
       {
-        _slip_direction_rotated_neighbor =
-            _crysrot_neighbor[_qp] * _slip_direction_edge_neighbor[_qp][j];
-        _slip_plane_normal_rotated_neighbor =
-            _crysrot_neighbor[_qp] * _slip_plane_normalboth_neighbor[_qp][j];
+        _slip_direction_rotated_neighbor = _slip_direction_edge_neighbor[_qp][j];
+        _slip_plane_normal_rotated_neighbor = _slip_plane_normalboth_neighbor[_qp][j];
 
         l2 = _slip_plane_normal_rotated_neighbor.cross(-_normals[_qp]);
         l2 /= l2.norm();
@@ -207,6 +202,5 @@ InterfaceDiffusionDislocation::computeInterfaceAdvCoeff()
       _dislo_transfer_amount = max_coeff;
     else
       _dislo_transfer_amount = 0.0;
-    // _discl_transfer_amount = velocity * _normals[_qp];
   }
 }
