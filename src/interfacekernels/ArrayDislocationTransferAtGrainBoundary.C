@@ -116,15 +116,20 @@ ArrayDislocationTransferAtGrainBoundary::computeQpJacobian(Moose::DGJacobianType
   switch (type)
   {
     case Moose::ElementElement:
-      // for (unsigned int i = 0; i < _count; i++) jac[i] += _phi[_j][_qp] *
-      // _discl_transfer_amount[i] * _test[_i][_qp];
+    case Moose::NeighborNeighbor:
       break;
 
     case Moose::NeighborElement:
-      if (true)
-        // for (unsigned int i = 0; i < _count; i++) jac[_index_outgoingslip[i]] += -_phi[_j][_qp] *
-        // _discl_transfer_amount[i] * _test_neighbor[_i][_qp];
-        break;
+      // jac = _test_neighbor[_i][_qp] * _dislo_velocity_CP_edge[_qp][_slip_system_index - 1] *
+      // _phi[_j][_qp] * _normals[_qp] * _slip_direction_edge[_qp][_slip_system_index - 1];
+      break;
+
+    case Moose::ElementNeighbor:
+      // jac = _test[_i][_qp] * -_dislo_transfer_amount *
+      // _dislo_velocity_CP_edge_neighbor[_qp][_slip_system_index_neighbor - 1] *
+      // _phi_neighbor[_j][_qp] * _normals[_qp] *
+      // _slip_direction_edge_neighbor[_qp][_slip_system_index_neighbor - 1];
+      break;
   }
 
   return jac;
@@ -133,7 +138,7 @@ ArrayDislocationTransferAtGrainBoundary::computeQpJacobian(Moose::DGJacobianType
 void
 ArrayDislocationTransferAtGrainBoundary::computeInterfaceAdvCoeff()
 {
-  Real scalarProduct = 0.00, density_initial, density_critical_relative;
+  Real density_initial, density_critical_relative;
   std::vector<std::vector<Real>> S_GB, L_GB, M_mod_GB, M_mod_GB_Norm, N_GB, N_mod_GB;
   std::vector<Real> MaxValue_i, MaxValue_j;
   std::vector<int> Max_i, Max_j;
@@ -193,6 +198,8 @@ ArrayDislocationTransferAtGrainBoundary::computeInterfaceAdvCoeff()
     {
       case DislocationSign::negative:
         _slip_direction_rotated *= (-1);
+        break;
+      case DislocationSign::positive:
         break;
     }
     velocity = _dislo_velocity_CP[_qp][i] * _slip_direction_rotated;

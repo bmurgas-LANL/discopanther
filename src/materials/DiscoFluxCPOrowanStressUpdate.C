@@ -59,6 +59,58 @@ DiscoFluxCPOrowanStressUpdate::validParams()
   params.addParam<Real>("c1", 2.0, "material parameter");
   params.addParam<Real>("temp", 300, "Temperature(K)");
 
+  params.addCoupledVar("DD_EdgePositive_1", 0.0, "Coupled dislocation density, EdgePositive");
+  params.addCoupledVar("DD_EdgePositive_2", 0.0, "Coupled dislocation density, EdgePositive");
+  params.addCoupledVar("DD_EdgePositive_3", 0.0, "Coupled dislocation density, EdgePositive");
+  params.addCoupledVar("DD_EdgePositive_4", 0.0, "Coupled dislocation density, EdgePositive");
+  params.addCoupledVar("DD_EdgePositive_5", 0.0, "Coupled dislocation density, EdgePositive");
+  params.addCoupledVar("DD_EdgePositive_6", 0.0, "Coupled dislocation density, EdgePositive");
+  params.addCoupledVar("DD_EdgePositive_7", 0.0, "Coupled dislocation density, EdgePositive");
+  params.addCoupledVar("DD_EdgePositive_8", 0.0, "Coupled dislocation density, EdgePositive");
+  params.addCoupledVar("DD_EdgePositive_9", 0.0, "Coupled dislocation density, EdgePositive");
+  params.addCoupledVar("DD_EdgePositive_10", 0.0, "Coupled dislocation density, EdgePositive");
+  params.addCoupledVar("DD_EdgePositive_11", 0.0, "Coupled dislocation density, EdgePositive");
+  params.addCoupledVar("DD_EdgePositive_12", 0.0, "Coupled dislocation density, EdgePositive");
+
+  params.addCoupledVar("DD_EdgeNegative_1", 0.0, "Coupled dislocation density, EdgeNegative");
+  params.addCoupledVar("DD_EdgeNegative_2", 0.0, "Coupled dislocation density, EdgeNegative");
+  params.addCoupledVar("DD_EdgeNegative_3", 0.0, "Coupled dislocation density, EdgeNegative");
+  params.addCoupledVar("DD_EdgeNegative_4", 0.0, "Coupled dislocation density, EdgeNegative");
+  params.addCoupledVar("DD_EdgeNegative_5", 0.0, "Coupled dislocation density, EdgeNegative");
+  params.addCoupledVar("DD_EdgeNegative_6", 0.0, "Coupled dislocation density, EdgeNegative");
+  params.addCoupledVar("DD_EdgeNegative_7", 0.0, "Coupled dislocation density, EdgeNegative");
+  params.addCoupledVar("DD_EdgeNegative_8", 0.0, "Coupled dislocation density, EdgeNegative");
+  params.addCoupledVar("DD_EdgeNegative_9", 0.0, "Coupled dislocation density, EdgeNegative");
+  params.addCoupledVar("DD_EdgeNegative_10", 0.0, "Coupled dislocation density, EdgeNegative");
+  params.addCoupledVar("DD_EdgeNegative_11", 0.0, "Coupled dislocation density, EdgeNegative");
+  params.addCoupledVar("DD_EdgeNegative_12", 0.0, "Coupled dislocation density, EdgeNegative");
+
+  params.addCoupledVar("DD_ScrewPositive_1", 0.0, "Coupled dislocation density, ScrewPositive");
+  params.addCoupledVar("DD_ScrewPositive_2", 0.0, "Coupled dislocation density, ScrewPositive");
+  params.addCoupledVar("DD_ScrewPositive_3", 0.0, "Coupled dislocation density, ScrewPositive");
+  params.addCoupledVar("DD_ScrewPositive_4", 0.0, "Coupled dislocation density, ScrewPositive");
+  params.addCoupledVar("DD_ScrewPositive_5", 0.0, "Coupled dislocation density, ScrewPositive");
+  params.addCoupledVar("DD_ScrewPositive_6", 0.0, "Coupled dislocation density, ScrewPositive");
+  params.addCoupledVar("DD_ScrewPositive_7", 0.0, "Coupled dislocation density, ScrewPositive");
+  params.addCoupledVar("DD_ScrewPositive_8", 0.0, "Coupled dislocation density, ScrewPositive");
+  params.addCoupledVar("DD_ScrewPositive_9", 0.0, "Coupled dislocation density, ScrewPositive");
+  params.addCoupledVar("DD_ScrewPositive_10", 0.0, "Coupled dislocation density, ScrewPositive");
+  params.addCoupledVar("DD_ScrewPositive_11", 0.0, "Coupled dislocation density, ScrewPositive");
+  params.addCoupledVar("DD_ScrewPositive_12", 0.0, "Coupled dislocation density, ScrewPositive");
+
+  params.addCoupledVar("DD_ScrewNegative_1", 0.0, "Coupled dislocation density, ScrewNegative");
+  params.addCoupledVar("DD_ScrewNegative_2", 0.0, "Coupled dislocation density, ScrewNegative");
+  params.addCoupledVar("DD_ScrewNegative_3", 0.0, "Coupled dislocation density, ScrewNegative");
+  params.addCoupledVar("DD_ScrewNegative_4", 0.0, "Coupled dislocation density, ScrewNegative");
+  params.addCoupledVar("DD_ScrewNegative_5", 0.0, "Coupled dislocation density, ScrewNegative");
+  params.addCoupledVar("DD_ScrewNegative_6", 0.0, "Coupled dislocation density, ScrewNegative");
+  params.addCoupledVar("DD_ScrewNegative_7", 0.0, "Coupled dislocation density, ScrewNegative");
+  params.addCoupledVar("DD_ScrewNegative_8", 0.0, "Coupled dislocation density, ScrewNegative");
+  params.addCoupledVar("DD_ScrewNegative_9", 0.0, "Coupled dislocation density, ScrewNegative");
+  params.addCoupledVar("DD_ScrewNegative_10", 0.0, "Coupled dislocation density, ScrewNegative");
+  params.addCoupledVar("DD_ScrewNegative_11", 0.0, "Coupled dislocation density, ScrewNegative");
+  params.addCoupledVar("DD_ScrewNegative_12", 0.0, "Coupled dislocation density, ScrewNegative");
+
   return params;
 }
 

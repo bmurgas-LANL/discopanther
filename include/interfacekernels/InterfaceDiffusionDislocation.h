@@ -45,6 +45,12 @@ protected:
   /// Dislocation sign
   const enum class DislocationSign { positive, negative } _dislocationsign;
 
+  const enum class TransferType { max, single, threshold } _transfer;
+
+  const Real _matrix_threshold;
+
+  const Real _factor_neighbor;
+
   // dislocation velocities
   const MaterialProperty<std::vector<Real>> & _dislo_velocity_CP_edge;
   const MaterialProperty<std::vector<Real>> & _dislo_velocity_CP_edge_neighbor;
@@ -61,11 +67,26 @@ protected:
   const MaterialProperty<std::vector<Real>> & _tau;
   const MaterialProperty<std::vector<Real>> & _slip_resistance;
 
+  // const VariableValue & _DD_Positive_1;
+  // const VariableValue & _DD_Positive_2;
+  // const VariableValue & _DD_Positive_3;
+  // const VariableValue & _DD_Positive_4;
+  // const VariableValue & _DD_Positive_5;
+  // const VariableValue & _DD_Positive_6;
+  // const VariableValue & _DD_Positive_7;
+  // const VariableValue & _DD_Positive_8;
+  // const VariableValue & _DD_Positive_9;
+  // const VariableValue & _DD_Positive_10;
+  // const VariableValue & _DD_Positive_11;
+  // const VariableValue & _DD_Positive_12;
+
+  // std::vector<Real> _DD_Positive_neighbor;
+
   unsigned int _number_slip_systems = 12;
 
   Real _dislo_transfer_amount = 0.0;
 
-  std::vector<std::vector<Real>> Interface_Adv_Coeff;
+  std::vector<Real> Interface_Adv_Coeff;
 
   virtual void computeInterfaceAdvCoeff();
 };
