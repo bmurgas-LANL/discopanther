@@ -14,15 +14,15 @@ distribute copies to the public, perform publicly and display publicly, and to
 permit others to do so.
 ------------*/
 
-#include "InterfaceDiffusionDislocation.h"
+#include "InterfaceDiffusionDislocationLusterMorris.h"
 
 #include "CrystalPlasticityOrowanStressUpdateBase.h"
 #include "DiscoFluxCPOrowanStressUpdate.h"
 
-registerMooseObject("discopanterApp", InterfaceDiffusionDislocation);
+registerMooseObject("discopanterApp", InterfaceDiffusionDislocationLusterMorris);
 
 InputParameters
-InterfaceDiffusionDislocation::validParams()
+InterfaceDiffusionDislocationLusterMorris::validParams()
 {
   InputParameters params = InterfaceKernel::validParams();
   params.addParam<Real>(
@@ -38,6 +38,9 @@ InterfaceDiffusionDislocation::validParams()
       "dislocation_character", dislocation_character, "Character of dislocation");
   MooseEnum dislocation_sign("positive negative", "positive");
   params.addRequiredParam<MooseEnum>("dislocation_sign", dislocation_sign, "Sign of dislocation");
+  MooseEnum dislocation_sign_neighbor("positive negative", "positive");
+  params.addRequiredParam<MooseEnum>(
+      "dislocation_sign_neighbor", dislocation_sign, "Sign of dislocation");
   params.addRequiredParam<int>("slip_system_index",
                                "Slip system index to get slip direction"
                                "FCC: 1 to 12.");
@@ -45,10 +48,8 @@ InterfaceDiffusionDislocation::validParams()
                                "Slip system index to get slip direction of the neighbor"
                                "FCC: 1 to 12.");
   params.addParam<Real>("matrix_threshold",
-                        0.5,
+                        0.8,
                         "Matrix transfer threshold to activate dislocation flux equivalency ");
-  params.addParam<Real>(
-      "factor_neighbor", 1.0, "Factor to multiply residual and jacobian in the neighbor side.");
   MooseEnum transfer_type("max single threshold", "max");
   params.addRequiredParam<MooseEnum>(
       "transfer_type",
@@ -57,25 +58,17 @@ InterfaceDiffusionDislocation::validParams()
       "matrix transfer coefficient.  Single: Transfer to the slip system "
       "defined in slip_system_index_neighbor. Threshold: Activates trasnfer "
       "for values of matrix transfer higher than the value matrix_threshold");
-  // params.addCoupledVar("DD_Positive_1", 0.0, "Coupled dislocation density, Positive");
-  // params.addCoupledVar("DD_Positive_2", 0.0, "Coupled dislocation density, Positive");
-  // params.addCoupledVar("DD_Positive_3", 0.0, "Coupled dislocation density, Positive");
-  // params.addCoupledVar("DD_Positive_4", 0.0, "Coupled dislocation density, Positive");
-  // params.addCoupledVar("DD_Positive_5", 0.0, "Coupled dislocation density, Positive");
-  // params.addCoupledVar("DD_Positive_6", 0.0, "Coupled dislocation density, Positive");
-  // params.addCoupledVar("DD_Positive_7", 0.0, "Coupled dislocation density, Positive");
-  // params.addCoupledVar("DD_Positive_8", 0.0, "Coupled dislocation density, Positive");
-  // params.addCoupledVar("DD_Positive_9", 0.0, "Coupled dislocation density, Positive");
-  // params.addCoupledVar("DD_Positive_10", 0.0, "Coupled dislocation density, Positive");
-  // params.addCoupledVar("DD_Positive_11", 0.0, "Coupled dislocation density, Positive");
-  // params.addCoupledVar("DD_Positive_12", 0.0, "Coupled dislocation density, Positive");
   params.addClassDescription(
       "The kernel is utilized to establish flux equivalence on an interface for dislocation"
-      "assuming a divergence free velocity.");
+      "assuming a divergence free velocity. This model uses the transfer parameter proposed"
+      "by Luster-Morris in 1995: J. Luster and M.A. Morris, Compatibility of deformation in"
+      "two-phase Ti-Al alloys: Dependence on microstructure and orientation relationships."
+      "Metal. and Mat. Trans. A (1995), 26(7), pp. 1745-1756.");
   return params;
 }
 
-InterfaceDiffusionDislocation::InterfaceDiffusionDislocation(const InputParameters & parameters)
+InterfaceDiffusionDislocationLusterMorris::InterfaceDiffusionDislocationLusterMorris(
+    const InputParameters & parameters)
   : InterfaceKernel(parameters),
     _density_critical(getParam<Real>("density_critical")),
     _tau_critical(getParam<Real>("tau_critical")),
@@ -84,9 +77,10 @@ InterfaceDiffusionDislocation::InterfaceDiffusionDislocation(const InputParamete
     _dislocationcharacter(
         getParam<MooseEnum>("dislocation_character").getEnum<DislocationCharacter>()),
     _dislocationsign(getParam<MooseEnum>("dislocation_sign").getEnum<DislocationSign>()),
+    _dislocationsign_neighbor(
+        getParam<MooseEnum>("dislocation_sign_neighbor").getEnum<DislocationSignNeighbor>()),
     _transfer(getParam<MooseEnum>("transfer_type").getEnum<TransferType>()),
     _matrix_threshold(getParam<Real>("matrix_threshold")),
-    _factor_neighbor(getParam<Real>("factor_neighbor")),
     _dislo_velocity_CP_edge(getMaterialProperty<std::vector<Real>>("dislo_velocity_edge")),
     _dislo_velocity_CP_edge_neighbor(
         getNeighborMaterialProperty<std::vector<Real>>("dislo_velocity_edge")),
@@ -99,24 +93,11 @@ InterfaceDiffusionDislocation::InterfaceDiffusionDislocation(const InputParamete
         getNeighborMaterialProperty<std::vector<RealVectorValue>>("slip_plane_normalboth")),
     _tau(getMaterialProperty<std::vector<Real>>("applied_shear_stress")),
     _slip_resistance(getMaterialProperty<std::vector<Real>>("slip_resistance")) //,
-// _DD_Positive_1(coupledNeighborValue("DD_Positive_1")),
-// _DD_Positive_2(coupledNeighborValue("DD_Positive_2")),
-// _DD_Positive_3(coupledNeighborValue("DD_Positive_3")),
-// _DD_Positive_4(coupledNeighborValue("DD_Positive_4")),
-// _DD_Positive_5(coupledNeighborValue("DD_Positive_5")),
-// _DD_Positive_6(coupledNeighborValue("DD_Positive_6")),
-// _DD_Positive_7(coupledNeighborValue("DD_Positive_7")),
-// _DD_Positive_8(coupledNeighborValue("DD_Positive_8")),
-// _DD_Positive_9(coupledNeighborValue("DD_Positive_9")),
-// _DD_Positive_10(coupledNeighborValue("DD_Positive_10")),
-// _DD_Positive_11(coupledNeighborValue("DD_Positive_11")),
-// _DD_Positive_12(coupledNeighborValue("DD_Positive_12")),
-// _DD_Positive_neighbor(_number_slip_systems, 0.00)
 {
 }
 
 Real
-InterfaceDiffusionDislocation::computeQpResidual(Moose::DGResidualType type)
+InterfaceDiffusionDislocationLusterMorris::computeQpResidual(Moose::DGResidualType type)
 {
   Real r = 0;
 
@@ -126,21 +107,12 @@ InterfaceDiffusionDislocation::computeQpResidual(Moose::DGResidualType type)
     switch (type)
     {
       case Moose::Element:
-        // For flux equivalence
-        // r = -_test[_i][_qp] * _dislo_transfer_amount *
-        //     _dislo_velocity_CP_edge_neighbor[_qp][_slip_system_index_neighbor - 1] *
-        //     _neighbor_value[_qp] * _normals[_qp] *
-        //     _slip_direction_edge_neighbor[_qp][_slip_system_index_neighbor - 1];
         r -= _test[_i][_qp] * _dislo_transfer_amount *
              _dislo_velocity_CP_edge[_qp][_slip_system_index - 1] * _u[_qp] * _normals[_qp] *
              _slip_direction_edge[_qp][_slip_system_index - 1];
         break;
 
       case Moose::Neighbor:
-        // the residual/jacobian are multiplied by _factor_neighbor because it needs to be added
-        // only once for flux equivalence r = _test_neighbor[_i][_qp] *
-        // _dislo_velocity_CP_edge[_qp][_slip_system_index - 1] * _u[_qp] *
-        //     _normals[_qp] * _slip_direction_edge[_qp][_slip_system_index - 1] * _factor_neighbor;
         r += _test_neighbor[_i][_qp] * _dislo_transfer_amount *
              _dislo_velocity_CP_edge[_qp][_slip_system_index - 1] * _u[_qp] * _normals[_qp] *
              _slip_direction_edge[_qp][_slip_system_index - 1];
@@ -152,7 +124,7 @@ InterfaceDiffusionDislocation::computeQpResidual(Moose::DGResidualType type)
 }
 
 Real
-InterfaceDiffusionDislocation::computeQpJacobian(Moose::DGJacobianType type)
+InterfaceDiffusionDislocationLusterMorris::computeQpJacobian(Moose::DGJacobianType type)
 {
   Real jac = 0;
 
@@ -167,25 +139,15 @@ InterfaceDiffusionDislocation::computeQpJacobian(Moose::DGJacobianType type)
         break;
 
       case Moose::NeighborElement:
-        // the residual/jacobian are multiplied by _factor_neighbor because it needs to be added
-        // only once For flux equivalence jac = _test_neighbor[_i][_qp] *
-        // _dislo_velocity_CP_edge[_qp][_slip_system_index - 1] *
-        //       _phi[_j][_qp] * _normals[_qp] * _slip_direction_edge[_qp][_slip_system_index - 1] *
-        //       _factor_neighbor;
         jac += _test_neighbor[_i][_qp] * _dislo_transfer_amount *
                _dislo_velocity_CP_edge[_qp][_slip_system_index - 1] * _phi[_j][_qp] *
-               _normals[_qp] * _slip_direction_edge[_qp][_slip_system_index - 1] * _factor_neighbor;
+               _normals[_qp] * _slip_direction_edge[_qp][_slip_system_index - 1];
         break;
 
       case Moose::ElementNeighbor:
-        // For flux equivalence
-        // jac = _test[_i][_qp] * -_dislo_transfer_amount *
-        //       _dislo_velocity_CP_edge_neighbor[_qp][_slip_system_index_neighbor - 1] *
-        //       _phi_neighbor[_j][_qp] * _normals[_qp] *
-        //       _slip_direction_edge_neighbor[_qp][_slip_system_index_neighbor - 1];
         jac -= _test[_i][_qp] * _dislo_transfer_amount *
                _dislo_velocity_CP_edge[_qp][_slip_system_index - 1] * _phi[_j][_qp] *
-               _normals[_qp] * _slip_direction_edge[_qp][_slip_system_index - 1] * _factor_neighbor;
+               _normals[_qp] * _slip_direction_edge[_qp][_slip_system_index - 1];
         break;
     }
   }
@@ -194,13 +156,14 @@ InterfaceDiffusionDislocation::computeQpJacobian(Moose::DGJacobianType type)
 }
 
 void
-InterfaceDiffusionDislocation::computeInterfaceAdvCoeff()
+InterfaceDiffusionDislocationLusterMorris::computeInterfaceAdvCoeff()
 {
   //  Real density_initial, density_critical_relative;
   std::vector<std::vector<Real>> S_GB, L_GB, M_mod_GB, M_mod_GB_Norm, N_GB, N_mod_GB;
   RealVectorValue l1, l2, _slip_direction_rotated, _slip_direction_edge_rotated,
       _slip_direction_rotated_neighbor, _slip_plane_normal_rotated,
       _slip_plane_normal_rotated_neighbor;
+  Real dislo_sign, dislo_sign_neighbor, sum_abs_M;
 
   S_GB.resize(_number_slip_systems, std::vector<Real>(_number_slip_systems, 0.00));
   N_GB.resize(_number_slip_systems, std::vector<Real>(_number_slip_systems, 0.00));
@@ -210,29 +173,68 @@ InterfaceDiffusionDislocation::computeInterfaceAdvCoeff()
   Interface_Adv_Coeff.resize(_number_slip_systems, 0.00);
   _dislo_transfer_amount = 0.0;
 
+  switch (_dislocationsign)
+  {
+    case DislocationSign::positive:
+      dislo_sign = 1.0;
+      break;
+    case DislocationSign::negative:
+      dislo_sign = -1.0;
+      break;
+  }
+
+  switch (_dislocationsign_neighbor)
+  {
+    case DislocationSignNeighbor::positive:
+      dislo_sign_neighbor = 1.0;
+      break;
+    case DislocationSignNeighbor::negative:
+      dislo_sign_neighbor = -1.0;
+      break;
+  }
+
   if ((_u[_qp] > _density_critical))
   {
     for (unsigned int i = 0; i < _number_slip_systems; i++)
     {
-      _slip_plane_normal_rotated = _slip_plane_normalboth[_qp][i];
-      _slip_direction_rotated = _slip_direction_edge[_qp][i];
+      _slip_plane_normal_rotated = _slip_plane_normalboth[_qp][i]; //*dislo_sign;
+      // _slip_direction_rotated = _slip_direction_edge[_qp][i];
 
       l1 = _slip_plane_normal_rotated.cross(_normals[_qp]);
       l1 /= l1.norm();
       for (unsigned int j = 0; j < _number_slip_systems; j++)
       {
-        _slip_direction_rotated_neighbor = _slip_direction_edge_neighbor[_qp][j];
-        _slip_plane_normal_rotated_neighbor = _slip_plane_normalboth_neighbor[_qp][j];
+        // _slip_direction_rotated_neighbor = _slip_direction_edge_neighbor[_qp][j];
+        _slip_plane_normal_rotated_neighbor =
+            _slip_plane_normalboth_neighbor[_qp][j]; //*dislo_sign_neighbor;
 
         l2 = _slip_plane_normal_rotated_neighbor.cross(-_normals[_qp]);
         l2 /= l2.norm();
         L_GB[i][j] = std::abs(l1 * l2);
-        N_GB[i][j] = (_slip_plane_normal_rotated * _slip_plane_normal_rotated_neighbor);
+        // cosine between normals is taken as an absolute value because in some cases the angles
+        // between normals can be >180 deg but still be positive
+        N_GB[i][j] = std::abs(_slip_plane_normal_rotated * _slip_plane_normal_rotated_neighbor);
+        switch (_dislocationcharacter)
+        {
+          case DislocationCharacter::edge:
+            _slip_direction_rotated = _slip_direction_edge[_qp][i] * dislo_sign;
+            _slip_direction_rotated_neighbor =
+                _slip_direction_edge_neighbor[_qp][j] * dislo_sign_neighbor;
+            break;
+          case DislocationCharacter::screw:
+            _slip_direction_rotated =
+                _slip_plane_normalboth[_qp][i].cross(_slip_direction_edge[_qp][i]) * dislo_sign;
+            _slip_direction_rotated_neighbor = _slip_plane_normalboth_neighbor[_qp][j].cross(
+                                                   _slip_direction_edge_neighbor[_qp][j]) *
+                                               dislo_sign_neighbor;
+            break;
+        }
         S_GB[i][j] = (_slip_direction_rotated * _slip_direction_rotated_neighbor);
-        M_mod_GB[i][j] = (L_GB[i][j] * N_GB[i][j] * S_GB[i][j]);
+        M_mod_GB[i][j] = N_GB[i][j] * S_GB[i][j];
       }
     }
     Real max_coeff = 0.00;
+    sum_abs_M = 0.0;
     unsigned int index_max_coeff = 0;
     for (unsigned int j = 0; j < _number_slip_systems; j++)
     {
@@ -242,22 +244,26 @@ InterfaceDiffusionDislocation::computeInterfaceAdvCoeff()
         index_max_coeff = j;
         max_coeff = Interface_Adv_Coeff[j];
       }
+      sum_abs_M += std::abs(M_mod_GB[_slip_system_index - 1][j]);
     }
 
     switch (_transfer)
     {
       case TransferType::max:
         if ((_slip_system_index_neighbor - 1) == index_max_coeff)
-          _dislo_transfer_amount = max_coeff;
+          _dislo_transfer_amount = max_coeff / sum_abs_M;
         else
           _dislo_transfer_amount = 0.0;
         break;
       case TransferType::single:
-        _dislo_transfer_amount = Interface_Adv_Coeff[_slip_system_index_neighbor - 1];
+        if (Interface_Adv_Coeff[_slip_system_index_neighbor - 1] > 0.0)
+          _dislo_transfer_amount = Interface_Adv_Coeff[_slip_system_index_neighbor - 1] / sum_abs_M;
+        else
+          _dislo_transfer_amount = 0.0;
         break;
       case TransferType::threshold:
         if (Interface_Adv_Coeff[_slip_system_index_neighbor - 1] >= _matrix_threshold)
-          _dislo_transfer_amount = Interface_Adv_Coeff[_slip_system_index_neighbor - 1];
+          _dislo_transfer_amount = Interface_Adv_Coeff[_slip_system_index_neighbor - 1] / sum_abs_M;
         else
           _dislo_transfer_amount = 0.0;
         break;

@@ -14,15 +14,15 @@ distribute copies to the public, perform publicly and display publicly, and to
 permit others to do so.
 ------------*/
 
-#include "InterfaceDiffusionDislocation.h"
+#include "InterfaceDiffusionDislocationConstVel.h"
 
 #include "CrystalPlasticityOrowanStressUpdateBase.h"
 #include "DiscoFluxCPOrowanStressUpdate.h"
 
-registerMooseObject("discopanterApp", InterfaceDiffusionDislocation);
+registerMooseObject("discopanterApp", InterfaceDiffusionDislocationConstVel);
 
 InputParameters
-InterfaceDiffusionDislocation::validParams()
+InterfaceDiffusionDislocationConstVel::validParams()
 {
   InputParameters params = InterfaceKernel::validParams();
   params.addParam<Real>(
@@ -57,25 +57,16 @@ InterfaceDiffusionDislocation::validParams()
       "matrix transfer coefficient.  Single: Transfer to the slip system "
       "defined in slip_system_index_neighbor. Threshold: Activates trasnfer "
       "for values of matrix transfer higher than the value matrix_threshold");
-  // params.addCoupledVar("DD_Positive_1", 0.0, "Coupled dislocation density, Positive");
-  // params.addCoupledVar("DD_Positive_2", 0.0, "Coupled dislocation density, Positive");
-  // params.addCoupledVar("DD_Positive_3", 0.0, "Coupled dislocation density, Positive");
-  // params.addCoupledVar("DD_Positive_4", 0.0, "Coupled dislocation density, Positive");
-  // params.addCoupledVar("DD_Positive_5", 0.0, "Coupled dislocation density, Positive");
-  // params.addCoupledVar("DD_Positive_6", 0.0, "Coupled dislocation density, Positive");
-  // params.addCoupledVar("DD_Positive_7", 0.0, "Coupled dislocation density, Positive");
-  // params.addCoupledVar("DD_Positive_8", 0.0, "Coupled dislocation density, Positive");
-  // params.addCoupledVar("DD_Positive_9", 0.0, "Coupled dislocation density, Positive");
-  // params.addCoupledVar("DD_Positive_10", 0.0, "Coupled dislocation density, Positive");
-  // params.addCoupledVar("DD_Positive_11", 0.0, "Coupled dislocation density, Positive");
-  // params.addCoupledVar("DD_Positive_12", 0.0, "Coupled dislocation density, Positive");
+  params.addRequiredParam<MaterialPropertyName>(
+      "velocity_name", "the name of the material property we are going to use");
   params.addClassDescription(
       "The kernel is utilized to establish flux equivalence on an interface for dislocation"
       "assuming a divergence free velocity.");
   return params;
 }
 
-InterfaceDiffusionDislocation::InterfaceDiffusionDislocation(const InputParameters & parameters)
+InterfaceDiffusionDislocationConstVel::InterfaceDiffusionDislocationConstVel(
+    const InputParameters & parameters)
   : InterfaceKernel(parameters),
     _density_critical(getParam<Real>("density_critical")),
     _tau_critical(getParam<Real>("tau_critical")),
@@ -87,9 +78,7 @@ InterfaceDiffusionDislocation::InterfaceDiffusionDislocation(const InputParamete
     _transfer(getParam<MooseEnum>("transfer_type").getEnum<TransferType>()),
     _matrix_threshold(getParam<Real>("matrix_threshold")),
     _factor_neighbor(getParam<Real>("factor_neighbor")),
-    _dislo_velocity_CP_edge(getMaterialProperty<std::vector<Real>>("dislo_velocity_edge")),
-    _dislo_velocity_CP_edge_neighbor(
-        getNeighborMaterialProperty<std::vector<Real>>("dislo_velocity_edge")),
+    _dislo_velocity(&getMaterialProperty<Real>("velocity_name")),
     _slip_direction_edge(getMaterialProperty<std::vector<RealVectorValue>>("slip_direction_edge")),
     _slip_plane_normalboth(
         getMaterialProperty<std::vector<RealVectorValue>>("slip_plane_normalboth")),
@@ -99,24 +88,11 @@ InterfaceDiffusionDislocation::InterfaceDiffusionDislocation(const InputParamete
         getNeighborMaterialProperty<std::vector<RealVectorValue>>("slip_plane_normalboth")),
     _tau(getMaterialProperty<std::vector<Real>>("applied_shear_stress")),
     _slip_resistance(getMaterialProperty<std::vector<Real>>("slip_resistance")) //,
-// _DD_Positive_1(coupledNeighborValue("DD_Positive_1")),
-// _DD_Positive_2(coupledNeighborValue("DD_Positive_2")),
-// _DD_Positive_3(coupledNeighborValue("DD_Positive_3")),
-// _DD_Positive_4(coupledNeighborValue("DD_Positive_4")),
-// _DD_Positive_5(coupledNeighborValue("DD_Positive_5")),
-// _DD_Positive_6(coupledNeighborValue("DD_Positive_6")),
-// _DD_Positive_7(coupledNeighborValue("DD_Positive_7")),
-// _DD_Positive_8(coupledNeighborValue("DD_Positive_8")),
-// _DD_Positive_9(coupledNeighborValue("DD_Positive_9")),
-// _DD_Positive_10(coupledNeighborValue("DD_Positive_10")),
-// _DD_Positive_11(coupledNeighborValue("DD_Positive_11")),
-// _DD_Positive_12(coupledNeighborValue("DD_Positive_12")),
-// _DD_Positive_neighbor(_number_slip_systems, 0.00)
 {
 }
 
 Real
-InterfaceDiffusionDislocation::computeQpResidual(Moose::DGResidualType type)
+InterfaceDiffusionDislocationConstVel::computeQpResidual(Moose::DGResidualType type)
 {
   Real r = 0;
 
@@ -131,9 +107,8 @@ InterfaceDiffusionDislocation::computeQpResidual(Moose::DGResidualType type)
         //     _dislo_velocity_CP_edge_neighbor[_qp][_slip_system_index_neighbor - 1] *
         //     _neighbor_value[_qp] * _normals[_qp] *
         //     _slip_direction_edge_neighbor[_qp][_slip_system_index_neighbor - 1];
-        r -= _test[_i][_qp] * _dislo_transfer_amount *
-             _dislo_velocity_CP_edge[_qp][_slip_system_index - 1] * _u[_qp] * _normals[_qp] *
-             _slip_direction_edge[_qp][_slip_system_index - 1];
+        r -= _test[_i][_qp] * _dislo_transfer_amount * (*_dislo_velocity)[_qp] * _u[_qp] *
+             _normals[_qp] * _slip_direction_edge[_qp][_slip_system_index - 1];
         break;
 
       case Moose::Neighbor:
@@ -141,9 +116,8 @@ InterfaceDiffusionDislocation::computeQpResidual(Moose::DGResidualType type)
         // only once for flux equivalence r = _test_neighbor[_i][_qp] *
         // _dislo_velocity_CP_edge[_qp][_slip_system_index - 1] * _u[_qp] *
         //     _normals[_qp] * _slip_direction_edge[_qp][_slip_system_index - 1] * _factor_neighbor;
-        r += _test_neighbor[_i][_qp] * _dislo_transfer_amount *
-             _dislo_velocity_CP_edge[_qp][_slip_system_index - 1] * _u[_qp] * _normals[_qp] *
-             _slip_direction_edge[_qp][_slip_system_index - 1];
+        r += _test_neighbor[_i][_qp] * _dislo_transfer_amount * (*_dislo_velocity)[_qp] * _u[_qp] *
+             _normals[_qp] * _slip_direction_edge[_qp][_slip_system_index - 1];
         break;
     }
   }
@@ -152,7 +126,7 @@ InterfaceDiffusionDislocation::computeQpResidual(Moose::DGResidualType type)
 }
 
 Real
-InterfaceDiffusionDislocation::computeQpJacobian(Moose::DGJacobianType type)
+InterfaceDiffusionDislocationConstVel::computeQpJacobian(Moose::DGJacobianType type)
 {
   Real jac = 0;
 
@@ -172,9 +146,9 @@ InterfaceDiffusionDislocation::computeQpJacobian(Moose::DGJacobianType type)
         // _dislo_velocity_CP_edge[_qp][_slip_system_index - 1] *
         //       _phi[_j][_qp] * _normals[_qp] * _slip_direction_edge[_qp][_slip_system_index - 1] *
         //       _factor_neighbor;
-        jac += _test_neighbor[_i][_qp] * _dislo_transfer_amount *
-               _dislo_velocity_CP_edge[_qp][_slip_system_index - 1] * _phi[_j][_qp] *
-               _normals[_qp] * _slip_direction_edge[_qp][_slip_system_index - 1] * _factor_neighbor;
+        jac += _test_neighbor[_i][_qp] * _dislo_transfer_amount * (*_dislo_velocity)[_qp] *
+               _phi[_j][_qp] * _normals[_qp] * _slip_direction_edge[_qp][_slip_system_index - 1] *
+               _factor_neighbor;
         break;
 
       case Moose::ElementNeighbor:
@@ -183,8 +157,7 @@ InterfaceDiffusionDislocation::computeQpJacobian(Moose::DGJacobianType type)
         //       _dislo_velocity_CP_edge_neighbor[_qp][_slip_system_index_neighbor - 1] *
         //       _phi_neighbor[_j][_qp] * _normals[_qp] *
         //       _slip_direction_edge_neighbor[_qp][_slip_system_index_neighbor - 1];
-        jac -= _test[_i][_qp] * _dislo_transfer_amount *
-               _dislo_velocity_CP_edge[_qp][_slip_system_index - 1] * _phi[_j][_qp] *
+        jac -= _test[_i][_qp] * _dislo_transfer_amount * (*_dislo_velocity)[_qp] * _phi[_j][_qp] *
                _normals[_qp] * _slip_direction_edge[_qp][_slip_system_index - 1] * _factor_neighbor;
         break;
     }
@@ -194,7 +167,7 @@ InterfaceDiffusionDislocation::computeQpJacobian(Moose::DGJacobianType type)
 }
 
 void
-InterfaceDiffusionDislocation::computeInterfaceAdvCoeff()
+InterfaceDiffusionDislocationConstVel::computeInterfaceAdvCoeff()
 {
   //  Real density_initial, density_critical_relative;
   std::vector<std::vector<Real>> S_GB, L_GB, M_mod_GB, M_mod_GB_Norm, N_GB, N_mod_GB;
