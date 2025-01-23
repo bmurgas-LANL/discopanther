@@ -1,6 +1,5 @@
-// Brayan Murgas, Abigail Hunter, Darby J. Luscher
+// Murtaza Bookwala, Brayan Murgas, Subhendu Chakraborty, Abigail Hunter, Darby J. Luscher
 // Funding: LDRD project XX9A, XXNA
-// Los Alamos, NM, USA
 /*----------
 © 2023. Triad National Security, LLC. All rights reserved.
 This program was produced under U.S. Government contract 89233218CNA000001 for
@@ -16,37 +15,39 @@ permit others to do so.
 
 #pragma once
 
-#include "AuxKernel.h"
+#include "Kernel.h"
 
-/**
- * Auxiliary kernel responsible for computing the Darcy velocity (discharge per unit area) vector
- * given permeability, viscosity, and the pressure gradient of the medium.
- */
-class DislocationFluxEdgeVec : public VectorAuxKernel
+class DislocationSourceVolume : public Kernel
 {
 public:
   static InputParameters validParams();
 
-  DislocationFluxEdgeVec(const InputParameters & parameters);
+  DislocationSourceVolume(const InputParameters & parameters);
 
 protected:
-  /// AuxKernels MUST override computeValue(), which is called on every Gauss QP for elemental
-  /// AuxVariables. For nodal AuxVariables, it is called on every node instead and the _qp index
-  /// automatically refers to those nodes.
-  virtual RealVectorValue computeValue() override;
+  virtual Real computeQpResidual() override;
+  virtual Real computeQpJacobian() override;
+  // void computeDisloVelocity();
 
-  const VariableValue & _dislocation_density;
+  const Real _dislo_density_factor_CDT;
+  const Real _C_multi, _C_trap, _C_m_ann, _C_im_ann, _burgers_vector_mag;
 
-  // dislocation velocities
   const MaterialProperty<std::vector<Real>> & _dislo_velocity_CP_edge;
-  const MaterialProperty<std::vector<Real>> & _dislo_velocity_CP_screw;
-  // slip direction and normal element
   const MaterialProperty<std::vector<RealVectorValue>> & _slip_direction_edge;
-  const MaterialProperty<std::vector<RealVectorValue>> & _slip_direction_screw;
-  /// Slip system index used to get slip direction
-  const unsigned int _slip_system_index;
-  /// Dislocation character
+  const MaterialProperty<std::vector<RealVectorValue>> & _slip_plane_normalboth;
+
+  // Dislocation character
   const enum class DislocationCharacter { edge, screw } _dislocationcharacter;
-  /// Dislocation sign
+  // Dislocation sign
   const enum class DislocationSign { positive, negative } _dislocationsign;
+
+  const MaterialProperty<std::vector<Real>> & _dislocation_mobile;
+  const MaterialProperty<std::vector<Real>> & _dislocation_immobile;
+  // const MaterialProperty<std::vector<Real>> & _slip_rate;
+
+  Real _dt;
+  const unsigned int _slip_system_index;
+  // RealEigenVector dislo_velocity;
+
+  // TODO add off diag jacobian
 };

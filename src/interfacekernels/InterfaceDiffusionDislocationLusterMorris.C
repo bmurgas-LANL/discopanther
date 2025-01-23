@@ -82,8 +82,7 @@ InterfaceDiffusionDislocationLusterMorris::InterfaceDiffusionDislocationLusterMo
     _transfer(getParam<MooseEnum>("transfer_type").getEnum<TransferType>()),
     _matrix_threshold(getParam<Real>("matrix_threshold")),
     _dislo_velocity_CP_edge(getMaterialProperty<std::vector<Real>>("dislo_velocity_edge")),
-    _dislo_velocity_CP_edge_neighbor(
-        getNeighborMaterialProperty<std::vector<Real>>("dislo_velocity_edge")),
+    _dislo_velocity_CP_screw(getMaterialProperty<std::vector<Real>>("dislo_velocity_screw")),
     _slip_direction_edge(getMaterialProperty<std::vector<RealVectorValue>>("slip_direction_edge")),
     _slip_plane_normalboth(
         getMaterialProperty<std::vector<RealVectorValue>>("slip_plane_normalboth")),
@@ -100,22 +99,43 @@ Real
 InterfaceDiffusionDislocationLusterMorris::computeQpResidual(Moose::DGResidualType type)
 {
   Real r = 0;
+  Real dislo_sign;
+  Real disvelocity = 0;
+
+  switch (_dislocationsign)
+  {
+    case DislocationSign::positive:
+      dislo_sign = 1.0;
+      break;
+    case DislocationSign::negative:
+      dislo_sign = -1.0;
+      break;
+  }
+
+  switch (_dislocationcharacter)
+  {
+    case DislocationCharacter::edge:
+      disvelocity = _dislo_velocity_CP_edge[_qp][_slip_system_index - 1];
+      break;
+    case DislocationCharacter::screw:
+      disvelocity = _dislo_velocity_CP_screw[_qp][_slip_system_index - 1];
+      break;
+  }
 
   computeInterfaceAdvCoeff();
+
   if ((_neighbor_value[_qp] > 0.0) && (_u[_qp] > 0.0))
   {
     switch (type)
     {
       case Moose::Element:
-        r -= _test[_i][_qp] * _dislo_transfer_amount *
-             _dislo_velocity_CP_edge[_qp][_slip_system_index - 1] * _u[_qp] * _normals[_qp] *
-             _slip_direction_edge[_qp][_slip_system_index - 1];
+        r -= _test[_i][_qp] * _dislo_transfer_amount * disvelocity * _u[_qp] * _normals[_qp] *
+             _slip_direction_edge[_qp][_slip_system_index - 1] * dislo_sign;
         break;
 
       case Moose::Neighbor:
-        r += _test_neighbor[_i][_qp] * _dislo_transfer_amount *
-             _dislo_velocity_CP_edge[_qp][_slip_system_index - 1] * _u[_qp] * _normals[_qp] *
-             _slip_direction_edge[_qp][_slip_system_index - 1];
+        r += _test_neighbor[_i][_qp] * _dislo_transfer_amount * disvelocity * _u[_qp] *
+             _normals[_qp] * _slip_direction_edge[_qp][_slip_system_index - 1] * dislo_sign;
         break;
     }
   }
@@ -127,6 +147,28 @@ Real
 InterfaceDiffusionDislocationLusterMorris::computeQpJacobian(Moose::DGJacobianType type)
 {
   Real jac = 0;
+  Real dislo_sign;
+  Real disvelocity = 0;
+
+  switch (_dislocationsign)
+  {
+    case DislocationSign::positive:
+      dislo_sign = 1.0;
+      break;
+    case DislocationSign::negative:
+      dislo_sign = -1.0;
+      break;
+  }
+
+  switch (_dislocationcharacter)
+  {
+    case DislocationCharacter::edge:
+      disvelocity = _dislo_velocity_CP_edge[_qp][_slip_system_index - 1];
+      break;
+    case DislocationCharacter::screw:
+      disvelocity = _dislo_velocity_CP_screw[_qp][_slip_system_index - 1];
+      break;
+  }
 
   computeInterfaceAdvCoeff();
 
@@ -139,15 +181,13 @@ InterfaceDiffusionDislocationLusterMorris::computeQpJacobian(Moose::DGJacobianTy
         break;
 
       case Moose::NeighborElement:
-        jac += _test_neighbor[_i][_qp] * _dislo_transfer_amount *
-               _dislo_velocity_CP_edge[_qp][_slip_system_index - 1] * _phi[_j][_qp] *
-               _normals[_qp] * _slip_direction_edge[_qp][_slip_system_index - 1];
+        jac += _test_neighbor[_i][_qp] * _dislo_transfer_amount * disvelocity * _phi[_j][_qp] *
+               _normals[_qp] * _slip_direction_edge[_qp][_slip_system_index - 1] * dislo_sign;
         break;
 
       case Moose::ElementNeighbor:
-        jac -= _test[_i][_qp] * _dislo_transfer_amount *
-               _dislo_velocity_CP_edge[_qp][_slip_system_index - 1] * _phi[_j][_qp] *
-               _normals[_qp] * _slip_direction_edge[_qp][_slip_system_index - 1];
+        jac -= _test[_i][_qp] * _dislo_transfer_amount * disvelocity * _phi[_j][_qp] *
+               _normals[_qp] * _slip_direction_edge[_qp][_slip_system_index - 1] * dislo_sign;
         break;
     }
   }
@@ -270,3 +310,4 @@ InterfaceDiffusionDislocationLusterMorris::computeInterfaceAdvCoeff()
     }
   }
 }
+——

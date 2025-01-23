@@ -1,0 +1,15 @@
+[Tests]
+  [./singlecrystaltest]
+    type = 'Exodiff'
+    input = 'method_CP_DiscoFlux_singlecrystal.i'
+    exodiff = 'Discoflux_singleCrystal.e'
+    heavy = false
+  [../]
+  
+  [./bicrystaltest]
+    type = 'Exodiff'
+    input = 'method_CP_DiscoFlux_bicrystal.i'
+    exodiff = 'Discoflux_bicrystal.e'
+    heavy = false 
+  [../]
+[]

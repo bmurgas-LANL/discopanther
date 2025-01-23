@@ -47,7 +47,10 @@ DislocationFluxEdgeVec::DislocationFluxEdgeVec(const InputParameters & parameter
     // Get the gradient of the variable
     _dislocation_density(coupledValue("dislocation")),
     _dislo_velocity_CP_edge(getMaterialProperty<std::vector<Real>>("dislo_velocity_edge")),
+    _dislo_velocity_CP_screw(getMaterialProperty<std::vector<Real>>("dislo_velocity_screw")),
     _slip_direction_edge(getMaterialProperty<std::vector<RealVectorValue>>("slip_direction_edge")),
+    _slip_direction_screw(
+        getMaterialProperty<std::vector<RealVectorValue>>("slip_direction_screw")),
     _slip_system_index(getParam<int>("slip_system_index")),
     _dislocationcharacter(
         getParam<MooseEnum>("dislocation_character").getEnum<DislocationCharacter>()),
@@ -58,17 +61,39 @@ DislocationFluxEdgeVec::DislocationFluxEdgeVec(const InputParameters & parameter
 RealVectorValue
 DislocationFluxEdgeVec::computeValue()
 {
-  RealVectorValue _slip_direction;
+  Real dislo_sign;
+  RealVectorValue _slip_direction_rotated(0.0, 0.0, 0.0);
+  RealVectorValue disvelocity(0.0, 0.0, 0.0);
 
   switch (_dislocationsign)
   {
     case DislocationSign::positive:
-      _slip_direction = _slip_direction_edge[_qp][_slip_system_index - 1];
+      dislo_sign = 1.0;
       break;
     case DislocationSign::negative:
-      _slip_direction = -1.0 * _slip_direction_edge[_qp][_slip_system_index - 1];
+      dislo_sign = -1.0;
       break;
   }
-  return _dislocation_density[_qp] * _dislo_velocity_CP_edge[_qp][_slip_system_index - 1] *
-         _slip_direction;
+
+  switch (_dislocationcharacter)
+  {
+    case DislocationCharacter::edge:
+      _slip_direction_rotated = _slip_direction_edge[_qp][_slip_system_index - 1];
+      for (unsigned int j = 0; j < LIBMESH_DIM; ++j)
+      {
+        disvelocity(j) = _slip_direction_rotated(j);
+        disvelocity(j) *= _dislo_velocity_CP_edge[_qp][_slip_system_index - 1] * dislo_sign;
+      }
+      break;
+    case DislocationCharacter::screw:
+      _slip_direction_rotated = _slip_direction_screw[_qp][_slip_system_index - 1];
+      for (unsigned int j = 0; j < LIBMESH_DIM; ++j)
+      {
+        disvelocity(j) = _slip_direction_rotated(j);
+        disvelocity(j) *= _dislo_velocity_CP_screw[_qp][_slip_system_index - 1] * dislo_sign;
+      }
+      break;
+  }
+
+  return _dislocation_density[_qp] * disvelocity;
 }

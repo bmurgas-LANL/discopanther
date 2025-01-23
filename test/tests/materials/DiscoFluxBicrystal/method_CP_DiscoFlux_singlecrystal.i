@@ -2,71 +2,24 @@
   displacements = 'disp_x disp_y disp_z'
 []
 
-[Mesh] 
-  [./nepermesh]
-    type = FileMeshGenerator
-    file = '/Users/bmurgas/workspace/meshfiles/Mesh_n2_4X4X2.e'
-  [../]
-
-  # [./x0_modifier]
-  #   type = BoundingBoxNodeSetGenerator
-  #   input = nepermesh
-  #   new_boundary = x0
-  #   top_right = '0.1 1.1 0.35'
-  #   bottom_left = '-0.1 -0.1 -0.1'
-  # [../]
-  # [./y0_modifier]
-  #   type = BoundingBoxNodeSetGenerator
-  #   input = x0_modifier
-  #   new_boundary = y0
-  #   top_right = '1.1 0.1 0.35'
-  #   bottom_left = '-0.1 -0.1 -0.1'
-  # [../]
-  # [./z0_modifier]
-  #   type = BoundingBoxNodeSetGenerator
-  #   input = y0_modifier
-  #   new_boundary = z0
-  #   top_right = '1.1 1.1 0.1'
-  #   bottom_left = '-0.1 -0.1 -0.1'
-  # [../]
-  # [./x1_modifier]
-  #   type = BoundingBoxNodeSetGenerator
-  #   input = z0_modifier
-  #   new_boundary = x1
-  #   top_right = '1.1 1.1 0.35'
-  #   bottom_left = '0.9 -0.1 -0.1'
-  # [../]
-  # [./y1_modifier]
-  #   type = BoundingBoxNodeSetGenerator
-  #   input = x1_modifier
-  #   new_boundary = y1
-  #   top_right = '1.1 1.1 0.35'
-  #   bottom_left = '-0.1 0.9 -0.1'
-  # [../]
+[Mesh]
+  type = GeneratedMesh
+  dim = 3
+  nx = 2
+  ny = 2
+  nz = 2
+  xmax = 0.1
+  ymax = 0.1
+  zmax = 0.1
+  elem_type = HEX8
   displacements = 'disp_x disp_y disp_z'
 []
 
-# [Debug]
-#   #show_execution_order = 'ALWAYS'
-#   show_material_props = true
-#   show_var_residual_norms = true
-# []
-
 [Outputs]
-    file_base = method_Discoflux
-    csv = true
+    file_base = Discoflux_singleCrystal
+    # csv = true
     exodus = true
-    console = true
-[]
-
-[UserObjects]
-  [./prop_read]
-    type = PropertyReadFile
-    prop_file_name = '/Users/bmurgas/workspace/auxfiles/sxori-0-0-0.inp'
-    nprop = 3
-    read_type = block
-    nblock= 4
-  [../]
+    # console = true
 []
 
 [Variables]
@@ -91,7 +44,7 @@
     family = LAGRANGE
     [./InitialCondition]
       type = ConstantIC
-      value = 0.5
+      value = 100000
     [../]
   [../]
   [./DD_EdgePositive_2]
@@ -99,7 +52,7 @@
     family = LAGRANGE
     [./InitialCondition]
       type = ConstantIC
-      value = 0.5
+      value = 100000
     [../]
   [../]
   [./DD_EdgePositive_3]
@@ -107,7 +60,7 @@
     family = LAGRANGE
     [./InitialCondition]
       type = ConstantIC
-      value = 0.5
+      value = 100000
     [../]
   [../]
   [./DD_EdgePositive_4]
@@ -115,7 +68,7 @@
     family = LAGRANGE
     [./InitialCondition]
       type = ConstantIC
-      value = 0.5
+      value = 100000
     [../]
   [../]
   [./DD_EdgePositive_5]
@@ -123,7 +76,7 @@
     family = LAGRANGE
     [./InitialCondition]
       type = ConstantIC
-      value = 0.5
+      value = 100000
     [../]
   [../]
   [./DD_EdgePositive_6]
@@ -131,7 +84,7 @@
     family = LAGRANGE
     [./InitialCondition]
       type = ConstantIC
-      value = 0.5
+      value = 100000
     [../]
   [../]
   [./DD_EdgePositive_7]
@@ -139,7 +92,7 @@
     family = LAGRANGE
     [./InitialCondition]
       type = ConstantIC
-      value = 0.5
+      value = 100000
     [../]
   [../]
   [./DD_EdgePositive_8]
@@ -147,7 +100,7 @@
     family = LAGRANGE
     [./InitialCondition]
       type = ConstantIC
-      value = 0.5
+      value = 100000
     [../]
   [../]
   [./DD_EdgePositive_9]
@@ -155,7 +108,7 @@
     family = LAGRANGE
     [./InitialCondition]
       type = ConstantIC
-      value = 0.5
+      value = 100000
     [../]
   [../]
   [./DD_EdgePositive_10]
@@ -163,7 +116,7 @@
     family = LAGRANGE
     [./InitialCondition]
       type = ConstantIC
-      value = 0.5
+      value = 100000
     [../]
   [../]
   [./DD_EdgePositive_11]
@@ -171,7 +124,7 @@
     family = LAGRANGE
     [./InitialCondition]
       type = ConstantIC
-      value = 0.5
+      value = 100000
     [../]
   [../]
   [./DD_EdgePositive_12]
@@ -179,7 +132,7 @@
     family = LAGRANGE
     [./InitialCondition]
       type = ConstantIC
-      value = 0.5
+      value = 100000
     [../]
   [../]
   ## NEGATIVE EDGE
@@ -188,7 +141,7 @@
     family = LAGRANGE
     [./InitialCondition]
       type = ConstantIC
-      value = 0.5
+      value = 50000
     [../]
   [../]
   [./DD_EdgeNegative_2]
@@ -196,7 +149,7 @@
     family = LAGRANGE
     [./InitialCondition]
       type = ConstantIC
-      value = 0.5
+      value = 50000
     [../]
   [../]
   [./DD_EdgeNegative_3]
@@ -204,7 +157,7 @@
     family = LAGRANGE
     [./InitialCondition]
       type = ConstantIC
-      value = 0.5
+      value = 50000
     [../]
   [../]
   [./DD_EdgeNegative_4]
@@ -212,7 +165,7 @@
     family = LAGRANGE
     [./InitialCondition]
       type = ConstantIC
-      value = 0.5
+      value = 50000
     [../]
   [../]
   [./DD_EdgeNegative_5]
@@ -220,7 +173,7 @@
     family = LAGRANGE
     [./InitialCondition]
       type = ConstantIC
-      value = 0.5
+      value = 50000
     [../]
   [../]
   [./DD_EdgeNegative_6]
@@ -228,7 +181,7 @@
     family = LAGRANGE
     [./InitialCondition]
       type = ConstantIC
-      value = 0.5
+      value = 50000
     [../]
   [../]
   [./DD_EdgeNegative_7]
@@ -236,7 +189,7 @@
     family = LAGRANGE
     [./InitialCondition]
       type = ConstantIC
-      value = 0.5
+      value = 50000
     [../]
   [../]
   [./DD_EdgeNegative_8]
@@ -244,7 +197,7 @@
     family = LAGRANGE
     [./InitialCondition]
       type = ConstantIC
-      value = 0.5
+      value = 50000
     [../]
   [../]
   [./DD_EdgeNegative_9]
@@ -252,7 +205,7 @@
     family = LAGRANGE
     [./InitialCondition]
       type = ConstantIC
-      value = 0.5
+      value = 50000
     [../]
   [../]
   [./DD_EdgeNegative_10]
@@ -260,7 +213,7 @@
     family = LAGRANGE
     [./InitialCondition]
       type = ConstantIC
-      value = 0.5
+      value = 50000
     [../]
   [../]
   [./DD_EdgeNegative_11]
@@ -268,7 +221,7 @@
     family = LAGRANGE
     [./InitialCondition]
       type = ConstantIC 
-      value = 0.5
+      value = 50000
     [../]
   [../]
   [./DD_EdgeNegative_12]
@@ -276,7 +229,7 @@
     family = LAGRANGE
     [./InitialCondition]
       type = ConstantIC
-      value = 0.5
+      value = 50000
     [../]
   [../]
   ## POSITIVE SCREW
@@ -285,7 +238,7 @@
     family = LAGRANGE
     [./InitialCondition]
       type = ConstantIC
-      value = 0.5
+      value = 100000
     [../]
   [../]
   [./DD_ScrewPositive_2]
@@ -293,7 +246,7 @@
     family = LAGRANGE
     [./InitialCondition]
       type = ConstantIC
-      value = 0.5
+      value = 100000
     [../]
   [../]
   [./DD_ScrewPositive_3]
@@ -301,7 +254,7 @@
     family = LAGRANGE
     [./InitialCondition]
       type = ConstantIC
-      value = 0.5
+      value = 100000
     [../]
   [../]
   [./DD_ScrewPositive_4]
@@ -309,7 +262,7 @@
     family = LAGRANGE
     [./InitialCondition]
       type = ConstantIC
-      value = 0.5
+      value = 100000
     [../]
   [../]
   [./DD_ScrewPositive_5]
@@ -317,7 +270,7 @@
     family = LAGRANGE
     [./InitialCondition]
       type = ConstantIC
-      value = 0.5
+      value = 100000
     [../]
   [../]
   [./DD_ScrewPositive_6]
@@ -325,7 +278,7 @@
     family = LAGRANGE
     [./InitialCondition]
       type = ConstantIC
-      value = 0.5
+      value = 100000
     [../]
   [../]
   [./DD_ScrewPositive_7]
@@ -333,7 +286,7 @@
     family = LAGRANGE
     [./InitialCondition]
       type = ConstantIC
-      value = 0.5
+      value = 100000
     [../]
   [../]
   [./DD_ScrewPositive_8]
@@ -341,7 +294,7 @@
     family = LAGRANGE
     [./InitialCondition]
       type = ConstantIC
-      value = 0.5
+      value = 100000
     [../]
   [../]
   [./DD_ScrewPositive_9]
@@ -349,7 +302,7 @@
     family = LAGRANGE
     [./InitialCondition]
       type = ConstantIC
-      value = 0.5
+      value = 100000
     [../]
   [../]
   [./DD_ScrewPositive_10]
@@ -357,7 +310,7 @@
     family = LAGRANGE
     [./InitialCondition]
       type = ConstantIC
-      value = 0.5
+      value = 100000
     [../]
   [../]
   [./DD_ScrewPositive_11]
@@ -365,7 +318,7 @@
     family = LAGRANGE
     [./InitialCondition]
       type = ConstantIC
-      value = 0.5
+      value = 100000
     [../]
   [../]
   [./DD_ScrewPositive_12]
@@ -373,7 +326,7 @@
     family = LAGRANGE
     [./InitialCondition]
       type = ConstantIC
-      value = 0.5
+      value = 100000
     [../]
   [../]
   ## NEGATIVE Screw
@@ -382,7 +335,7 @@
     family = LAGRANGE
     [./InitialCondition]
       type = ConstantIC
-      value = 0.5
+      value = 50000
     [../]
   [../]
   [./DD_ScrewNegative_2]
@@ -390,7 +343,7 @@
     family = LAGRANGE
     [./InitialCondition]
       type = ConstantIC
-      value = 0.5
+      value = 50000
     [../]
   [../]
   [./DD_ScrewNegative_3]
@@ -398,7 +351,7 @@
     family = LAGRANGE
     [./InitialCondition]
       type = ConstantIC
-      value = 0.5
+      value = 50000
     [../]
   [../]
   [./DD_ScrewNegative_4]
@@ -406,7 +359,7 @@
     family = LAGRANGE
     [./InitialCondition]
       type = ConstantIC
-      value = 0.5
+      value = 50000
     [../]
   [../]
   [./DD_ScrewNegative_5]
@@ -414,7 +367,7 @@
     family = LAGRANGE
     [./InitialCondition]
       type = ConstantIC
-      value = 0.5
+      value = 50000
     [../]
   [../]
   [./DD_ScrewNegative_6]
@@ -422,7 +375,7 @@
     family = LAGRANGE
     [./InitialCondition]
       type = ConstantIC
-      value = 0.5
+      value = 50000
     [../]
   [../]
   [./DD_ScrewNegative_7]
@@ -430,7 +383,7 @@
     family = LAGRANGE
     [./InitialCondition]
       type = ConstantIC
-      value = 0.5
+      value = 50000
     [../]
   [../]
   [./DD_ScrewNegative_8]
@@ -438,7 +391,7 @@
     family = LAGRANGE
     [./InitialCondition]
       type = ConstantIC
-      value = 0.5
+      value = 50000
     [../]
   [../]
   [./DD_ScrewNegative_9]
@@ -446,7 +399,7 @@
     family = LAGRANGE
     [./InitialCondition]
       type = ConstantIC
-      value = 0.5
+      value = 50000
     [../]
   [../]
   [./DD_ScrewNegative_10]
@@ -454,7 +407,7 @@
     family = LAGRANGE
     [./InitialCondition]
       type = ConstantIC
-      value = 0.5
+      value = 50000
     [../]
   [../]
   [./DD_ScrewNegative_11]
@@ -462,7 +415,7 @@
     family = LAGRANGE
     [./InitialCondition]
       type = ConstantIC
-      value = 0.5
+      value = 50000
     [../]
   [../]
   [./DD_ScrewNegative_12]
@@ -470,7 +423,7 @@
     family = LAGRANGE
     [./InitialCondition]
       type = ConstantIC
-      value = 0.5
+      value = 50000
     [../]
   [../]
 []
@@ -633,32 +586,33 @@
       slip_system_index = 12
     [../]
   
+  #### EDGE NEGATIVE
   [./dot_DD_EdgeNegative_1]
     # type = TimeDerivative  
     type = MassLumpedTimeDerivative
     variable = DD_EdgeNegative_1
   [../]
-    [./Advection_DD_EdgeNegative_1]
-      type = ConservativeAdvectionDislocation
-      variable = DD_EdgeNegative_1
-      upwinding_type = full
-      dislocation_character = edge
-      dislocation_sign = negative
-      slip_system_index = 1
-    [../]
+  [./Advection_DD_EdgeNegative_1]
+    type = ConservativeAdvectionDislocation
+    variable = DD_EdgeNegative_1
+    upwinding_type = full
+    dislocation_character = edge
+    dislocation_sign = negative
+    slip_system_index = 1
+  [../]
   [./dot_DD_EdgeNegative_2]
     # type = TimeDerivative  
     type = MassLumpedTimeDerivative
     variable = DD_EdgeNegative_2
   [../]
-    [./Advection_DD_EdgeNegative_2]
-      type = ConservativeAdvectionDislocation
-      variable = DD_EdgeNegative_2
-      upwinding_type = full
-      dislocation_character = edge
-      dislocation_sign = negative
-      slip_system_index = 2
-    [../]
+  [./Advection_DD_EdgeNegative_2]
+    type = ConservativeAdvectionDislocation
+    variable = DD_EdgeNegative_2
+    upwinding_type = full
+    dislocation_character = edge
+    dislocation_sign = negative
+    slip_system_index = 2
+  [../]
   [./dot_DD_EdgeNegative_3]
     # type = TimeDerivative  
     type = MassLumpedTimeDerivative
@@ -790,128 +744,319 @@
       slip_system_index = 12
     [../]
   
-  
   [./dot_DD_ScrewPositive_1]
     # type = TimeDerivative  
     type = MassLumpedTimeDerivative
     variable = DD_ScrewPositive_1
   [../]
+    [./Advection_DD_ScrewPositive_1]
+      type = ConservativeAdvectionDislocation
+      variable = DD_ScrewPositive_1
+      upwinding_type = full
+      dislocation_character = screw
+      dislocation_sign = positive
+      slip_system_index = 1
+    [../]
   [./dot_DD_ScrewPositive_2]
     # type = TimeDerivative  
     type = MassLumpedTimeDerivative
     variable = DD_ScrewPositive_2
   [../]
+    [./Advection_DD_ScrewPositive_2]
+      type = ConservativeAdvectionDislocation
+      variable = DD_ScrewPositive_2
+      upwinding_type = full
+      dislocation_character = screw
+      dislocation_sign = positive
+      slip_system_index = 2
+    [../]
   [./dot_DD_ScrewPositive_3]
     # type = TimeDerivative  
     type = MassLumpedTimeDerivative
     variable = DD_ScrewPositive_3
   [../]
+    [./Advection_DD_ScrewPositive_3]
+      type = ConservativeAdvectionDislocation
+      variable = DD_ScrewPositive_3
+      upwinding_type = full
+      dislocation_character = screw
+      dislocation_sign = positive
+      slip_system_index = 3
+    [../]
   [./dot_DD_ScrewPositive_4]
     # type = TimeDerivative  
     type = MassLumpedTimeDerivative
     variable = DD_ScrewPositive_4
   [../]
+    [./Advection_DD_ScrewPositive_4]
+      type = ConservativeAdvectionDislocation
+      variable = DD_ScrewPositive_4
+      upwinding_type = full
+      dislocation_character = screw
+      dislocation_sign = positive
+      slip_system_index = 4
+    [../]
   [./dot_DD_ScrewPositive_5]
     # type = TimeDerivative  
     type = MassLumpedTimeDerivative
     variable = DD_ScrewPositive_5
   [../]
+    [./Advection_DD_ScrewPositive_5]
+      type = ConservativeAdvectionDislocation
+      variable = DD_ScrewPositive_5
+      upwinding_type = full
+      dislocation_character = screw
+      dislocation_sign = positive
+      slip_system_index = 5
+    [../]
   [./dot_DD_ScrewPositive_6]
     # type = TimeDerivative  
     type = MassLumpedTimeDerivative
     variable = DD_ScrewPositive_6
   [../]
+    [./Advection_DD_ScrewPositive_6]
+      type = ConservativeAdvectionDislocation
+      variable = DD_ScrewPositive_6
+      upwinding_type = full
+      dislocation_character = screw
+      dislocation_sign = positive
+      slip_system_index = 6
+    [../]
   [./dot_DD_ScrewPositive_7]
     # type = TimeDerivative  
     type = MassLumpedTimeDerivative
     variable = DD_ScrewPositive_7
   [../]
+    [./Advection_DD_ScrewPositive_7]
+      type = ConservativeAdvectionDislocation
+      variable = DD_ScrewPositive_7
+      upwinding_type = full
+      dislocation_character = screw
+      dislocation_sign = positive
+      slip_system_index = 7
+    [../]
   [./dot_DD_ScrewPositive_8]
     # type = TimeDerivative  
     type = MassLumpedTimeDerivative
     variable = DD_ScrewPositive_8
   [../]
+    [./Advection_DD_ScrewPositive_8]
+      type = ConservativeAdvectionDislocation
+      variable = DD_ScrewPositive_8
+      upwinding_type = full
+      dislocation_character = screw
+      dislocation_sign = positive
+      slip_system_index = 8
+    [../]
   [./dot_DD_ScrewPositive_9]
     # type = TimeDerivative  
     type = MassLumpedTimeDerivative
     variable = DD_ScrewPositive_9
   [../]
+    [./Advection_DD_ScrewPositive_9]
+      type = ConservativeAdvectionDislocation
+      variable = DD_ScrewPositive_9
+      upwinding_type = full
+      dislocation_character = screw
+      dislocation_sign = positive
+      slip_system_index = 9
+    [../]
   [./dot_DD_ScrewPositive_10]
     # type = TimeDerivative  
     type = MassLumpedTimeDerivative
     variable = DD_ScrewPositive_10
   [../]
+    [./Advection_DD_ScrewPositive_10]
+      type = ConservativeAdvectionDislocation
+      variable = DD_ScrewPositive_10
+      upwinding_type = full
+      dislocation_character = screw
+      dislocation_sign = positive
+      slip_system_index = 10
+    [../]
   [./dot_DD_ScrewPositive_11]
     # type = TimeDerivative  
     type = MassLumpedTimeDerivative
     variable = DD_ScrewPositive_11
   [../]
+    [./Advection_DD_ScrewPositive_11]
+      type = ConservativeAdvectionDislocation
+      variable = DD_ScrewPositive_11
+      upwinding_type = full
+      dislocation_character = screw
+      dislocation_sign = positive
+      slip_system_index = 11
+    [../]
   [./dot_DD_ScrewPositive_12]
     # type = TimeDerivative  
     type = MassLumpedTimeDerivative
     variable = DD_ScrewPositive_12
   [../]
+    [./Advection_DD_ScrewPositive_12]
+      type = ConservativeAdvectionDislocation
+      variable = DD_ScrewPositive_12
+      upwinding_type = full
+      dislocation_character = screw
+      dislocation_sign = positive
+      slip_system_index = 12
+    [../]
   
   [./dot_DD_ScrewNegative_1]
     # type = TimeDerivative  
     type = MassLumpedTimeDerivative
     variable = DD_ScrewNegative_1
   [../]
+    [./Advection_DD_ScrewNegative_1]
+      type = ConservativeAdvectionDislocation
+      variable = DD_ScrewNegative_1
+      upwinding_type = full
+      dislocation_character = screw
+      dislocation_sign = negative
+      slip_system_index = 1
+    [../]
   [./dot_DD_ScrewNegative_2]
     # type = TimeDerivative  
     type = MassLumpedTimeDerivative
     variable = DD_ScrewNegative_2
   [../]
+    [./Advection_DD_ScrewNegative_2]
+      type = ConservativeAdvectionDislocation
+      variable = DD_ScrewNegative_2
+      upwinding_type = full
+      dislocation_character = screw
+      dislocation_sign = negative
+      slip_system_index = 2
+    [../]
   [./dot_DD_ScrewNegative_3]
     # type = TimeDerivative  
     type = MassLumpedTimeDerivative
     variable = DD_ScrewNegative_3
   [../]
+    [./Advection_DD_ScrewNegative_3]
+      type = ConservativeAdvectionDislocation
+      variable = DD_ScrewNegative_3
+      upwinding_type = full
+      dislocation_character = screw
+      dislocation_sign = negative
+      slip_system_index = 3
+    [../]
   [./dot_DD_ScrewNegative_4]
     # type = TimeDerivative  
     type = MassLumpedTimeDerivative
     variable = DD_ScrewNegative_4
   [../]
+    [./Advection_DD_ScrewNegative_4]
+      type = ConservativeAdvectionDislocation
+      variable = DD_ScrewNegative_4
+      upwinding_type = full
+      dislocation_character = screw
+      dislocation_sign = negative
+      slip_system_index = 4
+    [../]
   [./dot_DD_ScrewNegative_5]
     # type = TimeDerivative  
     type = MassLumpedTimeDerivative
     variable = DD_ScrewNegative_5
   [../]
+    [./Advection_DD_ScrewNegative_5]
+      type = ConservativeAdvectionDislocation
+      variable = DD_ScrewNegative_5
+      upwinding_type = full
+      dislocation_character = screw
+      dislocation_sign = negative
+      slip_system_index = 5
+    [../]
   [./dot_DD_ScrewNegative_6]
     # type = TimeDerivative  
     type = MassLumpedTimeDerivative
     variable = DD_ScrewNegative_6
   [../]
+    [./Advection_DD_ScrewNegative_6]
+      type = ConservativeAdvectionDislocation
+      variable = DD_ScrewNegative_6
+      upwinding_type = full
+      dislocation_character = screw
+      dislocation_sign = negative
+      slip_system_index = 6
+    [../]
   [./dot_DD_ScrewNegative_7]
     # type = TimeDerivative  
     type = MassLumpedTimeDerivative
     variable = DD_ScrewNegative_7
   [../]
+    [./Advection_DD_ScrewNegative_7]
+      type = ConservativeAdvectionDislocation
+      variable = DD_ScrewNegative_7
+      upwinding_type = full
+      dislocation_character = screw
+      dislocation_sign = negative
+      slip_system_index = 7
+    [../]
   [./dot_DD_ScrewNegative_8]
     # type = TimeDerivative  
     type = MassLumpedTimeDerivative
     variable = DD_ScrewNegative_8
   [../]
+    [./Advection_DD_ScrewNegative_8]
+      type = ConservativeAdvectionDislocation
+      variable = DD_ScrewNegative_8
+      upwinding_type = full
+      dislocation_character = screw
+      dislocation_sign = negative
+      slip_system_index = 8
+    [../]
   [./dot_DD_ScrewNegative_9]
     # type = TimeDerivative  
     type = MassLumpedTimeDerivative
     variable = DD_ScrewNegative_9
   [../]
+    [./Advection_DD_ScrewNegative_9]
+      type = ConservativeAdvectionDislocation
+      variable = DD_ScrewNegative_9
+      upwinding_type = full
+      dislocation_character = screw
+      dislocation_sign = negative
+      slip_system_index = 9
+    [../]
   [./dot_DD_ScrewNegative_10]
     # type = TimeDerivative  
     type = MassLumpedTimeDerivative
     variable = DD_ScrewNegative_10
   [../]
+    [./Advection_DD_ScrewNegative_10]
+      type = ConservativeAdvectionDislocation
+      variable = DD_ScrewNegative_10
+      upwinding_type = full
+      dislocation_character = screw
+      dislocation_sign = negative
+      slip_system_index = 10
+    [../]
   [./dot_DD_ScrewNegative_11]
     # type = TimeDerivative  
     type = MassLumpedTimeDerivative
     variable = DD_ScrewNegative_11
   [../]
+    [./Advection_DD_ScrewNegative_11]
+      type = ConservativeAdvectionDislocation
+      variable = DD_ScrewNegative_11
+      upwinding_type = full
+      dislocation_character = screw
+      dislocation_sign = negative
+      slip_system_index = 11
+    [../]
   [./dot_DD_ScrewNegative_12]
     # type = TimeDerivative  
     type = MassLumpedTimeDerivative
     variable = DD_ScrewNegative_12
   [../]
+    [./Advection_DD_ScrewNegative_12]
+      type = ConservativeAdvectionDislocation
+      variable = DD_ScrewNegative_12
+      upwinding_type = full
+      dislocation_character = screw
+      dislocation_sign = negative
+      slip_system_index = 12
+    [../]
 []
 
 [AuxVariables]
@@ -1034,20 +1179,23 @@
     type = ComputeElasticityTensorCP
     C_ijkl = '1.684e5 1.214e5 1.214e5 1.684e5 1.214e5 1.684e5 0.754e5 0.754e5 0.754e5'
     fill_method = symmetric9
-    read_prop_user_object = prop_read
+    euler_angle_1 = 0
+    euler_angle_2 = 0
+    euler_angle_3 = 0
   [../]
-  [stress_brass]
-    type = ComputeMultipleCrystalPlasticityStress
+  [stress_cu]
+    type = ComputeMultipleCrystalPlasticityOrowanStress
     crystal_plasticity_models = 'CP_DiscoFlux'
     tan_mod_type = exact
   []
   [./CP_DiscoFlux]
-    type = DiscoFluxCPStressUpdate
+    type = DiscoFluxCPOrowanStressUpdate
     number_slip_systems = 12
-    slip_sys_file_name = /Users/bmurgas/workspace/auxfiles/input_slip_sys.inp
+    slip_sys_file_name = input_slip_sys.inp
     lattice_friction = 15
     Coeff_hardening = 0.85
-    slip_increment_tolerance = 2.0e-2 #2.0e-2 10.0
+    slip_increment_tolerance = 2.0e-2 
+    dislo_density_factor_CDT = 1.0
     DD_EdgePositive_1 = DD_EdgePositive_1
     DD_EdgePositive_2 = DD_EdgePositive_2
     DD_EdgePositive_3 = DD_EdgePositive_3
@@ -1155,7 +1303,7 @@
 
   dtmax = 0.2
   dtmin = 0.000001
-  end_time = 100 #1
+  end_time = 1 #100 to model up to 10 percent of strain
   [./TimeStepper]
     type = ConstantDT
     dt = 0.2
@@ -1351,468 +1499,6 @@
     variable = E_6
   [../]
 []
-
-# [AuxVariables]
-#   [./DD_EP_01]
-#    order = CONSTANT
-#    family = MONOMIAL
-#   [../]
-#   [./DD_EP_02]
-#    order = CONSTANT
-#    family = MONOMIAL
-#   [../]
-#   [./DD_EP_03]
-#    order = CONSTANT
-#    family = MONOMIAL
-#   [../]
-#   [./DD_EP_04]
-#    order = CONSTANT
-#    family = MONOMIAL
-#   [../]
-#   [./DD_EP_05]
-#    order = CONSTANT
-#    family = MONOMIAL
-#   [../]
-#   [./DD_EP_06]
-#    order = CONSTANT
-#    family = MONOMIAL
-#   [../]
-#   [./DD_EP_07]
-#    order = CONSTANT
-#    family = MONOMIAL
-#   [../]
-#   [./DD_EP_08]
-#    order = CONSTANT
-#    family = MONOMIAL
-#   [../]
-#   [./DD_EP_09]
-#    order = CONSTANT
-#    family = MONOMIAL
-#   [../]
-#   [./DD_EP_10]
-#    order = CONSTANT
-#    family = MONOMIAL
-#   [../]
-#   [./DD_EP_11]
-#    order = CONSTANT
-#    family = MONOMIAL
-#   [../]
-#   [./DD_EP_12]
-#    order = CONSTANT
-#    family = MONOMIAL
-#   [../]
-# []
-
-
-# [AuxKernels]
-#   [./DD_EP_01]
-#    type = MaterialRealAux
-#    variable = DD_EP_01
-#    property = DD_EdgePositive_1
-#   [../]
-#   [./DD_EP_02]
-#    type = MaterialRealAux
-#    variable = DD_EP_02
-#    property = DD_EdgePositive_2  
-#   [../]
-#   [./DD_EP_03]
-#    type = MaterialRealAux
-#    variable = DD_EP_03
-#    property = DD_EdgePositive_3
-#   [../]
-#   [./DD_EP_04]
-#    type = MaterialRealAux
-#    variable = DD_EP_04
-#    property = DD_EdgePositive_4
-#   [../]
-#   [./DD_EP_05]
-#    type = MaterialRealAux
-#    variable = DD_EP_05
-#    property = DD_EdgePositive_5
-#   [../]
-#   [./DD_EP_06]
-#    type = MaterialRealAux
-#    variable = DD_EP_06
-#    property = DD_EdgePositive_6
-#   [../]
-#   [./DD_EP_07]
-#    type = MaterialRealAux
-#    variable = DD_EP_07
-#    property = DD_EdgePositive_7
-#   [../]
-#   [./DD_EP_08]
-#    type = MaterialRealAux
-#    variable = DD_EP_08
-#    property = DD_EdgePositive_8
-#   [../]
-#   [./DD_EP_09]
-#    type = MaterialRealAux
-#    variable = DD_EP_09
-#    property = DD_EdgePositive_9
-#   [../]
-#   [./DD_EP_10]
-#    type = MaterialRealAux
-#    variable = DD_EP_10
-#    property = DD_EdgePositive_10
-#   [../]
-#   [./DD_EP_11]
-#    type = MaterialRealAux
-#    variable = DD_EP_11
-#    property = DD_EdgePositive_11
-#   [../]
-#   [./DD_EP_12]
-#    type = MaterialRealAux
-#    variable = DD_EP_12
-#    property = DD_EdgePositive_12
-#   [../]
-# []
-  
-
-# [AuxVariables]
-#   [./DD_EN_01]
-#    order = CONSTANT
-#    family = MONOMIAL
-#   [../]
-#   [./DD_EN_02]
-#    order = CONSTANT
-#    family = MONOMIAL
-#   [../]
-#   [./DD_EN_03]
-#    order = CONSTANT
-#    family = MONOMIAL
-#   [../]
-#   [./DD_EN_04]
-#    order = CONSTANT
-#    family = MONOMIAL
-#   [../]
-#   [./DD_EN_05]
-#    order = CONSTANT
-#    family = MONOMIAL
-#   [../]
-#   [./DD_EN_06]
-#    order = CONSTANT
-#    family = MONOMIAL
-#   [../]
-#   [./DD_EN_07]
-#    order = CONSTANT
-#    family = MONOMIAL
-#   [../]
-#   [./DD_EN_08]
-#    order = CONSTANT
-#    family = MONOMIAL
-#   [../]
-#   [./DD_EN_09]
-#    order = CONSTANT
-#    family = MONOMIAL
-#   [../]
-#   [./DD_EN_10]
-#    order = CONSTANT
-#    family = MONOMIAL
-#   [../]
-#   [./DD_EN_11]
-#    order = CONSTANT
-#    family = MONOMIAL
-#   [../]
-#   [./DD_EN_12]
-#    order = CONSTANT
-#    family = MONOMIAL
-#   [../]
-# []
-
-
-# [AuxKernels]
-#   [./DD_EN_01]
-#    type = MaterialRealAux
-#    variable = DD_EN_01
-#    property = DD_EdgeNegative_1
-#   [../]
-#   [./DD_EN_02]
-#    type = MaterialRealAux
-#    variable = DD_EN_02
-#    property = DD_EdgeNegative_2
-#   [../]
-#   [./DD_EN_03]
-#    type = MaterialRealAux
-#    variable = DD_EN_03
-#    property = DD_EdgeNegative_3
-#   [../]
-#   [./DD_EN_04]
-#    type = MaterialRealAux
-#    variable = DD_EN_04
-#    property = DD_EdgeNegative_4
-#   [../]
-#   [./DD_EN_05]
-#    type = MaterialRealAux
-#    variable = DD_EN_05
-#    property = DD_EdgeNegative_5
-#   [../]
-#   [./DD_EN_06]
-#    type = MaterialRealAux
-#    variable = DD_EN_06
-#    property = DD_EdgeNegative_6
-#   [../]
-#   [./DD_EN_07]
-#    type = MaterialRealAux
-#    variable = DD_EN_07
-#    property = DD_EdgeNegative_7
-#   [../]
-#   [./DD_EN_08]
-#    type = MaterialRealAux
-#    variable = DD_EN_08
-#    property = DD_EdgeNegative_8
-#   [../]
-#   [./DD_EN_09]
-#    type = MaterialRealAux
-#    variable = DD_EN_09
-#    property = DD_EdgeNegative_9
-#   [../]
-#   [./DD_EN_10]
-#    type = MaterialRealAux
-#    variable = DD_EN_10
-#    property = DD_EdgeNegative_10
-#   [../]
-#   [./DD_EN_11]
-#    type = MaterialRealAux
-#    variable = DD_EN_11
-#    property = DD_EdgeNegative_11
-#   [../]
-#   [./DD_EN_12]
-#    type = MaterialRealAux
-#    variable = DD_EN_12 
-#    property = DD_EdgeNegative_12
-#   [../]
-# []
-
-# [AuxVariables]
-#   [./DD_SP_01]
-#    order = CONSTANT
-#    family = MONOMIAL
-#   [../]
-#   [./DD_SP_02]
-#    order = CONSTANT
-#    family = MONOMIAL
-#   [../]
-#   [./DD_SP_03]
-#    order = CONSTANT
-#    family = MONOMIAL
-#   [../]
-#   [./DD_SP_04]
-#    order = CONSTANT
-#    family = MONOMIAL
-#   [../]
-#   [./DD_SP_05]
-#    order = CONSTANT
-#    family = MONOMIAL
-#   [../]
-#   [./DD_SP_06]
-#    order = CONSTANT
-#    family = MONOMIAL
-#   [../]
-#   [./DD_SP_07]
-#    order = CONSTANT
-#    family = MONOMIAL
-#   [../]
-#   [./DD_SP_08]
-#    order = CONSTANT
-#    family = MONOMIAL
-#   [../]
-#   [./DD_SP_09]
-#    order = CONSTANT
-#    family = MONOMIAL
-#   [../]
-#   [./DD_SP_10]
-#    order = CONSTANT
-#    family = MONOMIAL
-#   [../]
-#   [./DD_SP_11]
-#    order = CONSTANT
-#    family = MONOMIAL
-#   [../]
-#   [./DD_SP_12]
-#    order = CONSTANT
-#    family = MONOMIAL
-#   [../]
-# []
-
-
-# [AuxKernels]
-#   [./DD_SP_01]
-#    type = MaterialRealAux
-#    variable = DD_SP_01
-#    property = DD_ScrewPositive_1
-#   [../]
-#   [./DD_SP_02]
-#    type = MaterialRealAux
-#    variable = DD_SP_02
-#    property = DD_ScrewPositive_2
-#   [../]
-#   [./DD_SP_03]
-#    type = MaterialRealAux
-#    variable = DD_SP_03
-#    property = DD_ScrewPositive_3
-#   [../]
-#   [./DD_SP_04]
-#    type = MaterialRealAux
-#    variable = DD_SP_04
-#    property = DD_ScrewPositive_4
-#   [../]
-#   [./DD_SP_05]
-#    type = MaterialRealAux
-#    variable = DD_SP_05
-#    property = DD_ScrewPositive_5
-#   [../]
-#   [./DD_SP_06]
-#    type = MaterialRealAux
-#    variable = DD_SP_06
-#    property = DD_ScrewPositive_6
-#   [../]
-#   [./DD_SP_07]
-#    type = MaterialRealAux
-#    variable = DD_SP_07
-#    property = DD_ScrewPositive_7
-#   [../]
-#   [./DD_SP_08]
-#    type = MaterialRealAux
-#    variable = DD_SP_08
-#    property = DD_ScrewPositive_8
-#   [../]
-#   [./DD_SP_09]
-#    type = MaterialRealAux
-#    variable = DD_SP_09
-#    property = DD_ScrewPositive_9
-#   [../]
-#   [./DD_SP_10]
-#    type = MaterialRealAux
-#    variable = DD_SP_10 
-#    property = DD_ScrewPositive_10
-#   [../]
-#   [./DD_SP_11]
-#    type = MaterialRealAux
-#    variable = DD_SP_11 
-#    property = DD_ScrewPositive_11
-#   [../]
-#   [./DD_SP_12]
-#    type = MaterialRealAux
-#    variable = DD_SP_12
-#    property = DD_ScrewPositive_12
-#   [../]
-# []
-  
-
-# [AuxVariables]
-#   [./DD_SN_01]
-#    order = CONSTANT
-#    family = MONOMIAL
-#   [../]
-#   [./DD_SN_02]
-#    order = CONSTANT
-#    family = MONOMIAL
-#   [../]
-#   [./DD_SN_03]
-#    order = CONSTANT
-#    family = MONOMIAL
-#   [../]
-#   [./DD_SN_04]
-#    order = CONSTANT
-#    family = MONOMIAL
-#   [../]
-#   [./DD_SN_05]
-#    order = CONSTANT
-#    family = MONOMIAL
-#   [../]
-#   [./DD_SN_06]
-#    order = CONSTANT
-#    family = MONOMIAL
-#   [../]
-#   [./DD_SN_07]
-#    order = CONSTANT
-#    family = MONOMIAL
-#   [../]
-#   [./DD_SN_08]
-#    order = CONSTANT
-#    family = MONOMIAL
-#   [../]
-#   [./DD_SN_09]
-#    order = CONSTANT
-#    family = MONOMIAL
-#   [../]
-#   [./DD_SN_10]
-#    order = CONSTANT
-#    family = MONOMIAL
-#   [../]
-#   [./DD_SN_11]
-#    order = CONSTANT
-#    family = MONOMIAL
-#   [../]
-#   [./DD_SN_12]
-#    order = CONSTANT
-#    family = MONOMIAL
-#   [../]
-# []
-
-
-# [AuxKernels]
-#   [./DD_SN_01]
-#    type = MaterialRealAux
-#    variable = DD_SN_01
-#    property = DD_ScrewNegative_1
-#   [../]
-#   [./DD_SN_02]
-#    type = MaterialRealAux
-#    variable = DD_SN_02
-#    property = DD_ScrewNegative_2
-#   [../]
-#   [./DD_SN_03]
-#    type = MaterialRealAux
-#    variable = DD_SN_03
-#    property = DD_ScrewNegative_3
-#   [../]
-#   [./DD_SN_04]
-#    type = MaterialRealAux
-#    variable = DD_SN_04
-#    property = DD_ScrewNegative_4
-#   [../]
-#   [./DD_SN_05]
-#    type = MaterialRealAux
-#    variable = DD_SN_05
-#    property = DD_ScrewNegative_5
-#   [../]
-#   [./DD_SN_06]
-#    type = MaterialRealAux
-#    variable = DD_SN_06
-#    property = DD_ScrewNegative_6
-#   [../]
-#   [./DD_SN_07]
-#    type = MaterialRealAux
-#    variable = DD_SN_07
-#    property = DD_ScrewNegative_7
-#   [../]
-#   [./DD_SN_08]
-#    type = MaterialRealAux
-#    variable = DD_SN_08
-#    property = DD_ScrewNegative_8
-#   [../]
-#   [./DD_SN_09]
-#    type = MaterialRealAux
-#    variable = DD_SN_09
-#    property = DD_ScrewNegative_9
-#   [../]
-#   [./DD_SN_10]
-#    type = MaterialRealAux
-#    variable = DD_SN_10
-#    property = DD_ScrewNegative_10
-#   [../]
-#   [./DD_SN_11]
-#    type = MaterialRealAux
-#    variable = DD_SN_11
-#    property = DD_ScrewNegative_11
-#   [../]
-#   [./DD_SN_12]
-#    type = MaterialRealAux #ElementAverageValue
-#    variable = DD_SN_12
-#    property = DD_ScrewNegative_12
-#   [../]
-# []
 
 [AuxVariables]
   [./shear_stress_01]

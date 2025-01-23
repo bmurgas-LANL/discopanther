@@ -52,7 +52,7 @@ protected:
 
   // dislocation velocities
   const MaterialProperty<std::vector<Real>> & _dislo_velocity_CP_edge;
-  const MaterialProperty<std::vector<Real>> & _dislo_velocity_CP_edge_neighbor;
+  const MaterialProperty<std::vector<Real>> & _dislo_velocity_CP_screw;
 
   // slip direction and normal element
   const MaterialProperty<std::vector<RealVectorValue>> & _slip_direction_edge;

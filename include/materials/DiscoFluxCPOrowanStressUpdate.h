@@ -85,20 +85,16 @@ protected:
   const Real _dislo_density_initial;
   const Real _dislo_density_factor_CDT;
   const Real _C_multi, _C_trap, _C_m_ann, _C_im_ann;
-  Real _Coeff_hardening, _q1, _q2, _c1, _temp;
+  Real _Coeff_hardening, _q1, _q2, _B0, _B0s, _temp;
   Real Lbar;
 
   // Discoflux related material parameters that are constant
-  // const	Real c1 =2.0;
-  const Real mu = 76e+03;
+  const Real mu = 76e+03; // MPa
   const Real nu = 0.3;
-  const Real rho_m = 8960;
-  const Real B0 = 3.0e-11;
+  const Real rho_m = 8960; // kg m-3
+  // const Real B0 = 3.0e-11; // MPa s
   const Real g0 = 0.87;
-  // const  Real q1 = 0.23;
-  // const  Real q2 = 1.96;
   const Real boltz = 1.38e-23; // Boltzman constant in Jule/Kelvin
-  // const  Real temp =300;
   const Real omega0 = 2.0e+2; // 8.0e+11;
 
   const VariableValue & _DD_EdgePositive_1;
@@ -207,6 +203,12 @@ protected:
 
   MaterialProperty<std::vector<Real>> & _dislocation_immobile;
   const MaterialProperty<std::vector<Real>> & _dislocation_immobile_old;
+  MaterialProperty<std::vector<Real>> & _dislocation_immobile_edge_negative;
+  const MaterialProperty<std::vector<Real>> & _dislocation_immobile_edge_negative_old;
+  MaterialProperty<std::vector<Real>> & _dislocation_immobile_screw_positive;
+  const MaterialProperty<std::vector<Real>> & _dislocation_immobile_screw_positive_old;
+  MaterialProperty<std::vector<Real>> & _dislocation_immobile_screw_negative;
+  const MaterialProperty<std::vector<Real>> & _dislocation_immobile_screw_negative_old;
   MaterialProperty<std::vector<Real>> & _dislocation_mobile;
   const MaterialProperty<std::vector<Real>> & _dislocation_mobile_old;
   MaterialProperty<std::vector<Real>> & _dislo_velocity_edge;
@@ -217,10 +219,13 @@ protected:
   const MaterialProperty<std::vector<Real>> & _GND_density;
   MaterialProperty<std::vector<Real>> & _tau_b;
   MaterialProperty<std::vector<Real>> & _kappa;
+  MaterialProperty<std::vector<Real>> & _kappa_screw;
 
   // DDC related variables
   std::vector<RealVectorValue> _DD_grad;
+  std::vector<RealVectorValue> _DD_grad_screw;
   std::vector<Real> _tau_b_local;
+  std::vector<Real> _tau_b_local_screw;
 
   std::vector<Real> _DD_EdgePositive;
   std::vector<Real> _DD_EdgeNegative;
@@ -241,28 +246,38 @@ protected:
   std::vector<Real> _previous_substep_slip_resistance;
   std::vector<Real> _previous_substep_dislocation_mobile;
   std::vector<Real> _previous_substep_dislocation_immobile;
+  std::vector<Real> _previous_substep_dislocation_immobile_edge_negative;
+  std::vector<Real> _previous_substep_dislocation_immobile_screw_positive;
+  std::vector<Real> _previous_substep_dislocation_immobile_screw_negative;
   std::vector<Real> _previous_substep_slip_accumulated;
 
   // Caches the value of the current slip system resistance
   std::vector<Real> _slip_resistance_before_update;
   std::vector<Real> _dislocation_mobile_before_update;
   std::vector<Real> _dislocation_immobile_before_update;
+  std::vector<Real> _dislocation_immobile_before_update_edge_negative;
+  std::vector<Real> _dislocation_immobile_before_update_screw_positive;
+  std::vector<Real> _dislocation_immobile_before_update_screw_negative;
 
   std::vector<Real> _hb;
   std::vector<Real> _slip_resistance_increment;
   std::vector<Real> _dislocation_mobile_increment;
   std::vector<Real> _dislocation_immobile_increment;
+  std::vector<Real> _dislocation_immobile_increment_edge_negative;
+  std::vector<Real> _dislocation_immobile_increment_screw_positive;
+  std::vector<Real> _dislocation_immobile_increment_screw_negative;
   std::vector<Real> _dv_dtau;
+  std::vector<Real> _dv_dtau_screw;
   std::vector<Real> _L_bar;
 
   // For dislocation velocity computation
   Real small2 = 1.0e-10, exp_limit = 2.0e+2;
   std::vector<Real> t_wait, t_run, vel_run, dislocation_density, tau_b, xi0, tau_eff, tau_effAbs,
       tau_effSign, slip_r;
-  Real vcrit = std::sqrt(mu * 1.0e+06 / rho_m) * 1000;
+  Real vcrit = std::sqrt(mu * 1.0e+06 / rho_m) * 1000; // mm s-1
   Real deltaG0, inner, deltaG, exp_arg, dtw_dtau, dtr_dtau;
 
   // For DDCUpdate
-  RealVectorValue slip_direction_rotated, slip_plane_normal_rotated;
+  RealVectorValue slip_direction_rotated, slip_plane_normal_rotated, slip_direction_rotated_screw;
   RankTwoTensor Stress_internal;
 };
