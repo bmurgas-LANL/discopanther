@@ -30,9 +30,10 @@ protected:
   // void computeDisloVelocity();
 
   const Real _dislo_density_factor_CDT;
-  const Real _C_multi, _C_trap, _C_m_ann, _C_im_ann, _burgers_vector_mag;
+  const Real _C_multi, _C_trap, _C_m_ann, _C_im_ann, _dd_sat, _burgers_vector_mag;
 
   const MaterialProperty<std::vector<Real>> & _dislo_velocity_CP_edge;
+  const MaterialProperty<std::vector<Real>> & _dislo_velocity_CP_screw;
   const MaterialProperty<std::vector<RealVectorValue>> & _slip_direction_edge;
   const MaterialProperty<std::vector<RealVectorValue>> & _slip_plane_normalboth;
 
@@ -41,13 +42,14 @@ protected:
   // Dislocation sign
   const enum class DislocationSign { positive, negative } _dislocationsign;
 
-  const MaterialProperty<std::vector<Real>> & _dislocation_mobile;
+  const MaterialProperty<std::vector<Real>> & _dislocation_mobile_edge;
+  const MaterialProperty<std::vector<Real>> & _dislocation_mobile_screw;
   const MaterialProperty<std::vector<Real>> & _dislocation_immobile;
+  const MaterialProperty<std::vector<Real>> & _dislocation_immobile_edge_negative;
+  const MaterialProperty<std::vector<Real>> & _dislocation_immobile_screw_positive;
+  const MaterialProperty<std::vector<Real>> & _dislocation_immobile_screw_negative;
   // const MaterialProperty<std::vector<Real>> & _slip_rate;
 
-  Real _dt;
   const unsigned int _slip_system_index;
-  // RealEigenVector dislo_velocity;
-
-  // TODO add off diag jacobian
+  Real _dt;
 };

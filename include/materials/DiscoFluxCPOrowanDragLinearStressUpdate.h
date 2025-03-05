@@ -22,14 +22,14 @@ permit others to do so.
 #include "MooseVariableScalar.h"
 #include "MooseVariableInterface.h" // for *mooseVariable() in _phi, _grad_phi
 
-class DiscoFluxCPOrowanStressUpdate;
+class DiscoFluxCPOrowanDragLinearStressUpdate;
 
-class DiscoFluxCPOrowanStressUpdate : public CrystalPlasticityOrowanStressUpdateBase
+class DiscoFluxCPOrowanDragLinearStressUpdate : public CrystalPlasticityOrowanStressUpdateBase
 {
 public:
   static InputParameters validParams();
 
-  DiscoFluxCPOrowanStressUpdate(const InputParameters & parameters);
+  DiscoFluxCPOrowanDragLinearStressUpdate(const InputParameters & parameters);
 
 protected:
   // initializes the stateful properties
@@ -86,11 +86,8 @@ protected:
   const Real _dislo_density_initial;
   const Real _dislo_density_factor_CDT;
   const Real _C_multi, _C_trap, _C_m_ann, _C_im_ann, _dd_sat;
-  Real _Coeff_hardening, _Coeff_backstress, _Coeff_dislength, _q1, _q2, _B0, _B0s, _vs_edge,
-      _vs_screw, _temp;
+  Real _Coeff_hardening, _Coeff_backstress, _q1, _q2, _B0, _B0s, _vs_edge, _vs_screw, _temp;
   Real Lbar;
-
-  bool _mean_free_path_init_flag;
 
   // Discoflux related material parameters that are constant
   const Real mu = 76e+03; // MPa
@@ -99,7 +96,7 @@ protected:
   // const Real B0 = 3.0e-11; // MPa s
   const Real g0 = 0.87;
   const Real boltz = 1.38e-23; // Boltzman constant in Jule/Kelvin
-  const Real omega0 = 2.0e+2; // 8.0e+11;
+  const Real omega0 = 2.0e+2;  // 8.0e+11;
 
   const VariableValue & _DD_EdgePositive_1;
   const VariableValue & _DD_EdgePositive_2;
@@ -283,9 +280,6 @@ protected:
   std::vector<Real> _dv_dtau;
   std::vector<Real> _dv_dtau_screw;
   std::vector<Real> _L_bar;
-
-  // std::vector<Real> _L_bar_e, _L_bar_s;
-  Real _L_bar_e, _L_bar_s;
 
   // For dislocation velocity computation
   Real small2 = 1.0e-10, exp_limit = 2.0e+2;

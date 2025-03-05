@@ -402,6 +402,10 @@ ComputeMultipleCrystalPlasticityOrowanStress::solveStress()
   RankTwoTensor dpk2;
   Real rnorm, rnorm0, rnorm_prev;
 
+  Real fdpk2;
+  RankTwoTensor pk2_before;
+  pk2_before.zero();
+
   // Calculate stress residual
   calculateResidualAndJacobian();
   if (_convergence_failed)
@@ -424,9 +428,21 @@ ComputeMultipleCrystalPlasticityOrowanStress::solveStress()
   // compares the absolute tolerance of only the original rnorm value
   while (rnorm > _rtol * rnorm0 && rnorm > _abs_tol && iteration < _maxiter)
   {
+    if (iteration == 0)
+      fdpk2 = 0.25;
+    else
+      fdpk2 = 1.0;
     // Calculate stress increment
     dpk2 = -_jacobian.invSymm() * _residual_tensor;
-    _pk2[_qp] = _pk2[_qp] + dpk2;
+    _pk2[_qp] = _pk2[_qp] + dpk2 * fdpk2;
+
+    // if(rnorm > rnorm_prev){
+    //   _pk2[_qp] = _pk2[_qp] + (_pk2[_qp] - pk2_before)*0.5;
+    // } else {
+    //   dpk2 = -_jacobian.invSymm() * _residual_tensor;
+    //   _pk2[_qp] = _pk2[_qp] + fdpk2*dpk2;
+    // }
+    // pk2_before = _pk2[_qp];
 
     calculateResidualAndJacobian();
 

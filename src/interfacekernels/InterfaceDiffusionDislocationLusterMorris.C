@@ -50,7 +50,7 @@ InterfaceDiffusionDislocationLusterMorris::validParams()
   params.addParam<Real>("matrix_threshold",
                         0.8,
                         "Matrix transfer threshold to activate dislocation flux equivalency ");
-  MooseEnum transfer_type("max single threshold", "max");
+  MooseEnum transfer_type("max single threshold maxunit singleunit thresholdunit maxfull", "max");
   params.addRequiredParam<MooseEnum>(
       "transfer_type",
       transfer_type,
@@ -291,23 +291,46 @@ InterfaceDiffusionDislocationLusterMorris::computeInterfaceAdvCoeff()
     {
       case TransferType::max:
         if ((_slip_system_index_neighbor - 1) == index_max_coeff)
-          _dislo_transfer_amount = max_coeff / sum_abs_M;
+          _dislo_transfer_amount = max_coeff;
         else
           _dislo_transfer_amount = 0.0;
         break;
       case TransferType::single:
         if (Interface_Adv_Coeff[_slip_system_index_neighbor - 1] > 0.0)
-          _dislo_transfer_amount = Interface_Adv_Coeff[_slip_system_index_neighbor - 1] / sum_abs_M;
+          _dislo_transfer_amount = Interface_Adv_Coeff[_slip_system_index_neighbor - 1];
         else
           _dislo_transfer_amount = 0.0;
         break;
       case TransferType::threshold:
         if (Interface_Adv_Coeff[_slip_system_index_neighbor - 1] >= _matrix_threshold)
+          _dislo_transfer_amount = Interface_Adv_Coeff[_slip_system_index_neighbor - 1];
+        else
+          _dislo_transfer_amount = 0.0;
+        break;
+      case TransferType::maxunit:
+        if ((_slip_system_index_neighbor - 1) == index_max_coeff)
+          _dislo_transfer_amount = max_coeff / sum_abs_M;
+        else
+          _dislo_transfer_amount = 0.0;
+        break;
+      case TransferType::singleunit:
+        if (Interface_Adv_Coeff[_slip_system_index_neighbor - 1] > 0.0)
           _dislo_transfer_amount = Interface_Adv_Coeff[_slip_system_index_neighbor - 1] / sum_abs_M;
+        else
+          _dislo_transfer_amount = 0.0;
+        break;
+      case TransferType::thresholdunit:
+        if (Interface_Adv_Coeff[_slip_system_index_neighbor - 1] >= _matrix_threshold)
+          _dislo_transfer_amount = Interface_Adv_Coeff[_slip_system_index_neighbor - 1] / sum_abs_M;
+        else
+          _dislo_transfer_amount = 0.0;
+        break;
+      case TransferType::maxfull:
+        if ((_slip_system_index_neighbor - 1) == index_max_coeff)
+          _dislo_transfer_amount = 1.0;
         else
           _dislo_transfer_amount = 0.0;
         break;
     }
   }
 }
-——

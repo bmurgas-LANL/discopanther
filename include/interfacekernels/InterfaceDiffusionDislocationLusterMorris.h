@@ -46,7 +46,15 @@ protected:
   const enum class DislocationSign { positive, negative } _dislocationsign;
   const enum class DislocationSignNeighbor { positive, negative } _dislocationsign_neighbor;
 
-  const enum class TransferType { max, single, threshold } _transfer;
+  const enum class TransferType {
+    max,
+    single,
+    threshold,
+    maxunit,
+    singleunit,
+    thresholdunit,
+    maxfull
+  } _transfer;
 
   const Real _matrix_threshold;
 
