@@ -12,7 +12,7 @@
   centroid_partitioner_direction = z
   [simple_mesh]
     type = FileMeshGenerator
-    file = '~/projects/discopanther/tests/auxfiles/micropillar-sx-indenter-case-1.e'
+    file = "micropillar-sx-indenter-case-1.e"
     # displacements = 'disp_x disp_y disp_z'
   []
 [] # Mesh
@@ -140,7 +140,7 @@
   [slip_rate_gss]
     type = CrystalPlasticitySlipRateGSS
     variable_size = 48
-    slip_sys_file_name = '~/projects/discopanther/tests/auxfiles/input_slip_sys_bcc48.txt'
+    slip_sys_file_name = "input_slip_sys_bcc48.txt"
     num_slip_sys_flowrate_props = 2
     flowprops = '1 48 0.0001 0.01'
     uo_state_var_name = state_var_gss

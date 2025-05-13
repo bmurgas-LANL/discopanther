@@ -92,6 +92,8 @@ protected:
 
   bool _mean_free_path_init_flag;
 
+  bool _disloc_den_threshold_flag;
+
   // Discoflux related material parameters that are constant
   const Real mu = 76e+03; // MPa
   const Real nu = 0.3;
@@ -286,6 +288,8 @@ protected:
 
   // std::vector<Real> _L_bar_e, _L_bar_s;
   Real _L_bar_e, _L_bar_s;
+
+  Real _min_dd, _max_dd;
 
   // For dislocation velocity computation
   Real small2 = 1.0e-10, exp_limit = 2.0e+2;

@@ -120,6 +120,7 @@ test.cache
 
 # Allow certain files in test/auxfiles directories
 !**/auxfiles/*.e*
+!**/test/tests/contact/*.e*
 
 peacock_run_tmp.i
 yaml_dump*

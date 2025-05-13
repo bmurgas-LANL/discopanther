@@ -26,7 +26,7 @@ include $(FRAMEWORK_DIR)/moose.mk
 
 ALL_MODULES                 := no
 
-CHEMICAL_REACTIONS          := no
+CHEMICAL_REACTIONS          := yes
 CONTACT                     := no
 ELECTROMAGNETICS            := no
 EXTERNAL_PETSC_SOLVER       := no
@@ -34,7 +34,7 @@ FLUID_PROPERTIES            := no
 FSI                         := no
 FUNCTIONAL_EXPANSION_TOOLS  := no
 GEOCHEMISTRY                := no
-HEAT_TRANSFER               := no
+HEAT_TRANSFER               := yes
 LEVEL_SET                   := no
 MISC                        := no
 NAVIER_STOKES               := no
