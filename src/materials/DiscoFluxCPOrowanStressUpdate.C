@@ -1017,6 +1017,10 @@ DiscoFluxCPOrowanStressUpdate::getDisloVelocity()
     _dv_dtau_screw[i] = 0.00;
   }
 
+  // Don't compute velocity for boundary element
+  if (isBoundaryMaterial())
+    return;
+
   for (unsigned int i = 0; i < _number_slip_systems; ++i)
   {
     slip_r[i] = _slip_resistance[_qp][i];
