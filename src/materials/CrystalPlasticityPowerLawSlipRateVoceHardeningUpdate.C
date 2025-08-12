@@ -17,10 +17,8 @@ CrystalPlasticityPowerLawSlipRateVoceHardeningUpdate::validParams()
 {
   InputParameters params = CrystalPlasticityStressUpdateBase::validParams();
   params.addClassDescription("Kalidindi version of homogeneous crystal plasticity.");
-  params.addParam<Real>("r", 1.0, "Latent hardening coefficient");
   params.addParam<Real>("h", 541.5, "hardening constants");
   params.addParam<Real>("t_sat", 109.8, "saturated slip system strength");
-  params.addParam<Real>("gss_a", 2.5, "coefficient for hardening");
   params.addParam<Real>("ao", 0.001, "slip rate coefficient");
   params.addParam<Real>("xm", 0.1, "exponent for slip rate");
   params.addParam<Real>("gss_initial", 60.8, "initial lattice friction strength of the material");
@@ -36,10 +34,8 @@ CrystalPlasticityPowerLawSlipRateVoceHardeningUpdate::
     CrystalPlasticityPowerLawSlipRateVoceHardeningUpdate(const InputParameters & parameters)
   : CrystalPlasticityStressUpdateBase(parameters),
     // Constitutive values
-    _r(getParam<Real>("r")),
     _h(getParam<Real>("h")),
     _tau_sat(getParam<Real>("t_sat")),
-    _gss_a(getParam<Real>("gss_a")),
     _ao(getParam<Real>("ao")),
     _xm(getParam<Real>("xm")),
     _gss_initial(getParam<Real>("gss_initial")),
@@ -92,9 +88,8 @@ CrystalPlasticityPowerLawSlipRateVoceHardeningUpdate::calculateSlipRate()
   for (const auto i : make_range(_number_slip_systems))
   {
     _slip_increment[_qp][i] =
-        _ao * std::pow(std::abs(_tau[_qp][i] / _slip_resistance[_qp][i]), _xm - 1.0);
-    if (_tau[_qp][i] / _slip_resistance[_qp][i] < 0.0)
-      _slip_increment[_qp][i] *= -1.0;
+        _ao * std::pow(std::abs(_tau[_qp][i] / _slip_resistance[_qp][i]), _xm - 1.0) *
+        _tau[_qp][i] / _slip_resistance[_qp][i];
 
     if (std::abs(_slip_increment[_qp][i]) * _substep_dt > _slip_incr_tol)
     {
@@ -131,15 +126,9 @@ CrystalPlasticityPowerLawSlipRateVoceHardeningUpdate::calculateConstitutiveSlipD
     if (MooseUtils::absoluteFuzzyEqual(_tau[_qp][i], 0.0))
       dslip_dtau[i] = 0.0;
     else
-      dslip_dtau[i] =
-          _ao *
-          ((_xm - 1.0) * std::pow(std::abs(_tau[_qp][i] / _slip_resistance[_qp][i]), _xm - 2.0) *
-           _tau[_qp][i] / (_slip_resistance[_qp][i] * _slip_resistance[_qp][i]));
-    if (_tau[_qp][i] / _slip_resistance[_qp][i] < 0.0)
-      dslip_dtau[i] *= -1.0;
-
-    dslip_dtau[i] += _ao * (std::pow(std::abs(_tau[_qp][i] / _slip_resistance[_qp][i]), _xm - 1.0) /
-                            _slip_resistance[_qp][i]);
+      dslip_dtau[i] = _ao * _xm *
+                      std::pow(std::abs(_tau[_qp][i] / _slip_resistance[_qp][i]), _xm - 1.0) /
+                      _slip_resistance[_qp][i];
   }
 }
 
@@ -173,7 +162,7 @@ CrystalPlasticityPowerLawSlipRateVoceHardeningUpdate::calculateStateVariableEvol
     // Clear out increment from the previous iteration
     _slip_resistance_increment[i] = 0.0;
 
-    _hb[i] = _h * std::pow(std::abs(1.0 - _slip_resistance[_qp][i] / _tau_sat), _gss_a);
+    _hb[i] = _h * (1.0 - _slip_resistance[_qp][i] / _tau_sat);
   }
 
   Real _slip_increment_sum;

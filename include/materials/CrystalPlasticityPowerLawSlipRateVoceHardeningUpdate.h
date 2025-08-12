@@ -91,10 +91,8 @@ protected:
   virtual bool areConstitutiveStateVariablesConverged() override;
 
   ///@{Varibles used in the Kalidindi 1992 slip system resistance constiutive model
-  const Real _r;
   const Real _h;
   const Real _tau_sat;
-  const Real _gss_a;
   const Real _ao;
   const Real _xm;
   const Real _gss_initial;
