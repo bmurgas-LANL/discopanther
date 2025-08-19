@@ -408,18 +408,18 @@ DiscoFluxCPOrowanStressUpdate::initQpStatefulProperties()
   _DD_EdgeNegative[10] = _DD_EdgeNegative_11[_qp];
   _DD_EdgeNegative[11] = _DD_EdgeNegative_12[_qp];
 
-  _DD_EdgePositive[0] = _DD_EdgeNegative_1[_qp];
-  _DD_EdgePositive[1] = _DD_EdgeNegative_2[_qp];
-  _DD_EdgePositive[2] = _DD_EdgeNegative_3[_qp];
-  _DD_EdgePositive[3] = _DD_EdgeNegative_4[_qp];
-  _DD_EdgePositive[4] = _DD_EdgeNegative_5[_qp];
-  _DD_EdgePositive[5] = _DD_EdgeNegative_6[_qp];
-  _DD_EdgePositive[6] = _DD_EdgeNegative_7[_qp];
-  _DD_EdgePositive[7] = _DD_EdgeNegative_8[_qp];
-  _DD_EdgePositive[8] = _DD_EdgeNegative_9[_qp];
-  _DD_EdgePositive[9] = _DD_EdgeNegative_10[_qp];
-  _DD_EdgePositive[10] = _DD_EdgeNegative_11[_qp];
-  _DD_EdgePositive[11] = _DD_EdgeNegative_12[_qp];
+  _DD_EdgePositive[0] = _DD_EdgePositive_1[_qp];
+  _DD_EdgePositive[1] = _DD_EdgePositive_2[_qp];
+  _DD_EdgePositive[2] = _DD_EdgePositive_3[_qp];
+  _DD_EdgePositive[3] = _DD_EdgePositive_4[_qp];
+  _DD_EdgePositive[4] = _DD_EdgePositive_5[_qp];
+  _DD_EdgePositive[5] = _DD_EdgePositive_6[_qp];
+  _DD_EdgePositive[6] = _DD_EdgePositive_7[_qp];
+  _DD_EdgePositive[7] = _DD_EdgePositive_8[_qp];
+  _DD_EdgePositive[8] = _DD_EdgePositive_9[_qp];
+  _DD_EdgePositive[9] = _DD_EdgePositive_10[_qp];
+  _DD_EdgePositive[10] = _DD_EdgePositive_11[_qp];
+  _DD_EdgePositive[11] = _DD_EdgePositive_12[_qp];
 
   _DD_ScrewNegative[0] = _DD_ScrewNegative_1[_qp];
   _DD_ScrewNegative[1] = _DD_ScrewNegative_2[_qp];
@@ -434,18 +434,18 @@ DiscoFluxCPOrowanStressUpdate::initQpStatefulProperties()
   _DD_ScrewNegative[10] = _DD_ScrewNegative_11[_qp];
   _DD_ScrewNegative[11] = _DD_ScrewNegative_12[_qp];
 
-  _DD_ScrewPositive[0] = _DD_ScrewNegative_1[_qp];
-  _DD_ScrewPositive[1] = _DD_ScrewNegative_2[_qp];
-  _DD_ScrewPositive[2] = _DD_ScrewNegative_3[_qp];
-  _DD_ScrewPositive[3] = _DD_ScrewNegative_4[_qp];
-  _DD_ScrewPositive[4] = _DD_ScrewNegative_5[_qp];
-  _DD_ScrewPositive[5] = _DD_ScrewNegative_6[_qp];
-  _DD_ScrewPositive[6] = _DD_ScrewNegative_7[_qp];
-  _DD_ScrewPositive[7] = _DD_ScrewNegative_8[_qp];
-  _DD_ScrewPositive[8] = _DD_ScrewNegative_9[_qp];
-  _DD_ScrewPositive[9] = _DD_ScrewNegative_10[_qp];
-  _DD_ScrewPositive[10] = _DD_ScrewNegative_11[_qp];
-  _DD_ScrewPositive[11] = _DD_ScrewNegative_12[_qp];
+  _DD_ScrewPositive[0] = _DD_ScrewPositive_1[_qp];
+  _DD_ScrewPositive[1] = _DD_ScrewPositive_2[_qp];
+  _DD_ScrewPositive[2] = _DD_ScrewPositive_3[_qp];
+  _DD_ScrewPositive[3] = _DD_ScrewPositive_4[_qp];
+  _DD_ScrewPositive[4] = _DD_ScrewPositive_5[_qp];
+  _DD_ScrewPositive[5] = _DD_ScrewPositive_6[_qp];
+  _DD_ScrewPositive[6] = _DD_ScrewPositive_7[_qp];
+  _DD_ScrewPositive[7] = _DD_ScrewPositive_8[_qp];
+  _DD_ScrewPositive[8] = _DD_ScrewPositive_9[_qp];
+  _DD_ScrewPositive[9] = _DD_ScrewPositive_10[_qp];
+  _DD_ScrewPositive[10] = _DD_ScrewPositive_11[_qp];
+  _DD_ScrewPositive[11] = _DD_ScrewPositive_12[_qp];
 
   for (unsigned int i = 0; i < _number_slip_systems; ++i)
   {
