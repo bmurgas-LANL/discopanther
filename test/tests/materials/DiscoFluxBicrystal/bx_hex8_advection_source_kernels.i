@@ -43,6 +43,7 @@
     order = FIRST
     family = LAGRANGE
   [../]
+
   # DISLOCATION DENSITIES
   ## POSITIVE EDGE
   [./DD_EdgePositive_1]
@@ -93,6 +94,7 @@
     order = FIRST
     family = LAGRANGE
   [../]
+
   ## NEGATIVE EDGE
   [./DD_EdgeNegative_1]
     order = FIRST
@@ -101,7 +103,6 @@
   [./DD_EdgeNegative_2]
     order = FIRST
     family = LAGRANGE
-
   [../]
   [./DD_EdgeNegative_3]
     order = FIRST
@@ -143,6 +144,7 @@
     order = FIRST
     family = LAGRANGE
   [../]
+
   # POSITIVE SCREW
   [./DD_ScrewPositive_1]
     order = FIRST
@@ -192,6 +194,7 @@
     order = FIRST
     family = LAGRANGE
   [../]
+
   ## NEGATIVE Screw
   [./DD_ScrewNegative_1]
     order = FIRST
@@ -308,6 +311,7 @@
     #function = init_rho_edge_pos_12
     value = 200000
   [../]
+
   ## NEGATIVE EDGE
   [./ic_DD_EdgeNegative_1]
     type = ConstantIC
@@ -371,6 +375,7 @@
     value = 200000
     #function = init_rho_edge_neg_12
   [../]
+
   # POSITIVE SCREW
   [./ic_DD_ScrewPositive_1]
     type = ConstantIC
@@ -432,6 +437,7 @@
     variable = DD_ScrewPositive_12
     value = 200000
   [../]
+
   ## NEGATIVE Screw
   [./ic_DD_ScrewNegative_1]
     type = ConstantIC
@@ -518,15 +524,15 @@
     variable = DD_EdgePositive_1
     #block = 1
   [../]
-  [./Advection_DD_EdgePositive_1]
-    type = ConservativeAdvectionDislocation
-    variable = DD_EdgePositive_1
-    upwinding_type = full
-    dislocation_character = edge
-    dislocation_sign = positive
-    slip_system_index = 1
-    #block = 1
-  [../]
+    [./Advection_DD_EdgePositive_1]
+      type = ConservativeAdvectionDislocation
+      variable = DD_EdgePositive_1
+      upwinding_type = full
+      dislocation_character = edge
+      dislocation_sign = positive
+      slip_system_index = 1
+      #block = 1
+    [../]
     [./Source_DD_EdgePositive_1]
       type = DislocationSourceVolume  
       variable = DD_EdgePositive_1
@@ -2480,7 +2486,7 @@
     # Coeff_backstress = 0.02
     type = DiscoFluxCPOrowanStressUpdate
     number_slip_systems = 12
-    slip_sys_file_name = /Users/bmurgas/workspace/auxfiles/input_slip_sys.inp
+    slip_sys_file_name = input_slip_sys.inp
     lattice_friction = 15 #15
     Coeff_hardening = 0.25
     slip_increment_tolerance = 0.02 #2.0e-2 10.0
@@ -2561,6 +2567,7 @@
 
 [GlobalParams]
   dislo_density_initial = 2000
+  number_slip_systems = 12
   C_multi  = 0.004  #8.5e-06 0.4
   C_trap   = 0.0036  #5.5e-03 0.36
   C_m_ann  = 0.0016  #0.5 0.16

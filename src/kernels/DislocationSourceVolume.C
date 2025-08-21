@@ -32,6 +32,7 @@ DislocationSourceVolume::validParams()
   params.addParam<Real>("C_trap", 0.36, "parameter for dislocation trapping");
   params.addParam<Real>("C_m_ann", 0.16, "parameter for dislocation mobile annihilation");
   params.addParam<Real>("C_im_ann", 0.16, "parameter for dislocation immobile annihilation");
+  params.addParam<unsigned int>("number_slip_systems", 12, "number of slip systems");
   params.addParam<Real>("dd_sat", 10e10, "dislocation density saturation value");
   params.addParam<Real>("burgers_vector_mag", 1.0e-7, "magnitude of the Burger Vector in mm");
 
@@ -57,6 +58,7 @@ DislocationSourceVolume::DislocationSourceVolume(const InputParameters & paramet
     _C_im_ann(getParam<Real>("C_im_ann")),
     _dd_sat(getParam<Real>("dd_sat")),
     _burgers_vector_mag(getParam<Real>("burgers_vector_mag")),
+    _number_slip_systems(getParam<unsigned int>("number_slip_systems")),
 
     _dislo_velocity_CP_edge(getMaterialProperty<std::vector<Real>>("dislo_velocity_edge")),
     _dislo_velocity_CP_screw(getMaterialProperty<std::vector<Real>>("dislo_velocity_screw")),
@@ -86,8 +88,8 @@ DislocationSourceVolume::DislocationSourceVolume(const InputParameters & paramet
 Real
 DislocationSourceVolume::computeQpResidual()
 {
-  int _count = 12; // todo hard coded for now
-  unsigned int _number_slip_systems = _count;
+//   int _count = 12; // todo hard coded for now
+//   unsigned int _number_slip_systems = _count;
   Real A_f_ij, dislocation_forest;
   int i = _slip_system_index - 1;
 
@@ -143,8 +145,8 @@ DislocationSourceVolume::computeQpResidual()
 Real
 DislocationSourceVolume::computeQpJacobian()
 {
-  int _count = 12; // todo hard coded for now
-  unsigned int _number_slip_systems = _count;
+//   int _count = 12; // todo hard coded for now
+//   unsigned int _number_slip_systems = _count;
   Real A_f_ij, dislocation_forest;
   int i = _slip_system_index - 1;
 

@@ -31,6 +31,7 @@ protected:
 
   const Real _dislo_density_factor_CDT;
   const Real _C_multi, _C_trap, _C_m_ann, _C_im_ann, _dd_sat, _burgers_vector_mag;
+  const unsigned int _number_slip_systems;
 
   const MaterialProperty<std::vector<Real>> & _dislo_velocity_CP_edge;
   const MaterialProperty<std::vector<Real>> & _dislo_velocity_CP_screw;
