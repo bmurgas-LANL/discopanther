@@ -1314,13 +1314,6 @@
     # abs_tol = 1e-12
   []
   [./CP_DiscoFlux]
-    # type = DiscoFluxCPBCCOrowanStressUpdate
-    # vs_edge = 1.62e-5
-    # vs_screw = 2.2e-5
-    # B0 =  0.00000052
-    # B0s = 0.0000004
-    # Coeff_backstress = 0.02
-    
     type                  = DiscoFluxCPBCCOrowanStressUpdate
     number_slip_systems   = 24
     slip_sys_file_name    = input_slip_sys.inp
@@ -1393,7 +1386,7 @@
     DD_EdgeNegative_23  = DD_EdgeNegative_23
     DD_EdgeNegative_24  = DD_EdgeNegative_24
 
-    print_state_variable_convergence_error_messages = true
+    print_state_variable_convergence_error_messages = false
   [../]
   [updated_euler_angle]
     type = ComputeUpdatedEulerAngle
@@ -1441,14 +1434,14 @@
   petsc_options_iname = '-pc_type -pc_hypre_type -ksp_gmres_restart'
   petsc_options_value = 'hypre    boomeramg          31'
   line_search = 'none'
-  l_max_its = 500
-  nl_max_its = 500
-  nl_abs_tol = 1e-5 #1e-6
-  l_abs_tol = 1e-5
+  l_max_its = 5000
+  nl_max_its = 5000
+  nl_abs_tol = 1e-6 #1e-6
+  l_abs_tol = 1e-6
 
   dtmax = 0.2
-  dtmin = 1e-10
-  end_time = 100
+  dtmin = 1e-6
+  end_time = 1.0
 
   [./TimeStepper]
     # type = IterationAdaptiveDT
