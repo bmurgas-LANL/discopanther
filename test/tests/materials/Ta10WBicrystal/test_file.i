@@ -248,252 +248,252 @@
   [./ic_DD_EdgePositive_1]
     type = ConstantIC
     variable = DD_EdgePositive_1
-    value = 200000
+    value = 250000
   [../]
   [./ic_DD_EdgePositive_2]
     type = ConstantIC
     variable = DD_EdgePositive_2
-    value = 200000
+    value = 250000
   [../]
   [./ic_DD_EdgePositive_3]
       type = ConstantIC
       variable = DD_EdgePositive_3
-      value = 200000
+      value = 250000
   [../]
   [./ic_DD_EdgePositive_4]
     type = ConstantIC
     variable = DD_EdgePositive_4
-    value = 200000
+    value = 250000
   [../]
   [./ic_DD_EdgePositive_5]
     type = ConstantIC
     variable = DD_EdgePositive_5
-    value = 200000
+    value = 250000
   [../]
     [./ic_DD_EdgePositive_6]
       type = ConstantIC
       variable = DD_EdgePositive_6
-      value = 200000
+      value = 250000
     [../]
   [./ic_DD_EdgePositive_7]
     type = ConstantIC
     variable = DD_EdgePositive_7
-    value = 200000
+    value = 250000
   [../]
   [./ic_DD_EdgePositive_8]
     type = ConstantIC
     variable = DD_EdgePositive_8
-    value = 200000
+    value = 250000
   [../]
     [./ic_DD_EdgePositive_9]
       type = ConstantIC
       variable = DD_EdgePositive_9
-      value = 200000
+      value = 250000
     [../]
   [./ic_DD_EdgePositive_10]
     type = ConstantIC
     variable = DD_EdgePositive_10
-    value = 200000
+    value = 250000
   [../]
   [./ic_DD_EdgePositive_11]
     type = ConstantIC
     variable = DD_EdgePositive_11
-    value = 200000
+    value = 250000
   [../]
   [./ic_DD_EdgePositive_12]
     #type = FunctionIC
     type = ConstantIC
     variable = DD_EdgePositive_12
     #function = init_rho_edge_pos_12
-    value = 200000
+    value = 250000
   [../]
   [./ic_DD_EdgePositive_13]
     type = ConstantIC
     variable = DD_EdgePositive_13
-    value = 200000
+    value = 250000
   [../]
   [./ic_DD_EdgePositive_14]
     type = ConstantIC
     variable = DD_EdgePositive_14
-    value = 200000
+    value = 250000
   [../]
   [./ic_DD_EdgePositive_15]
       type = ConstantIC
       variable = DD_EdgePositive_15
-      value = 200000
+      value = 250000
   [../]
   [./ic_DD_EdgePositive_16]
     type = ConstantIC
     variable = DD_EdgePositive_16
-    value = 200000
+    value = 250000
   [../]
   [./ic_DD_EdgePositive_17]
     type = ConstantIC
     variable = DD_EdgePositive_17
-    value = 200000
+    value = 250000
   [../]
   [./ic_DD_EdgePositive_18]
     type = ConstantIC
     variable = DD_EdgePositive_18
-    value = 200000
+    value = 250000
   [../]
   [./ic_DD_EdgePositive_19]
     type = ConstantIC
     variable = DD_EdgePositive_19
-    value = 200000
+    value = 250000
   [../]
   [./ic_DD_EdgePositive_20]
     type = ConstantIC
     variable = DD_EdgePositive_20
-    value = 200000
+    value = 250000
   [../]
     [./ic_DD_EdgePositive_21]
       type = ConstantIC
       variable = DD_EdgePositive_21
-      value = 200000
+      value = 250000
     [../]
   [./ic_DD_EdgePositive_22]
     type = ConstantIC
     variable = DD_EdgePositive_22
-    value = 200000
+    value = 250000
   [../]
   [./ic_DD_EdgePositive_23]
     type = ConstantIC
     variable = DD_EdgePositive_23
-    value = 200000
+    value = 250000
   [../]
   [./ic_DD_EdgePositive_24]
     #type = FunctionIC
     type = ConstantIC
     variable = DD_EdgePositive_24
     #function = init_rho_edge_pos_12
-    value = 200000
+    value = 250000
   [../]
 
   ## NEGATIVE EDGE
   [./ic_DD_EdgeNegative_1]
     type = ConstantIC
     variable = DD_EdgeNegative_1
-    value = 200000
+    value = 250000
   [../]
   [./ic_DD_EdgeNegative_2]
     type = ConstantIC
     variable = DD_EdgeNegative_2
-    value = 200000
+    value = 250000
   [../]
   [./ic_DD_EdgeNegative_3]
     type = ConstantIC
     variable = DD_EdgeNegative_3
-    value = 200000
+    value = 250000
   [../]
   [./ic_DD_EdgeNegative_4]
     type = ConstantIC
     variable = DD_EdgeNegative_4
-    value = 200000
+    value = 250000
   [../]
   [./ic_DD_EdgeNegative_5]
     type = ConstantIC
     variable = DD_EdgeNegative_5
-    value = 200000
+    value = 250000
   [../]
     [./ic_DD_EdgeNegative_6]
       type = ConstantIC
       variable = DD_EdgeNegative_6
-      value = 200000
+      value = 250000
     [../]
   [./ic_DD_EdgeNegative_7]
     type = ConstantIC
     variable = DD_EdgeNegative_7
-    value = 200000
+    value = 250000
   [../]
   [./ic_DD_EdgeNegative_8]
     type = ConstantIC
     variable = DD_EdgeNegative_8
-    value = 200000
+    value = 250000
   [../]
     [./ic_DD_EdgeNegative_9]
       type = ConstantIC
       variable = DD_EdgeNegative_9
-      value = 200000
+      value = 250000
     [../]
   [./ic_DD_EdgeNegative_10]
     type = ConstantIC
     variable = DD_EdgeNegative_10
-    value = 200000
+    value = 250000
   [../]
   [./ic_DD_EdgeNegative_11]
     type = ConstantIC
     variable = DD_EdgeNegative_11
-    value = 200000
+    value = 250000
   [../]
   [./ic_DD_EdgeNegative_12]
     type = ConstantIC
     #type = FunctionIC
     variable = DD_EdgeNegative_12
-    value = 200000
+    value = 250000
     #function = init_rho_edge_neg_12
   [../]
   [./ic_DD_EdgeNegative_13]
     type = ConstantIC
     variable = DD_EdgeNegative_13
-    value = 200000
+    value = 250000
   [../]
   [./ic_DD_EdgeNegative_14]
     type = ConstantIC
     variable = DD_EdgeNegative_14
-    value = 200000
+    value = 250000
   [../]
   [./ic_DD_EdgeNegative_15]
       type = ConstantIC
       variable = DD_EdgeNegative_15
-      value = 200000
+      value = 250000
   [../]
   [./ic_DD_EdgeNegative_16]
     type = ConstantIC
     variable = DD_EdgeNegative_16
-    value = 200000
+    value = 250000
   [../]
   [./ic_DD_EdgeNegative_17]
     type = ConstantIC
     variable = DD_EdgeNegative_17
-    value = 200000
+    value = 250000
   [../]
   [./ic_DD_EdgeNegative_18]
     type = ConstantIC
     variable = DD_EdgeNegative_18
-    value = 200000
+    value = 250000
   [../]
   [./ic_DD_EdgeNegative_19]
     type = ConstantIC
     variable = DD_EdgeNegative_19
-    value = 200000
+    value = 250000
   [../]
   [./ic_DD_EdgeNegative_20]
     type = ConstantIC
     variable = DD_EdgeNegative_20
-    value = 200000
+    value = 250000
   [../]
   [./ic_DD_EdgeNegative_21]
     type = ConstantIC
     variable = DD_EdgeNegative_21
-    value = 200000
+    value = 250000
   [../]
   [./ic_DD_EdgeNegative_22]
     type = ConstantIC
     variable = DD_EdgeNegative_22
-    value = 200000
+    value = 250000
   [../]
   [./ic_DD_EdgeNegative_23]
     type = ConstantIC
     variable = DD_EdgeNegative_23
-    value = 200000
+    value = 250000
   [../]
   [./ic_DD_EdgeNegative_24]
     #type = FunctionIC
     type = ConstantIC
     variable = DD_EdgeNegative_24
     #function = init_rho_edge_pos_12
-    value = 200000
+    value = 250000
   [../]
 []
 
@@ -1298,10 +1298,9 @@
 [Materials]
   [./elasticity_tensor]
     type = ComputeElasticityTensorCP
-    C_ijkl = '1.684e5 1.214e5 1.214e5 1.684e5 1.214e5 1.684e5 0.754e5 0.754e5 0.754e5'
+    C_ijkl = '2.8251e5 1.6124e5 1.61245 2.8251e5 1.61245 2.8251e5 0.8315e5 0.8315e5 0.8315e5'
+    # C_ijkl = '1.684e5 1.214e5 1.214e5 1.684e5 1.214e5 1.684e5 0.754e5 0.754e5 0.754e5'
     # C_ijkl = '11e3 12e3 13e3 22e3 23e3 33e3 44e3 55e3 66e3'
-    # C_ijkl = '11e3 12e3 12e3 11e3 12e3 11e3 44e3 44e3 44e3'
-    # C_ijkl = '1.684e4 1.214e4 1.214e4 1.684e4 1.214e4 1.684e4 0.754e4 0.754e4 0.754e4'
     fill_method = symmetric9
     read_prop_user_object = prop_read
   [../]
@@ -1321,16 +1320,29 @@
     # B0 =  0.00000052
     # B0s = 0.0000004
     # Coeff_backstress = 0.02
-    type = DiscoFluxCPBCCOrowanStressUpdate
-    number_slip_systems = 24
-    slip_sys_file_name = input_slip_sys.inp
-    lattice_friction = 15 #15
-    Coeff_hardening = 0.25
-    slip_increment_tolerance = 0.02 #2.0e-2 10.0
+    
+    type                  = DiscoFluxCPBCCOrowanStressUpdate
+    number_slip_systems   = 24
+    slip_sys_file_name    = input_slip_sys.inp
+    lattice_friction      = 480.0
+    Coeff_hardening       = 0.52
+    initial_athermal      = 27.0
+    dd_sat                = 2.5950e+9
+    q1                    = 0.376
+    q2                    = 1.666
+    B0                    = 1.25e-10
+    vs_edge               = 2.e6
+    temp                  = 300
+    omega_0               = 1e11
+    g_0                   = 0.2
+
+
+    slip_increment_tolerance = 0.02
     dislo_density_factor_CDT = 1.0
-    # initial_athermal = 30
-    mean_free_path_init_flag = true
+
+    mean_free_path_init_flag = false
     disloc_den_threshold_flag = true
+
     DD_EdgePositive_1   = DD_EdgePositive_1
     DD_EdgePositive_2   = DD_EdgePositive_2
     DD_EdgePositive_3   = DD_EdgePositive_3
@@ -1380,6 +1392,7 @@
     DD_EdgeNegative_22  = DD_EdgeNegative_22
     DD_EdgeNegative_23  = DD_EdgeNegative_23
     DD_EdgeNegative_24  = DD_EdgeNegative_24
+
     print_state_variable_convergence_error_messages = true
   [../]
   [updated_euler_angle]
@@ -1404,13 +1417,13 @@
 []
 
 [GlobalParams]
-  number_slip_systems = 24
-  dislo_density_initial = 2000
-  C_multi  = 0.004  #8.5e-06 0.4
-  C_trap   = 0.0036  #5.5e-03 0.36
-  C_m_ann  = 0.0016  #0.5 0.16
-  C_im_ann = 0.0016 #0.5 0.16
-  burgers_vector_mag = 2.52e-07
+  number_slip_systems     = 24
+  dislo_density_initial   = 250000
+  C_multi                 = 0.1919  
+  C_trap                  = 0.17271 
+  C_m_ann                 = 0.0 
+  C_im_ann                = 0.0 
+  burgers_vector_mag      = 2.8579e-7
 []
 
 [Preconditioning]
@@ -1428,15 +1441,21 @@
   petsc_options_iname = '-pc_type -pc_hypre_type -ksp_gmres_restart'
   petsc_options_value = 'hypre    boomeramg          31'
   line_search = 'none'
-  l_max_its = 50
-  nl_max_its = 50
+  l_max_its = 500
+  nl_max_its = 500
   nl_abs_tol = 1e-5 #1e-6
   l_abs_tol = 1e-5
 
   dtmax = 0.2
   dtmin = 1e-10
-  end_time = 100 #100 200
+  end_time = 100
+
   [./TimeStepper]
+    # type = IterationAdaptiveDT
+    # optimal_iterations = 100
+    # linear_iteration_ratio = 25
+    # dt = 0.01
+
     type = ConstantDT
     dt = 0.1
     growth_factor = 1.05

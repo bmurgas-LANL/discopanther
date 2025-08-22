@@ -40,13 +40,11 @@ DiscoFluxCPBCCOrowanStressUpdate::validParams()
 
   // Parameter description in the DiscoFlux paper(International Journal of Plasticity 76 (2016)
   // 111e129)
-  params.addParam<Real>(
-      "lattice_friction", 10, "initial lattice friction strength of the material in MPa");
+  params.addParam<Real>("lattice_friction", 10, "initial lattice friction strength of the material in MPa");
   params.addParam<Real>("initial_athermal", 30, "initial athermal stress resistance in MPa");
   params.addParam<Real>("burgers_vector_mag", 1.0e-07, "Magnitude of the Burgers vector in mm");
   params.addParam<Real>("dislo_density_initial", 1.0e+05, "Initial dislocation density(mm^{-2})");
-  params.addParam<Real>(
-      "dislo_density_factor_CDT", 1.0, "factor to convert the dislocation density from CDT to CP");
+  params.addParam<Real>("dislo_density_factor_CDT", 1.0, "factor to convert the dislocation density from CDT to CP");
 
   params.addParam<Real>("C_multi", 0.4, "parameter for dislocation multiplication");
   params.addParam<Real>("C_trap", 0.36, "parameter for dislocation trapping");
@@ -55,10 +53,7 @@ DiscoFluxCPBCCOrowanStressUpdate::validParams()
   params.addParam<Real>("dd_sat", 10e10, "dislocation density saturation value");
   params.addParam<Real>("Coeff_hardening", 0.5, "parameter to control the material hardening");
   params.addParam<Real>("Coeff_backstress", 1.0, "parameter to control the backstress");
-  params.addParam<Real>("Coeff_dislength",
-                        1.0,
-                        "parameter to correlate the avg dislocation segment length with the mean "
-                        "free path of dislocations");
+  params.addParam<Real>("Coeff_dislength",1.0,"parameter to correlate the avg dislocation segment length with the mean free path of dislocations");
   params.addParam<Real>("q1", 0.33, "material parameter");
   params.addParam<Real>("q2", 1.66, "material parameter");
   params.addParam<Real>("B0", 3.1e-15, "material parameter");
@@ -67,18 +62,15 @@ DiscoFluxCPBCCOrowanStressUpdate::validParams()
   params.addParam<Real>("vs_screw", 2.2e6, "material parameter");
   params.addParam<Real>("temp", 300, "Temperature(K)");
 
-  params.addParam<bool>("mean_free_path_init_flag",
-                        true,
-                        "Flag to determine whether to use initial or actual dislocation density");
+  params.addParam<bool>("mean_free_path_init_flag", true, "Flag to determine whether to use initial or actual dislocation density");
   params.addParam<Real>("L_bar_e", 0.001, "Mean free path edge dislocations");
   params.addParam<Real>("L_bar_s", 0.001, "Mean free path screw dislocations");
 
-  params.addParam<bool>(
-      "disloc_den_threshold_flag",
-      false,
-      "Flag to determine whether to use min and max dislocation density threshold");
+  params.addParam<bool>("disloc_den_threshold_flag", false, "Flag to determine whether to use min and max dislocation density threshold");
   params.addParam<Real>("min_dd", 1.0, "Minimum dislocation density");
   params.addParam<Real>("max_dd", 7e06, "Maximum dislocation density");
+  params.addParam<Real>("omega_0", 1e11, "Attempt frequency");
+  params.addParam<Real>("g_0", 0.2, "coefficient scaling the barrier energy");
 
   params.addCoupledVar("DD_EdgePositive_1", 1.0, "Coupled dislocation density, EdgePositive");
   params.addCoupledVar("DD_EdgePositive_2", 1.0, "Coupled dislocation density, EdgePositive");
@@ -215,6 +207,8 @@ DiscoFluxCPBCCOrowanStressUpdate::DiscoFluxCPBCCOrowanStressUpdate(const InputPa
     _temp(                      getParam<Real>("temp")),
     _mean_free_path_init_flag(  getParam<bool>("mean_free_path_init_flag")),
     _disloc_den_threshold_flag( getParam<bool>("disloc_den_threshold_flag")),
+    g0(                         getParam<Real>("g_0")),
+    omega0(                     getParam<Real>("omega_0")),
     
     //
     _DD_EdgePositive_1(         coupledValue("DD_EdgePositive_1")),

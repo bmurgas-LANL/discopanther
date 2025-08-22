@@ -100,7 +100,7 @@ protected:
   const Real rho_m = 8960; // kg m-3
   // const Real B0 = 3.0e-11; // MPa s
   const Real g0 = 0.87;
-  const Real boltz = 1.38e-23; // Boltzman constant in Jule/Kelvin
+  const Real boltz = 1.38e-20; // Boltzman constant in Jule/Kelvin
   const Real omega0 = 2.0e+2; // 8.0e+11;
 
   const VariableValue & _DD_EdgePositive_1;
