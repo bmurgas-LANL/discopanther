@@ -56,8 +56,8 @@ DiscoFluxCPBCCOrowanStressUpdate::validParams()
   params.addParam<Real>("Coeff_dislength",1.0,"parameter to correlate the avg dislocation segment length with the mean free path of dislocations");
   params.addParam<Real>("q1", 0.33, "material parameter");
   params.addParam<Real>("q2", 1.66, "material parameter");
-  params.addParam<Real>("B0", 3.1e-15, "material parameter");
-  params.addParam<Real>("B0s", 2.4e-15, "material parameter");
+  params.addParam<Real>("B0", 3.1e-15, "material parameter - edge dislocation drag coefficient");
+  params.addParam<Real>("B0s", 2.4e-15, "material parameter - screw dislocation drag coefficient");
   params.addParam<Real>("vs_edge", 1.62e6, "material parameter");
   params.addParam<Real>("vs_screw", 2.2e6, "material parameter");
   params.addParam<Real>("temp", 300, "Temperature(K)");
@@ -1322,10 +1322,10 @@ DiscoFluxCPBCCOrowanStressUpdate::DDCUpdate()
                                        _dislocation_immobile_screw_negative[_qp][i]),
                                       -0.5);
       // Compute local internal stress
-      _tau_b_local[i]         = _Coeff_backstress * 0.2 *
+      _tau_b_local[i]         = _Coeff_backstress *
                                 ((mu * std::pow(_L_bar[i], 1)) / (2 * 3.141 * (1 - nu))) *
                                 _burgers_vector_mag * (_DD_grad[i] * slip_direction_rotated);
-      _tau_b_local_screw[i]   = _Coeff_backstress * 0.2 *
+      _tau_b_local_screw[i]   = _Coeff_backstress *
                                 ((mu * std::pow(_L_bar[i], 1)) / (2 * 3.141)) * _burgers_vector_mag *
                                 (_DD_grad_screw[i] * slip_direction_rotated_screw);
     }
@@ -1372,7 +1372,7 @@ DiscoFluxCPBCCOrowanStressUpdate::getDisloVelocity()
     tau_effSign[i]  = std::copysign(1.0, _tau[_qp][i]);
   }
 
-  deltaG0 = g0 * mu * std::pow(_burgers_vector_mag, 3) * 1.0e-3;
+  deltaG0 = g0 * mu * std::pow(_burgers_vector_mag, 3); // * 1.0e-3;
 
   for (unsigned int i = 0; i < _number_slip_systems; ++i)
   {
@@ -1495,11 +1495,12 @@ DiscoFluxCPBCCOrowanStressUpdate::getDisloVelocity()
         }
       }
 
-      // This is just for test and debug
+      // // This is just for test and debug
       if (_dislo_velocity_edge[_qp][i] > 100 || _dislo_velocity_screw[_qp][i] > 100)
       {
         mooseWarning("Edge dislocation velocity ",  _dislo_velocity_edge[_qp][i]);
         mooseWarning("Screw dislocation velocity ", _dislo_velocity_screw[_qp][i]);
+        mooseWarning("Shear stress ", tau_eff[i]);
       }
     }
   }

@@ -23,6 +23,7 @@ DislocationSourceVolume::validParams()
   InputParameters params = Kernel::validParams();
   params.addClassDescription("Updates the dislocation density based on local evolution law of "
                              "DiscoFlux crystal plasticity material model.");
+  
   // parameters for local evolution of dislocation density.
   params.addParam<Real>("dislo_density_factor_CDT",
                         1.0,
@@ -104,16 +105,12 @@ DislocationSourceVolume::computeQpResidual()
   for (unsigned int j = 0; j < _number_slip_systems; ++j)
   {
     // Edge contribution
-    A_f_ij = 0.5 * std::abs(_slip_plane_normalboth[_qp][i] *
-                            (_slip_plane_normalboth[_qp][j].cross(_slip_direction_edge[_qp][j])));
-    dislocation_forest +=
-        A_f_ij * (_dislocation_mobile_edge[_qp][j] + _dislocation_immobile[_qp][j] +
-                  _dislocation_immobile_edge_negative[_qp][j]);
+    A_f_ij = 0.5 * std::abs(_slip_plane_normalboth[_qp][i] * (_slip_plane_normalboth[_qp][j].cross(_slip_direction_edge[_qp][j])));
+    dislocation_forest += A_f_ij * (_dislocation_mobile_edge[_qp][j] + _dislocation_immobile[_qp][j] + _dislocation_immobile_edge_negative[_qp][j]);
+    
     // Screw contribution
     A_f_ij = 0.5 * std::abs(_slip_plane_normalboth[_qp][i] * (_slip_direction_edge[_qp][j]));
-    dislocation_forest +=
-        A_f_ij * (_dislocation_mobile_screw[_qp][j] + _dislocation_immobile_screw_positive[_qp][j] +
-                  _dislocation_immobile_screw_negative[_qp][j]);
+    dislocation_forest += A_f_ij * (_dislocation_mobile_screw[_qp][j] + _dislocation_immobile_screw_positive[_qp][j] + _dislocation_immobile_screw_negative[_qp][j]);
   }
 
   switch (_dislocationcharacter)
@@ -126,17 +123,11 @@ DislocationSourceVolume::computeQpResidual()
       break;
   }
 
-  _dislocation_mobile_increment_mult =
-      (_C_multi * std::pow(dislocation_forest, 0.5)) * std::abs(slip_rate);
-  _dislocation_mobile_increment_trap =
-      (_C_trap * std::pow(dislocation_forest, 0.5)) * std::abs(slip_rate);
-  _dislocation_mobile_increment_ann =
-      (0.25 * _C_m_ann * std::pow(dislocation_forest, 0.5) / _dd_sat) * _u[_qp] *
-      std::abs(slip_rate);
+  _dislocation_mobile_increment_mult =  (_C_multi * std::pow(dislocation_forest, 0.5)) * std::abs(slip_rate);
+  _dislocation_mobile_increment_trap =  (_C_trap * std::pow(dislocation_forest, 0.5)) * std::abs(slip_rate);
+  _dislocation_mobile_increment_ann =   (0.25 * _C_m_ann * std::pow(dislocation_forest, 0.5) / _dd_sat) * _u[_qp] * std::abs(slip_rate);
 
-  dislocation_mobile_increment =
-      (_dislocation_mobile_increment_mult - _dislocation_mobile_increment_trap -
-       _dislocation_mobile_increment_ann);
+  dislocation_mobile_increment = (_dislocation_mobile_increment_mult - _dislocation_mobile_increment_trap - _dislocation_mobile_increment_ann);
   dislocation_mobile_increment *= _dt / _dislo_density_factor_CDT;
 
   return -_test[_i][_qp] * dislocation_mobile_increment;
@@ -161,16 +152,12 @@ DislocationSourceVolume::computeQpJacobian()
   for (unsigned int j = 0; j < _number_slip_systems; ++j)
   {
     // Edge contribution
-    A_f_ij = 0.5 * std::abs(_slip_plane_normalboth[_qp][i] *
-                            (_slip_plane_normalboth[_qp][j].cross(_slip_direction_edge[_qp][j])));
-    dislocation_forest +=
-        A_f_ij * (_dislocation_mobile_edge[_qp][j] + _dislocation_immobile[_qp][j] +
-                  _dislocation_immobile_edge_negative[_qp][j]);
+    A_f_ij = 0.5 * std::abs(_slip_plane_normalboth[_qp][i] * (_slip_plane_normalboth[_qp][j].cross(_slip_direction_edge[_qp][j])));
+    dislocation_forest += A_f_ij * (_dislocation_mobile_edge[_qp][j] + _dislocation_immobile[_qp][j] + _dislocation_immobile_edge_negative[_qp][j]);
+    
     // Screw contribution
     A_f_ij = 0.5 * std::abs(_slip_plane_normalboth[_qp][i] * (_slip_direction_edge[_qp][j]));
-    dislocation_forest +=
-        A_f_ij * (_dislocation_mobile_screw[_qp][j] + _dislocation_immobile_screw_positive[_qp][j] +
-                  _dislocation_immobile_screw_negative[_qp][j]);
+    dislocation_forest += A_f_ij * (_dislocation_mobile_screw[_qp][j] + _dislocation_immobile_screw_positive[_qp][j] + _dislocation_immobile_screw_negative[_qp][j]);
   }
 
   switch (_dislocationcharacter)
@@ -187,17 +174,11 @@ DislocationSourceVolume::computeQpJacobian()
 
   // The derivative is incomplete, the derivative of the forest dislocation density is missing
   // TODO: get the trial functions phi of the other variables
-  _dislocation_mobile_increment_mult =
-      (_C_multi * std::pow(dislocation_forest, 0.5)) * std::abs(slip_rate);
-  _dislocation_mobile_increment_trap =
-      (_C_trap * std::pow(dislocation_forest, 0.5)) * std::abs(slip_rate);
-  _dislocation_mobile_increment_ann =
-      (0.25 * _C_m_ann * std::pow(dislocation_forest, 0.5) / _dd_sat) * 2.0 * _u[_qp] *
-      std::abs(slip_rate);
+  _dislocation_mobile_increment_mult = (_C_multi * std::pow(dislocation_forest, 0.5)) * std::abs(slip_rate);
+  _dislocation_mobile_increment_trap = (_C_trap * std::pow(dislocation_forest, 0.5)) * std::abs(slip_rate);
+  _dislocation_mobile_increment_ann = (0.25 * _C_m_ann * std::pow(dislocation_forest, 0.5) / _dd_sat) * 2.0 * _u[_qp] * std::abs(slip_rate);
 
-  dislocation_mobile_increment =
-      (_dislocation_mobile_increment_mult - _dislocation_mobile_increment_trap -
-       _dislocation_mobile_increment_ann);
+  dislocation_mobile_increment = (_dislocation_mobile_increment_mult - _dislocation_mobile_increment_trap -  _dislocation_mobile_increment_ann);
   dislocation_mobile_increment *= _dt / _dislo_density_factor_CDT;
 
   return -_test[_i][_qp] * dislocation_mobile_increment;

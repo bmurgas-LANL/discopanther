@@ -6,9 +6,19 @@
 [Mesh]
   [./MeshFile]
    type = FileMeshGenerator
-   file = 'bx_hex8_ne6.e'
+   file = 'mesh.e'
+  [../]
+  [./rename]
+    type = RenameBlockGenerator
+    input = MeshFile
+    old_block = '1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100 101 102 103 104 105 106 107 108 109 110 111 112 113 114 115 116 117 118 119 120 121 122 123 124 125 126 127 128 129 130 131 132 133 134 135 136 137 138 139 140 141 142 143 144 145 146 147 148 149 150 151 152 153 154 155 156 157 158 159 160 161 162 163 164 165 166 167 168 169 170 171 172 173 174 175 176 177 178 179 180 181 182 183 184 185 186 187 188 189 190 191 192 193 194 195 196 197 198 199 200 201 202 203 204 205 206 207 208 209 210 211 212 213 214 215 216 217 218 219 220 221 222 223 224 225 226 227 228 229 230 231 232 233 234 235 236 237 238 239 240 241 242 243 244 245 246 247 248 249 250 251 252 253 254 255 256 257 258 259 260 261 262 263 264 265 266 267 268 269 270 271 272 273 274 275 276 277 278 279 280 281 282 283 284 285 286 287 288 289 290 291 292 293 294 295 296 297 298 299 300 301 302 303 304 305 306 307 308 309 310 311 312 313 314 315 316 317 318 319 320 321 322 323 324 325 326 327 328 329 330 331 332 333 334 335 336 337 338 339 340 341 342 343'
+    new_block = '0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100 101 102 103 104 105 106 107 108 109 110 111 112 113 114 115 116 117 118 119 120 121 122 123 124 125 126 127 128 129 130 131 132 133 134 135 136 137 138 139 140 141 142 143 144 145 146 147 148 149 150 151 152 153 154 155 156 157 158 159 160 161 162 163 164 165 166 167 168 169 170 171 172 173 174 175 176 177 178 179 180 181 182 183 184 185 186 187 188 189 190 191 192 193 194 195 196 197 198 199 200 201 202 203 204 205 206 207 208 209 210 211 212 213 214 215 216 217 218 219 220 221 222 223 224 225 226 227 228 229 230 231 232 233 234 235 236 237 238 239 240 241 242 243 244 245 246 247 248 249 250 251 252 253 254 255 256 257 258 259 260 261 262 263 264 265 266 267 268 269 270 271 272 273 274 275 276 277 278 279 280 281 282 283 284 285 286 287 288 289 290 291 292 293 294 295 296 297 298 299 300 301 302 303 304 305 306 307 308 309 310 311 312 313 314 315 316 317 318 319 320 321 322 323 324 325 326 327 328 329 330 331 332 333 334 335 336 337 338 339 340 341 342'
   [../]
 []
+
+# [Problem]
+#   restart_file_base = method_Discoflux_cp/LATEST  # You may also use a specific number here
+# []
 
 [Outputs]
     file_base = method_Discoflux
@@ -16,6 +26,12 @@
     exodus = true
     # console = true
     # interval = 25
+    [out]
+      type = Checkpoint
+      time_step_interval = 10
+      num_files = 2
+      # wall_time_interval = 3600 # seconds
+    []
 []
 
 [UserObjects]
@@ -24,7 +40,7 @@
     prop_file_name = 'bx-cu-lagb.inp' 
     nprop = 3
     read_type = block
-    nblock = 2
+    nblock = 343
   [../]
 []
 
@@ -94,6 +110,54 @@
     order = FIRST
     family = LAGRANGE
   [../]
+  [./DD_EdgePositive_13]
+    order = FIRST
+    family = LAGRANGE
+  [../]
+  [./DD_EdgePositive_14]
+    order = FIRST
+    family = LAGRANGE
+  [../]
+  [./DD_EdgePositive_15]
+    order = FIRST
+    family = LAGRANGE
+  [../]
+  [./DD_EdgePositive_16]
+    order = FIRST
+    family = LAGRANGE
+  [../]
+  [./DD_EdgePositive_17]
+    order = FIRST
+    family = LAGRANGE
+  [../]
+  [./DD_EdgePositive_18]
+    order = FIRST
+    family = LAGRANGE
+  [../]
+  [./DD_EdgePositive_19]
+    order = FIRST
+    family = LAGRANGE
+  [../]
+  [./DD_EdgePositive_20]
+    order = FIRST
+    family = LAGRANGE
+  [../]
+  [./DD_EdgePositive_21]
+    order = FIRST
+    family = LAGRANGE
+  [../]
+  [./DD_EdgePositive_22]
+    order = FIRST
+    family = LAGRANGE
+  [../]
+  [./DD_EdgePositive_23]
+    order = FIRST
+    family = LAGRANGE
+  [../]
+  [./DD_EdgePositive_24]
+    order = FIRST
+    family = LAGRANGE
+  [../]
 
   ## NEGATIVE EDGE
   [./DD_EdgeNegative_1]
@@ -144,6 +208,54 @@
     order = FIRST
     family = LAGRANGE
   [../]
+  [./DD_EdgeNegative_13]
+    order = FIRST
+    family = LAGRANGE
+  [../]
+  [./DD_EdgeNegative_14]
+    order = FIRST
+    family = LAGRANGE
+  [../]
+  [./DD_EdgeNegative_15]
+    order = FIRST
+    family = LAGRANGE
+  [../]
+  [./DD_EdgeNegative_16]
+    order = FIRST
+    family = LAGRANGE
+  [../]
+  [./DD_EdgeNegative_17]
+    order = FIRST
+    family = LAGRANGE
+  [../]
+  [./DD_EdgeNegative_18]
+    order = FIRST
+    family = LAGRANGE
+  [../]
+  [./DD_EdgeNegative_19]
+    order = FIRST
+    family = LAGRANGE
+  [../]
+  [./DD_EdgeNegative_20]
+    order = FIRST
+    family = LAGRANGE
+  [../]
+  [./DD_EdgeNegative_21]
+    order = FIRST
+    family = LAGRANGE
+  [../]
+  [./DD_EdgeNegative_22]
+    order = FIRST
+    family = LAGRANGE
+  [../]
+  [./DD_EdgeNegative_23]
+    order = FIRST
+    family = LAGRANGE
+  [../]
+  [./DD_EdgeNegative_24]
+    order = FIRST
+    family = LAGRANGE
+  [../]
 []
 
 [ICs]
@@ -152,128 +264,252 @@
   [./ic_DD_EdgePositive_1]
     type = ConstantIC
     variable = DD_EdgePositive_1
-    value = 200000
+    value = 250000
   [../]
   [./ic_DD_EdgePositive_2]
     type = ConstantIC
     variable = DD_EdgePositive_2
-    value = 200000
+    value = 250000
   [../]
   [./ic_DD_EdgePositive_3]
       type = ConstantIC
       variable = DD_EdgePositive_3
-      value = 200000
+      value = 250000
   [../]
   [./ic_DD_EdgePositive_4]
     type = ConstantIC
     variable = DD_EdgePositive_4
-    value = 200000
+    value = 250000
   [../]
   [./ic_DD_EdgePositive_5]
     type = ConstantIC
     variable = DD_EdgePositive_5
-    value = 200000
+    value = 250000
   [../]
     [./ic_DD_EdgePositive_6]
       type = ConstantIC
       variable = DD_EdgePositive_6
-      value = 200000
+      value = 250000
     [../]
   [./ic_DD_EdgePositive_7]
     type = ConstantIC
     variable = DD_EdgePositive_7
-    value = 200000
+    value = 250000
   [../]
   [./ic_DD_EdgePositive_8]
     type = ConstantIC
     variable = DD_EdgePositive_8
-    value = 200000
+    value = 250000
   [../]
     [./ic_DD_EdgePositive_9]
       type = ConstantIC
       variable = DD_EdgePositive_9
-      value = 200000
+      value = 250000
     [../]
   [./ic_DD_EdgePositive_10]
     type = ConstantIC
     variable = DD_EdgePositive_10
-    value = 200000
+    value = 250000
   [../]
   [./ic_DD_EdgePositive_11]
     type = ConstantIC
     variable = DD_EdgePositive_11
-    value = 200000
+    value = 250000
   [../]
   [./ic_DD_EdgePositive_12]
     #type = FunctionIC
     type = ConstantIC
     variable = DD_EdgePositive_12
     #function = init_rho_edge_pos_12
-    value = 200000
+    value = 250000
+  [../]
+  [./ic_DD_EdgePositive_13]
+    type = ConstantIC
+    variable = DD_EdgePositive_13
+    value = 250000
+  [../]
+  [./ic_DD_EdgePositive_14]
+    type = ConstantIC
+    variable = DD_EdgePositive_14
+    value = 250000
+  [../]
+  [./ic_DD_EdgePositive_15]
+      type = ConstantIC
+      variable = DD_EdgePositive_15
+      value = 250000
+  [../]
+  [./ic_DD_EdgePositive_16]
+    type = ConstantIC
+    variable = DD_EdgePositive_16
+    value = 250000
+  [../]
+  [./ic_DD_EdgePositive_17]
+    type = ConstantIC
+    variable = DD_EdgePositive_17
+    value = 250000
+  [../]
+  [./ic_DD_EdgePositive_18]
+    type = ConstantIC
+    variable = DD_EdgePositive_18
+    value = 250000
+  [../]
+  [./ic_DD_EdgePositive_19]
+    type = ConstantIC
+    variable = DD_EdgePositive_19
+    value = 250000
+  [../]
+  [./ic_DD_EdgePositive_20]
+    type = ConstantIC
+    variable = DD_EdgePositive_20
+    value = 250000
+  [../]
+    [./ic_DD_EdgePositive_21]
+      type = ConstantIC
+      variable = DD_EdgePositive_21
+      value = 250000
+    [../]
+  [./ic_DD_EdgePositive_22]
+    type = ConstantIC
+    variable = DD_EdgePositive_22
+    value = 250000
+  [../]
+  [./ic_DD_EdgePositive_23]
+    type = ConstantIC
+    variable = DD_EdgePositive_23
+    value = 250000
+  [../]
+  [./ic_DD_EdgePositive_24]
+    #type = FunctionIC
+    type = ConstantIC
+    variable = DD_EdgePositive_24
+    #function = init_rho_edge_pos_12
+    value = 250000
   [../]
 
   ## NEGATIVE EDGE
   [./ic_DD_EdgeNegative_1]
     type = ConstantIC
     variable = DD_EdgeNegative_1
-    value = 200000
+    value = 250000
   [../]
   [./ic_DD_EdgeNegative_2]
     type = ConstantIC
     variable = DD_EdgeNegative_2
-    value = 200000
+    value = 250000
   [../]
   [./ic_DD_EdgeNegative_3]
     type = ConstantIC
     variable = DD_EdgeNegative_3
-    value = 200000
+    value = 250000
   [../]
   [./ic_DD_EdgeNegative_4]
     type = ConstantIC
     variable = DD_EdgeNegative_4
-    value = 200000
+    value = 250000
   [../]
   [./ic_DD_EdgeNegative_5]
     type = ConstantIC
     variable = DD_EdgeNegative_5
-    value = 200000
+    value = 250000
   [../]
     [./ic_DD_EdgeNegative_6]
       type = ConstantIC
       variable = DD_EdgeNegative_6
-      value = 200000
+      value = 250000
     [../]
   [./ic_DD_EdgeNegative_7]
     type = ConstantIC
     variable = DD_EdgeNegative_7
-    value = 200000
+    value = 250000
   [../]
   [./ic_DD_EdgeNegative_8]
     type = ConstantIC
     variable = DD_EdgeNegative_8
-    value = 200000
+    value = 250000
   [../]
     [./ic_DD_EdgeNegative_9]
       type = ConstantIC
       variable = DD_EdgeNegative_9
-      value = 200000
+      value = 250000
     [../]
   [./ic_DD_EdgeNegative_10]
     type = ConstantIC
     variable = DD_EdgeNegative_10
-    value = 200000
+    value = 250000
   [../]
   [./ic_DD_EdgeNegative_11]
     type = ConstantIC
     variable = DD_EdgeNegative_11
-    value = 200000
+    value = 250000
   [../]
   [./ic_DD_EdgeNegative_12]
     type = ConstantIC
     #type = FunctionIC
     variable = DD_EdgeNegative_12
-    value = 200000
+    value = 250000
     #function = init_rho_edge_neg_12
+  [../]
+  [./ic_DD_EdgeNegative_13]
+    type = ConstantIC
+    variable = DD_EdgeNegative_13
+    value = 250000
+  [../]
+  [./ic_DD_EdgeNegative_14]
+    type = ConstantIC
+    variable = DD_EdgeNegative_14
+    value = 250000
+  [../]
+  [./ic_DD_EdgeNegative_15]
+      type = ConstantIC
+      variable = DD_EdgeNegative_15
+      value = 250000
+  [../]
+  [./ic_DD_EdgeNegative_16]
+    type = ConstantIC
+    variable = DD_EdgeNegative_16
+    value = 250000
+  [../]
+  [./ic_DD_EdgeNegative_17]
+    type = ConstantIC
+    variable = DD_EdgeNegative_17
+    value = 250000
+  [../]
+  [./ic_DD_EdgeNegative_18]
+    type = ConstantIC
+    variable = DD_EdgeNegative_18
+    value = 250000
+  [../]
+  [./ic_DD_EdgeNegative_19]
+    type = ConstantIC
+    variable = DD_EdgeNegative_19
+    value = 250000
+  [../]
+  [./ic_DD_EdgeNegative_20]
+    type = ConstantIC
+    variable = DD_EdgeNegative_20
+    value = 250000
+  [../]
+  [./ic_DD_EdgeNegative_21]
+    type = ConstantIC
+    variable = DD_EdgeNegative_21
+    value = 250000
+  [../]
+  [./ic_DD_EdgeNegative_22]
+    type = ConstantIC
+    variable = DD_EdgeNegative_22
+    value = 250000
+  [../]
+  [./ic_DD_EdgeNegative_23]
+    type = ConstantIC
+    variable = DD_EdgeNegative_23
+    value = 250000
+  [../]
+  [./ic_DD_EdgeNegative_24]
+    #type = FunctionIC
+    type = ConstantIC
+    variable = DD_EdgeNegative_24
+    #function = init_rho_edge_pos_12
+    value = 250000
   [../]
 []
 
@@ -463,13 +699,183 @@
       #block = 1
     [../]
   
+  [./dot_DD_EdgePositive_13]
+    # type = TimeDerivative  
+    type = MassLumpedTimeDerivative
+    variable = DD_EdgePositive_13
+    # block = 1
+  [../]
+    [./Source_DD_EdgePositive_13]
+      type = DislocationSourceVolume  
+      variable = DD_EdgePositive_13
+      dislocation_character = edge
+      dislocation_sign = positive
+      slip_system_index = 13
+      #block = 1
+    [../]
+  [./dot_DD_EdgePositive_14]
+    # type = TimeDerivative  
+    type = MassLumpedTimeDerivative
+    variable = DD_EdgePositive_14
+    # block = 1
+  [../]
+    [./Source_DD_EdgePositive_14]
+      type = DislocationSourceVolume  
+      variable = DD_EdgePositive_14
+      dislocation_character = edge
+      dislocation_sign = positive
+      slip_system_index = 14
+      #block = 1
+    [../]
+  [./dot_DD_EdgePositive_15]
+    # type = TimeDerivative  
+    type = MassLumpedTimeDerivative
+    variable = DD_EdgePositive_15
+    #block = 1
+  [../]
+    [./Source_DD_EdgePositive_15]
+      type = DislocationSourceVolume  
+      variable = DD_EdgePositive_15
+      dislocation_character = edge
+      dislocation_sign = positive
+      slip_system_index = 15
+      # block = 1
+    [../]
+  [./dot_DD_EdgePositive_16]
+    # type = TimeDerivative  
+    type = MassLumpedTimeDerivative
+    variable = DD_EdgePositive_16
+    #block = 1
+  [../]
+    [./Source_DD_EdgePositive_16]
+      type = DislocationSourceVolume  
+      variable = DD_EdgePositive_16
+      dislocation_character = edge
+      dislocation_sign = positive
+      slip_system_index = 16
+      #block = 1
+    [../]
+  [./dot_DD_EdgePositive_17]
+    # type = TimeDerivative  
+    type = MassLumpedTimeDerivative
+    variable = DD_EdgePositive_17
+    #block = 1
+  [../]
+    [./Source_DD_EdgePositive_17]
+      type = DislocationSourceVolume  
+      variable = DD_EdgePositive_17
+      dislocation_character = edge
+      dislocation_sign = positive
+      slip_system_index = 17
+      #block = 1
+    [../]
+  [./dot_DD_EdgePositive_18]
+    # type = TimeDerivative  
+    type = MassLumpedTimeDerivative
+    variable = DD_EdgePositive_18
+    #block = 1
+  [../]
+    [./Source_DD_EdgePositive_18]
+      type = DislocationSourceVolume  
+      variable = DD_EdgePositive_18
+      dislocation_character = edge
+      dislocation_sign = positive
+      slip_system_index = 18
+      #block = 1
+    [../]
+  [./dot_DD_EdgePositive_19]
+    # type = TimeDerivative  
+    type = MassLumpedTimeDerivative
+    variable = DD_EdgePositive_19
+    #block = 1
+  [../]
+    [./Source_DD_EdgePositive_19]
+      type = DislocationSourceVolume  
+      variable = DD_EdgePositive_19
+      dislocation_character = edge
+      dislocation_sign = positive
+      slip_system_index = 19
+      #block = 1
+    [../]
+  [./dot_DD_EdgePositive_20]
+    # type = TimeDerivative  
+    type = MassLumpedTimeDerivative
+    variable = DD_EdgePositive_20
+    #block = 1
+  [../]
+    [./Source_DD_EdgePositive_20]
+      type = DislocationSourceVolume  
+      variable = DD_EdgePositive_20
+      dislocation_character = edge
+      dislocation_sign = positive
+      slip_system_index = 20
+      #block = 1
+    [../]
+  [./dot_DD_EdgePositive_21]
+    # type = TimeDerivative  
+    type = MassLumpedTimeDerivative
+    variable = DD_EdgePositive_21
+    #block = 1
+  [../]
+    [./Source_DD_EdgePositive_21]
+      type = DislocationSourceVolume  
+      variable = DD_EdgePositive_21
+      dislocation_character = edge
+      dislocation_sign = positive
+      slip_system_index = 21
+      #block = 1
+    [../]
+  [./dot_DD_EdgePositive_22]
+    # type = TimeDerivative  
+    type = MassLumpedTimeDerivative
+    variable = DD_EdgePositive_22
+    #block = 1
+  [../]
+    [./Source_DD_EdgePositive_22]
+      type = DislocationSourceVolume  
+      variable = DD_EdgePositive_22
+      dislocation_character = edge
+      dislocation_sign = positive
+      slip_system_index = 22
+      #block = 1
+    [../]
+  [./dot_DD_EdgePositive_23]
+    # type = TimeDerivative  
+    type = MassLumpedTimeDerivative
+    variable = DD_EdgePositive_23
+    #block = 1
+  [../]
+    [./Source_DD_EdgePositive_23]
+      type = DislocationSourceVolume  
+      variable = DD_EdgePositive_23
+      dislocation_character = edge
+      dislocation_sign = positive
+      slip_system_index = 23
+      #block = 1
+    [../]
+  [./dot_DD_EdgePositive_24]
+    # type = TimeDerivative  
+    type = MassLumpedTimeDerivative
+    variable = DD_EdgePositive_24
+    #block = 1
+  [../]
+    [./Source_DD_EdgePositive_24]
+      type = DislocationSourceVolume  
+      variable = DD_EdgePositive_24
+      dislocation_character = edge
+      dislocation_sign = positive
+      slip_system_index = 24
+      #block = 1
+    [../]
+
+  # ==========
   [./dot_DD_EdgeNegative_1]
     # type = TimeDerivative  
     type = MassLumpedTimeDerivative
     variable = DD_EdgeNegative_1
     #block = 1
   [../]
-    [./Source_DD_EdgeNetative_1]
+    [./Source_DD_EdgeNegative_1]
       type = DislocationSourceVolume  
       variable = DD_EdgeNegative_1
       dislocation_character = edge
@@ -483,7 +889,7 @@
     variable = DD_EdgeNegative_2
     #block = 1
   [../]
-    [./Source_DD_EdgeNetative_2]
+    [./Source_DD_EdgeNegative_2]
       type = DislocationSourceVolume  
       variable = DD_EdgeNegative_2
       dislocation_character = edge
@@ -497,7 +903,7 @@
     variable = DD_EdgeNegative_3
     #block = 1
   [../]
-    [./Source_DD_EdgeNetative_3]
+    [./Source_DD_EdgeNegative_3]
       type = DislocationSourceVolume  
       variable = DD_EdgeNegative_3
       dislocation_character = edge
@@ -511,7 +917,7 @@
     variable = DD_EdgeNegative_4
     #block = 1
   [../]
-    [./Source_DD_EdgeNetative_4]
+    [./Source_DD_EdgeNegative_4]
       type = DislocationSourceVolume  
       variable = DD_EdgeNegative_4
       dislocation_character = edge
@@ -525,7 +931,7 @@
     variable = DD_EdgeNegative_5
     #block = 1
   [../]
-    [./Source_DD_EdgeNetative_5]
+    [./Source_DD_EdgeNegative_5]
       type = DislocationSourceVolume  
       variable = DD_EdgeNegative_5
       dislocation_character = edge
@@ -539,7 +945,7 @@
     variable = DD_EdgeNegative_6
     #block = 1
   [../]
-    [./Source_DD_EdgeNetative_6]
+    [./Source_DD_EdgeNegative_6]
       type = DislocationSourceVolume  
       variable = DD_EdgeNegative_6
       dislocation_character = edge
@@ -553,7 +959,7 @@
     variable = DD_EdgeNegative_7
     #block = 1
   [../]
-    [./Source_DD_EdgeNetative_7]
+    [./Source_DD_EdgeNegative_7]
       type = DislocationSourceVolume  
       variable = DD_EdgeNegative_7
       dislocation_character = edge
@@ -567,7 +973,7 @@
     variable = DD_EdgeNegative_8
     #block = 1
   [../]
-    [./Source_DD_EdgeNetative_8]
+    [./Source_DD_EdgeNegative_8]
       type = DislocationSourceVolume  
       variable = DD_EdgeNegative_8
       dislocation_character = edge
@@ -581,7 +987,7 @@
     variable = DD_EdgeNegative_9
     #block = 1
   [../]
-    [./Source_DD_EdgeNetative_9]
+    [./Source_DD_EdgeNegative_9]
       type = DislocationSourceVolume  
       variable = DD_EdgeNegative_9
       dislocation_character = edge
@@ -595,7 +1001,7 @@
     variable = DD_EdgeNegative_10
     #block = 1
   [../]
-    [./Source_DD_EdgeNetative_10]
+    [./Source_DD_EdgeNegative_10]
       type = DislocationSourceVolume  
       variable = DD_EdgeNegative_10
       dislocation_character = edge
@@ -609,7 +1015,7 @@
     variable = DD_EdgeNegative_11
     #block = 1
   [../]
-    [./Source_DD_EdgeNetative_11]
+    [./Source_DD_EdgeNegative_11]
       type = DislocationSourceVolume  
       variable = DD_EdgeNegative_11
       dislocation_character = edge
@@ -623,12 +1029,181 @@
     variable = DD_EdgeNegative_12
     #block = 1
   [../]
-    [./Source_DD_EdgeNetative_12]
+    [./Source_DD_EdgeNegative_12]
       type = DislocationSourceVolume  
       variable = DD_EdgeNegative_12
       dislocation_character = edge
       dislocation_sign = negative
       slip_system_index = 12
+      #block = 1
+    [../]
+
+  [./dot_DD_EdgeNegative_13]
+    # type = TimeDerivative  
+    type = MassLumpedTimeDerivative
+    variable = DD_EdgeNegative_13
+    # block = 1
+  [../]
+    [./Source_DD_EdgeNegative_13]
+      type = DislocationSourceVolume  
+      variable = DD_EdgeNegative_13
+      dislocation_character = edge
+      dislocation_sign = negative
+      slip_system_index = 13
+      #block = 1
+    [../]
+  [./dot_DD_EdgeNegative_14]
+    # type = TimeDerivative  
+    type = MassLumpedTimeDerivative
+    variable = DD_EdgeNegative_14
+    # block = 1
+  [../]
+    [./Source_DD_EdgeNegative_14]
+      type = DislocationSourceVolume  
+      variable = DD_EdgeNegative_14
+      dislocation_character = edge
+      dislocation_sign = negative
+      slip_system_index = 14
+      #block = 1
+    [../]
+  [./dot_DD_EdgeNegative_15]
+    # type = TimeDerivative  
+    type = MassLumpedTimeDerivative
+    variable = DD_EdgeNegative_15
+    #block = 1
+  [../]
+    [./Source_DD_EdgeNegative_15]
+      type = DislocationSourceVolume  
+      variable = DD_EdgeNegative_15
+      dislocation_character = edge
+      dislocation_sign = negative
+      slip_system_index = 15
+      # block = 1
+    [../]
+  [./dot_DD_EdgeNegative_16]
+    # type = TimeDerivative  
+    type = MassLumpedTimeDerivative
+    variable = DD_EdgeNegative_16
+    #block = 1
+  [../]
+    [./Source_DD_EdgeNegative_16]
+      type = DislocationSourceVolume  
+      variable = DD_EdgeNegative_16
+      dislocation_character = edge
+      dislocation_sign = negative
+      slip_system_index = 16
+      #block = 1
+    [../]
+  [./dot_DD_EdgeNegative_17]
+    # type = TimeDerivative  
+    type = MassLumpedTimeDerivative
+    variable = DD_EdgeNegative_17
+    #block = 1
+  [../]
+    [./Source_DD_EdgeNegative_17]
+      type = DislocationSourceVolume  
+      variable = DD_EdgeNegative_17
+      dislocation_character = edge
+      dislocation_sign = negative
+      slip_system_index = 17
+      #block = 1
+    [../]
+  [./dot_DD_EdgeNegative_18]
+    # type = TimeDerivative  
+    type = MassLumpedTimeDerivative
+    variable = DD_EdgeNegative_18
+    #block = 1
+  [../]
+    [./Source_DD_EdgeNegative_18]
+      type = DislocationSourceVolume  
+      variable = DD_EdgeNegative_18
+      dislocation_character = edge
+      dislocation_sign = negative
+      slip_system_index = 18
+      #block = 1
+    [../]
+  [./dot_DD_EdgeNegative_19]
+    # type = TimeDerivative  
+    type = MassLumpedTimeDerivative
+    variable = DD_EdgeNegative_19
+    #block = 1
+  [../]
+    [./Source_DD_EdgeNegative_19]
+      type = DislocationSourceVolume  
+      variable = DD_EdgeNegative_19
+      dislocation_character = edge
+      dislocation_sign = negative
+      slip_system_index = 19
+      #block = 1
+    [../]
+  [./dot_DD_EdgeNegative_20]
+    # type = TimeDerivative  
+    type = MassLumpedTimeDerivative
+    variable = DD_EdgeNegative_20
+    #block = 1
+  [../]
+    [./Source_DD_EdgeNegative_20]
+      type = DislocationSourceVolume  
+      variable = DD_EdgeNegative_20
+      dislocation_character = edge
+      dislocation_sign = negative
+      slip_system_index = 20
+      #block = 1
+    [../]
+  [./dot_DD_EdgeNegative_21]
+    # type = TimeDerivative  
+    type = MassLumpedTimeDerivative
+    variable = DD_EdgeNegative_21
+    #block = 1
+  [../]
+    [./Source_DD_EdgeNegative_21]
+      type = DislocationSourceVolume  
+      variable = DD_EdgeNegative_21
+      dislocation_character = edge
+      dislocation_sign = negative
+      slip_system_index = 21
+      #block = 1
+    [../]
+  [./dot_DD_EdgeNegative_22]
+    # type = TimeDerivative  
+    type = MassLumpedTimeDerivative
+    variable = DD_EdgeNegative_22
+    #block = 1
+  [../]
+    [./Source_DD_EdgeNegative_22]
+      type = DislocationSourceVolume  
+      variable = DD_EdgeNegative_22
+      dislocation_character = edge
+      dislocation_sign = negative
+      slip_system_index = 22
+      #block = 1
+    [../]
+  [./dot_DD_EdgeNegative_23]
+    # type = TimeDerivative  
+    type = MassLumpedTimeDerivative
+    variable = DD_EdgeNegative_23
+    #block = 1
+  [../]
+    [./Source_DD_EdgeNegative_23]
+      type = DislocationSourceVolume  
+      variable = DD_EdgeNegative_23
+      dislocation_character = edge
+      dislocation_sign = negative
+      slip_system_index = 23
+      #block = 1
+    [../]
+  [./dot_DD_EdgeNegative_24]
+    # type = TimeDerivative  
+    type = MassLumpedTimeDerivative
+    variable = DD_EdgeNegative_24
+    #block = 1
+  [../]
+    [./Source_DD_EdgeNegative_24]
+      type = DislocationSourceVolume  
+      variable = DD_EdgeNegative_24
+      dislocation_character = edge
+      dislocation_sign = negative
+      slip_system_index = 24
       #block = 1
     [../]
 []
@@ -681,51 +1256,86 @@
   # Y : Bottom and Top
   # Z : Back and Front
   ##############################################
-  [./BC_ZX]
+  #=============== bottom face =================
+  # ensure bottom corner is fixed
+  [./BC_CX]
     type = FunctionDirichletBC
     variable = disp_x
-    boundary = 'z0'
+    boundary = 'bot_cor'
     # boundary = back
     function = 0.0
   [../]
-  [./BC_ZY]
+  [./BC_CY]
     type = FunctionDirichletBC
     variable = disp_y
-    boundary = 'z0'
+    boundary = 'bot_cor'
     # boundary = back
     function = 0.0
   [../]
-  [./BC_Z]
+  [./BC_CZ]
     type = FunctionDirichletBC
     variable = disp_z
-    boundary = 'z0'
+    boundary = 'bot_cor'
+    # boundary = back
+    function = 0.0
+  [../]
+  
+  # ensure y and z displacement are zero on point set bot_x
+  [./BC_C1Y]
+    type = FunctionDirichletBC
+    variable = disp_y
+    boundary = 'bot_x'
+    # boundary = back
+    function = 0.0
+  [../]
+  [./BC_C1Z]
+    type = FunctionDirichletBC
+    variable = disp_z
+    boundary = 'bot_x'
     # boundary = back
     function = 0.0
   [../]
 
-  [./BC_Z1X]
-    type = FunctionDirichletBC
-    variable = disp_x
-    boundary = 'z1'
-    # boundary = front
-    function = 0.0
-  [../]
-  [./BC_Z1Y]
+  # ensure y and x displacement are zero on point set bot_z
+  [./BC_C2Y]
     type = FunctionDirichletBC
     variable = disp_y
-    # boundary = front
-    boundary = 'z1'
+    boundary = 'bot_z'
+    # boundary = back
+    function = 0.0
+  [../]
+  [./BC_C2X]
+    type = FunctionDirichletBC
+    variable = disp_x
+    boundary = 'bot_z'
+    # boundary = back
     function = 0.0
   [../]
 
-  # Compression along z
-  [./BC_Loading]
+  # ensure y displacement is zero on the bottom face
+  [./BC_Y1Y]
     type = FunctionDirichletBC
-    variable = disp_z
-    boundary = 'z0 z1'
-    # boundary = front
-    function = '-0.001*z*t'
-  [../] 
+    variable = disp_y
+    boundary = 'bottom'
+    # boundary = back
+    function = 0.0
+  [../]
+
+  
+  [./BC_Y2Y]
+    type = FunctionDirichletBC
+    variable = disp_y
+    boundary = 'top'
+    # boundary = back
+    function = '-0.0001*t'
+  [../]
+  # [./BC_Y2Z]
+  #   type = FunctionDirichletBC
+  #   variable = disp_z
+  #   boundary = 'top'
+  #   # boundary = back
+  #   function = 0.0
+  # [../]
 []
 
 [Physics/SolidMechanics/QuasiStatic/all]
@@ -739,10 +1349,7 @@
 [Materials]
   [./elasticity_tensor]
     type = ComputeElasticityTensorCP
-    C_ijkl = '1.684e5 1.214e5 1.214e5 1.684e5 1.214e5 1.684e5 0.754e5 0.754e5 0.754e5'
-    # C_ijkl = '11e3 12e3 13e3 22e3 23e3 33e3 44e3 55e3 66e3'
-    # C_ijkl = '11e3 12e3 12e3 11e3 12e3 11e3 44e3 44e3 44e3'
-    # C_ijkl = '1.684e4 1.214e4 1.214e4 1.684e4 1.214e4 1.684e4 0.754e4 0.754e4 0.754e4'
+    C_ijkl = '2.8251e5 1.6124e5 1.61245 2.8251e5 1.61245 2.8251e5 0.8315e5 0.8315e5 0.8315e5'
     fill_method = symmetric9
     read_prop_user_object = prop_read
   [../]
@@ -756,47 +1363,79 @@
     # abs_tol = 1e-12
   []
   [./CP_DiscoFlux]
-    # type = DiscoFluxCPOrowanDragLinearStressUpdate
-    # vs_edge = 1.62e-5
-    # vs_screw = 2.2e-5
-    # B0 =  0.00000052
-    # B0s = 0.0000004
-    # Coeff_backstress = 0.02
-    type = DiscoFluxCPOrowanStressUpdate
-    number_slip_systems = 12
-    slip_sys_file_name = input_slip_sys.inp
-    lattice_friction = 15 #15
-    Coeff_hardening = 0.25
-    slip_increment_tolerance = 0.02 #2.0e-2 10.0
+    type                  = DiscoFluxCPBCCOrowanStressUpdate
+    number_slip_systems   = 24
+    slip_sys_file_name    = input_slip_sys.inp
+    lattice_friction      = 480.0
+    Coeff_hardening       = 0.52
+    initial_athermal      = 27.0
+    dd_sat                = 2.5950e+9
+    q1                    = 0.376
+    q2                    = 1.666
+    B0                    = 1.25e-10
+    vs_edge               = 2.e6
+    temp                  = 300
+    omega_0               = 1e11
+    g_0                   = 0.2
+
+
+    slip_increment_tolerance = 0.02
     dislo_density_factor_CDT = 1.0
-    # initial_athermal = 30
-    mean_free_path_init_flag = true
+
+    mean_free_path_init_flag = false
     disloc_den_threshold_flag = true
-    DD_EdgePositive_1 = DD_EdgePositive_1
-    DD_EdgePositive_2 = DD_EdgePositive_2
-    DD_EdgePositive_3 = DD_EdgePositive_3
-    DD_EdgePositive_4 = DD_EdgePositive_4
-    DD_EdgePositive_5 = DD_EdgePositive_5
-    DD_EdgePositive_6 = DD_EdgePositive_6
-    DD_EdgePositive_7 = DD_EdgePositive_7
-    DD_EdgePositive_8 = DD_EdgePositive_8
-    DD_EdgePositive_9 = DD_EdgePositive_9
-    DD_EdgePositive_10 = DD_EdgePositive_10
-    DD_EdgePositive_11 = DD_EdgePositive_11
-    DD_EdgePositive_12 = DD_EdgePositive_12
-    DD_EdgeNegative_1 = DD_EdgeNegative_1
-    DD_EdgeNegative_2 = DD_EdgeNegative_2
-    DD_EdgeNegative_3 = DD_EdgeNegative_3
-    DD_EdgeNegative_4 = DD_EdgeNegative_4
-    DD_EdgeNegative_5 = DD_EdgeNegative_5
-    DD_EdgeNegative_6 = DD_EdgeNegative_6
-    DD_EdgeNegative_7 = DD_EdgeNegative_7
-    DD_EdgeNegative_8 = DD_EdgeNegative_8
-    DD_EdgeNegative_9 = DD_EdgeNegative_9
-    DD_EdgeNegative_10 = DD_EdgeNegative_10
-    DD_EdgeNegative_11 = DD_EdgeNegative_11
-    DD_EdgeNegative_12 = DD_EdgeNegative_12
-    print_state_variable_convergence_error_messages = true
+
+    DD_EdgePositive_1   = DD_EdgePositive_1
+    DD_EdgePositive_2   = DD_EdgePositive_2
+    DD_EdgePositive_3   = DD_EdgePositive_3
+    DD_EdgePositive_4   = DD_EdgePositive_4
+    DD_EdgePositive_5   = DD_EdgePositive_5
+    DD_EdgePositive_6   = DD_EdgePositive_6
+    DD_EdgePositive_7   = DD_EdgePositive_7
+    DD_EdgePositive_8   = DD_EdgePositive_8
+    DD_EdgePositive_9   = DD_EdgePositive_9
+    DD_EdgePositive_10  = DD_EdgePositive_10
+    DD_EdgePositive_11  = DD_EdgePositive_11
+    DD_EdgePositive_12  = DD_EdgePositive_12
+    DD_EdgePositive_13  = DD_EdgePositive_13
+    DD_EdgePositive_14  = DD_EdgePositive_14
+    DD_EdgePositive_15  = DD_EdgePositive_15
+    DD_EdgePositive_16  = DD_EdgePositive_16
+    DD_EdgePositive_17  = DD_EdgePositive_17
+    DD_EdgePositive_18  = DD_EdgePositive_18
+    DD_EdgePositive_19  = DD_EdgePositive_19
+    DD_EdgePositive_20  = DD_EdgePositive_20
+    DD_EdgePositive_21  = DD_EdgePositive_21
+    DD_EdgePositive_22  = DD_EdgePositive_22
+    DD_EdgePositive_23  = DD_EdgePositive_23
+    DD_EdgePositive_24  = DD_EdgePositive_24
+
+    DD_EdgeNegative_1   = DD_EdgeNegative_1
+    DD_EdgeNegative_2   = DD_EdgeNegative_2
+    DD_EdgeNegative_3   = DD_EdgeNegative_3
+    DD_EdgeNegative_4   = DD_EdgeNegative_4
+    DD_EdgeNegative_5   = DD_EdgeNegative_5
+    DD_EdgeNegative_6   = DD_EdgeNegative_6
+    DD_EdgeNegative_7   = DD_EdgeNegative_7
+    DD_EdgeNegative_8   = DD_EdgeNegative_8
+    DD_EdgeNegative_9   = DD_EdgeNegative_9
+    DD_EdgeNegative_10  = DD_EdgeNegative_10
+    DD_EdgeNegative_11  = DD_EdgeNegative_11
+    DD_EdgeNegative_12  = DD_EdgeNegative_12
+    DD_EdgeNegative_13  = DD_EdgeNegative_13
+    DD_EdgeNegative_14  = DD_EdgeNegative_14
+    DD_EdgeNegative_15  = DD_EdgeNegative_15
+    DD_EdgeNegative_16  = DD_EdgeNegative_16
+    DD_EdgeNegative_17  = DD_EdgeNegative_17
+    DD_EdgeNegative_18  = DD_EdgeNegative_18
+    DD_EdgeNegative_19  = DD_EdgeNegative_19
+    DD_EdgeNegative_20  = DD_EdgeNegative_20
+    DD_EdgeNegative_21  = DD_EdgeNegative_21
+    DD_EdgeNegative_22  = DD_EdgeNegative_22
+    DD_EdgeNegative_23  = DD_EdgeNegative_23
+    DD_EdgeNegative_24  = DD_EdgeNegative_24
+
+    print_state_variable_convergence_error_messages = false
   [../]
   [updated_euler_angle]
     type = ComputeUpdatedEulerAngle
@@ -820,12 +1459,13 @@
 []
 
 [GlobalParams]
-  dislo_density_initial = 2000
-  C_multi  = 0.004  #8.5e-06 0.4
-  C_trap   = 0.0036  #5.5e-03 0.36
-  C_m_ann  = 0.0016  #0.5 0.16
-  C_im_ann = 0.0016 #0.5 0.16
-  burgers_vector_mag = 2.52e-07
+  number_slip_systems     = 24
+  dislo_density_initial   = 250000
+  C_multi                 = 0.1919  
+  C_trap                  = 0.17271 
+  C_m_ann                 = 0.0 
+  C_im_ann                = 0.0 
+  burgers_vector_mag      = 2.8579e-7
 []
 
 [Preconditioning]
@@ -838,22 +1478,28 @@
 [Executioner]
   type = Transient
   
-  solve_type = 'PJFNK'
+  solve_type = 'NEWTON'
   petsc_options = '-snes_ksp_ew'
   petsc_options_iname = '-pc_type -pc_hypre_type -ksp_gmres_restart'
   petsc_options_value = 'hypre    boomeramg          31'
   line_search = 'none'
-  l_max_its = 50
-  nl_max_its = 50
-  nl_abs_tol = 1e-5 #1e-6
-  l_abs_tol = 1e-5
+  l_max_its = 5000
+  nl_max_its = 5000
+  nl_abs_tol = 1e-6 #1e-6
+  l_abs_tol = 1e-6
 
-  dtmax = 0.2
-  dtmin = 1e-10
-  end_time = 100 #100 200
+  dtmax = 0.5
+  dtmin = 1e-20
+  end_time = 500.0
+
   [./TimeStepper]
+    # type = IterationAdaptiveDT
+    # optimal_iterations = 100
+    # linear_iteration_ratio = 25
+    # dt = 0.01
+
     type = ConstantDT
-    dt = 0.1
+    dt = 0.25
     growth_factor = 1.05
   [../]
 []
@@ -1268,7 +1914,6 @@
    family = MONOMIAL
   [../]
 []
-
 
 [AuxKernels]
   [./shear_stress_01]
@@ -1813,6 +2458,7 @@
   [../]
 []
 
+#==== GND output variables =======
 [AuxVariables]
   [./GND_density_01]
    order = CONSTANT
@@ -1862,8 +2508,57 @@
     order = CONSTANT
     family = MONOMIAL
   [../]
+  [./GND_density_13]
+    order = CONSTANT
+    family = MONOMIAL
+  [../]
+  [./GND_density_14]
+    order = CONSTANT
+    family = MONOMIAL
+  [../]
+  [./GND_density_15]
+    order = CONSTANT
+    family = MONOMIAL
+  [../]
+  [./GND_density_16]
+    order = CONSTANT
+    family = MONOMIAL
+  [../]
+  [./GND_density_17]
+    order = CONSTANT
+    family = MONOMIAL
+  [../]
+  [./GND_density_18]
+    order = CONSTANT
+    family = MONOMIAL
+  [../]
+  [./GND_density_19]
+    order = CONSTANT
+    family = MONOMIAL
+  [../]
+  [./GND_density_20]
+    order = CONSTANT
+    family = MONOMIAL
+  [../]
+  [./GND_density_21]
+    order = CONSTANT
+    family = MONOMIAL
+  [../]
+  [./GND_density_22]
+    order = CONSTANT
+    family = MONOMIAL
+  [../]
+  [./GND_density_23]
+    order = CONSTANT
+    family = MONOMIAL
+  [../]
+  [./GND_density_24]
+    order = CONSTANT
+    family = MONOMIAL
+  [../]
 []
 
+#==== GND output variables =======
 [AuxKernels]
   [./GND_density_01]
     type = MaterialStdVectorAux
@@ -1937,8 +2632,81 @@
     property = kappa  
     index = 11
   [../]
+  [./GND_density_13]
+    type = MaterialStdVectorAux
+    variable = GND_density_13
+    property = kappa  
+    index = 12
+  [../]
+  [./GND_density_14]
+    type = MaterialStdVectorAux
+    variable = GND_density_14
+    property = kappa  
+    index = 13
+  [../]
+  [./GND_density_15]
+    type = MaterialStdVectorAux
+    variable = GND_density_15
+    property = kappa  
+    index = 14
+  [../]
+  [./GND_density_16]
+    type = MaterialStdVectorAux
+    variable = GND_density_16
+    property = kappa  
+    index = 15
+  [../]
+  [./GND_density_17]
+    type = MaterialStdVectorAux
+    variable = GND_density_17
+    property = kappa  
+    index = 16
+  [../]
+  [./GND_density_18]
+    type = MaterialStdVectorAux
+    variable = GND_density_18
+    property = kappa  
+    index = 17
+  [../]
+  [./GND_density_19]
+    type = MaterialStdVectorAux
+    variable = GND_density_19
+    property = kappa  
+    index = 18
+  [../]
+  [./GND_density_20]
+    type = MaterialStdVectorAux
+    variable = GND_density_20
+    property = kappa  
+    index = 19
+  [../]
+  [./GND_density_21]
+    type = MaterialStdVectorAux
+    variable = GND_density_21
+    property = kappa  
+    index = 20
+  [../]
+  [./GND_density_22]
+    type = MaterialStdVectorAux
+    variable = GND_density_22
+    property = kappa  
+    index = 21
+  [../]
+  [./GND_density_23]
+    type = MaterialStdVectorAux
+    variable = GND_density_23
+    property = kappa  
+    index = 22
+  [../]
+  [./GND_density_24]
+    type = MaterialStdVectorAux
+    variable = GND_density_24
+    property = kappa  
+    index = 23
+  [../]
 []
 
+#==== Slip increment output variables ======
 [AuxVariables]
   [./slip_increment_01]
    order = CONSTANT
@@ -1990,6 +2758,7 @@
   [../]
 []
 
+#==== Slip increment output variables ======
 [AuxKernels]
   [./slip_increment_01]
     type = MaterialStdVectorAux
@@ -2065,6 +2834,7 @@
   [../]
 []
 
+#==== DDE_VEL output variables =====
 [AuxVariables]
   [./dde_vel_01]
    order = CONSTANT
@@ -2114,8 +2884,57 @@
     order = CONSTANT
     family = MONOMIAL
   [../]
+  [./dde_vel_13]
+    order = CONSTANT
+    family = MONOMIAL
+  [../]
+  [./dde_vel_14]
+    order = CONSTANT
+    family = MONOMIAL
+  [../]
+  [./dde_vel_15]
+    order = CONSTANT
+    family = MONOMIAL
+  [../]
+  [./dde_vel_16]
+    order = CONSTANT
+    family = MONOMIAL
+  [../]
+  [./dde_vel_17]
+    order = CONSTANT
+    family = MONOMIAL
+  [../]
+  [./dde_vel_18]
+    order = CONSTANT
+    family = MONOMIAL
+  [../]
+  [./dde_vel_19]
+    order = CONSTANT
+    family = MONOMIAL
+  [../]
+  [./dde_vel_20]
+    order = CONSTANT
+    family = MONOMIAL
+  [../]
+  [./dde_vel_21]
+    order = CONSTANT
+    family = MONOMIAL
+  [../]
+  [./dde_vel_22]
+    order = CONSTANT
+    family = MONOMIAL
+  [../]
+  [./dde_vel_23]
+    order = CONSTANT
+    family = MONOMIAL
+  [../]
+  [./dde_vel_24]
+    order = CONSTANT
+    family = MONOMIAL
+  [../]
 []
 
+#==== DDE_VEL output variables =====
 [AuxKernels]
   [./dde_vel_01]
     type = MaterialStdVectorAux
@@ -2188,5 +3007,77 @@
     variable = dde_vel_12
     property = dislo_velocity_edge  
     index = 11
+  [../]
+  [./dde_vel_13]
+    type = MaterialStdVectorAux
+    variable = dde_vel_13
+    property = dislo_velocity_edge  
+    index = 12
+  [../]
+  [./dde_vel_14]
+    type = MaterialStdVectorAux
+    variable = dde_vel_14
+    property = dislo_velocity_edge  
+    index = 13
+  [../]
+  [./dde_vel_15]
+    type = MaterialStdVectorAux
+    variable = dde_vel_15
+    property = dislo_velocity_edge  
+    index = 14
+  [../]
+  [./dde_vel_16]
+    type = MaterialStdVectorAux
+    variable = dde_vel_16
+    property = dislo_velocity_edge  
+    index = 15
+  [../]
+  [./dde_vel_17]
+    type = MaterialStdVectorAux
+    variable = dde_vel_17
+    property = dislo_velocity_edge  
+    index = 16
+  [../]
+  [./dde_vel_18]
+    type = MaterialStdVectorAux
+    variable = dde_vel_18
+    property = dislo_velocity_edge  
+    index = 17
+  [../]
+  [./dde_vel_19]
+    type = MaterialStdVectorAux
+    variable = dde_vel_19
+    property = dislo_velocity_edge  
+    index = 18
+  [../]
+  [./dde_vel_20]
+    type = MaterialStdVectorAux
+    variable = dde_vel_20
+    property = dislo_velocity_edge  
+    index = 19
+  [../]
+  [./dde_vel_21]
+    type = MaterialStdVectorAux
+    variable = dde_vel_21
+    property = dislo_velocity_edge  
+    index = 20
+  [../]
+  [./dde_vel_22]
+    type = MaterialStdVectorAux
+    variable = dde_vel_22
+    property = dislo_velocity_edge  
+    index = 21
+  [../]
+  [./dde_vel_23]
+    type = MaterialStdVectorAux
+    variable = dde_vel_23
+    property = dislo_velocity_edge  
+    index = 22
+  [../]
+  [./dde_vel_24]
+    type = MaterialStdVectorAux
+    variable = dde_vel_24
+    property = dislo_velocity_edge  
+    index = 23
   [../]
 []

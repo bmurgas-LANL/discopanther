@@ -10,12 +10,22 @@
   [../]
 []
 
+# [Problem]
+#   restart_file_base = method_Discoflux_cp/LATEST  # You may also use a specific number here
+# []
+
 [Outputs]
     file_base = method_Discoflux
     csv = true
     exodus = true
     # console = true
     # interval = 25
+    [out]
+      type = Checkpoint
+      time_step_interval = 10
+      num_files = 2
+      # wall_time_interval = 3600 # seconds
+    []
 []
 
 [UserObjects]
@@ -1429,7 +1439,7 @@
 [Executioner]
   type = Transient
   
-  solve_type = 'PJFNK'
+  solve_type = 'NEWTON'
   petsc_options = '-snes_ksp_ew'
   petsc_options_iname = '-pc_type -pc_hypre_type -ksp_gmres_restart'
   petsc_options_value = 'hypre    boomeramg          31'
@@ -1440,8 +1450,8 @@
   l_abs_tol = 1e-6
 
   dtmax = 0.2
-  dtmin = 1e-6
-  end_time = 1.0
+  dtmin = 1e-20
+  end_time = 100.0
 
   [./TimeStepper]
     # type = IterationAdaptiveDT
