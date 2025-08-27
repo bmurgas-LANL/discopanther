@@ -19,7 +19,19 @@ public:
   OutflowDislocationBC(const InputParameters & parameters);
 
 protected:
-  RealVectorValue _velocity;
   virtual Real computeQpResidual();
   virtual Real computeQpJacobian();
+
+  /// Dislocation character
+  const enum class DislocationCharacter { edge, screw } _dislocationcharacter;
+  /// Dislocation sign
+  const enum class DislocationSign { positive, negative } _dislocationsign;
+  /// Slip system index used to get slip direction
+  const unsigned int _slip_system_index;
+  // dislocation velocities
+  const MaterialProperty<std::vector<Real>> & _dislo_velocity_CP_edge;
+  const MaterialProperty<std::vector<Real>> & _dislo_velocity_CP_screw;
+  // slip direction and normal element
+  const MaterialProperty<std::vector<RealVectorValue>> & _slip_direction_edge;
+  const MaterialProperty<std::vector<RealVectorValue>> & _slip_direction_screw;
 };

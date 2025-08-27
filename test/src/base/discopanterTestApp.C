@@ -21,7 +21,7 @@ discopanterTestApp::validParams()
   return params;
 }
 
-discopanterTestApp::discopanterTestApp(InputParameters parameters) : MooseApp(parameters)
+discopanterTestApp::discopanterTestApp(const InputParameters & parameters) : MooseApp(parameters)
 {
   discopanterTestApp::registerAll(
       _factory, _action_factory, _syntax, getParam<bool>("allow_test_objects"));

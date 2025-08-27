@@ -16,7 +16,7 @@ class discopanterTestApp : public MooseApp
 public:
   static InputParameters validParams();
 
-  discopanterTestApp(InputParameters parameters);
+  discopanterTestApp(const InputParameters & parameters);
   virtual ~discopanterTestApp();
 
   static void registerApps();
