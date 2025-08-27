@@ -87,7 +87,7 @@ protected:
   const Real _dislo_density_factor_CDT;
   const Real _C_multi, _C_trap, _C_m_ann, _C_im_ann, _dd_sat;
   Real _Coeff_hardening, _Coeff_backstress, _Coeff_dislength, _q1, _q2, _B0, _B0s, _vs_edge,
-      _vs_screw, _temp;
+      _vs_screw, _temp, _mu, _nu, _g0, _omega0, _boltz;
   Real Lbar;
 
   bool _mean_free_path_init_flag;
@@ -95,13 +95,13 @@ protected:
   bool _disloc_den_threshold_flag;
 
   // Discoflux related material parameters that are constant
-  const Real mu = 76e+03; // MPa
-  const Real nu = 0.3;
-  const Real rho_m = 8960; // kg m-3
+  // const Real mu = 76e+03; // MPa
+  // const Real nu = 0.3;
+  // const Real rho_m = 8960; // kg m-3
   // const Real B0 = 3.0e-11; // MPa s
-  const Real g0 = 0.87;
-  const Real boltz = 1.38e-23; // Boltzman constant in Jule/Kelvin
-  const Real omega0 = 2.0e+2; // 8.0e+11;
+  // const Real g0 = 0.87;
+  // const Real boltz = 1.38e-23; // Boltzman constant in Jule/Kelvin
+  // const Real omega0 = 2.0e+2; // 8.0e+11;
 
   const VariableValue & _DD_EdgePositive_1;
   const VariableValue & _DD_EdgePositive_2;
@@ -295,7 +295,7 @@ protected:
   Real small2 = 1.0e-10, exp_limit = 2.0e+2;
   std::vector<Real> t_wait, t_run, vel_run, dislocation_density, tau_b, xi0, tau_eff, tau_effAbs,
       tau_effSign, slip_r;
-  Real vcrit = std::sqrt(mu * 1.0e+06 / rho_m) * 1000; // mm s-1
+  // Real vcrit = std::sqrt(mu * 1.0e+06 / rho_m) * 1000; // mm s-1
   Real deltaG0, inner, deltaG, exp_arg, dtw_dtau, dtr_dtau;
 
   // For DDCUpdate

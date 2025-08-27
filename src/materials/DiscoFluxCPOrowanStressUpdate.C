@@ -59,13 +59,19 @@ DiscoFluxCPOrowanStressUpdate::validParams()
                         1.0,
                         "parameter to correlate the avg dislocation segment length with the mean "
                         "free path of dislocations");
-  params.addParam<Real>("q1", 0.33, "material parameter");
-  params.addParam<Real>("q2", 1.66, "material parameter");
-  params.addParam<Real>("B0", 3.1e-15, "material parameter");
-  params.addParam<Real>("B0s", 2.4e-15, "material parameter");
-  params.addParam<Real>("vs_edge", 1.62e6, "material parameter");
-  params.addParam<Real>("vs_screw", 2.2e6, "material parameter");
+  params.addParam<Real>("q1", 0.33, "Energy barrier shape parameter q1 or p");
+  params.addParam<Real>("q2", 1.66, "Energy barrier shape parameter q2 or q");
+  params.addParam<Real>("B0", 2.4e-11, "Reference drag coefficient of edge dislocations in MPa s");
+  params.addParam<Real>(
+      "B0s", 3.1e-11, "Reference drag coefficient of screw dislocations in MPa s");
+  params.addParam<Real>("vs_edge", 1.62e6, "Limiting edge dislocation velocity in mm/s");
+  params.addParam<Real>("vs_screw", 2.2e6, "Limiting edge dislocation velocity in mm/s");
   params.addParam<Real>("temp", 300, "Temperature(K)");
+  params.addParam<Real>("mu", 54.64e+03, "Shear modulus in MPa");
+  params.addParam<Real>("nu", 0.34, "Poisson's modulus");
+  params.addParam<Real>("g0", 0.87, "Dislocation energy barrrier coefficient");
+  params.addParam<Real>("omega0", 8e11, "Attempt frequency");
+  params.addParam<Real>("boltz", 1.38e-20, "Boltzmann constant in N mm K-1");
 
   params.addParam<bool>("mean_free_path_init_flag",
                         true,
@@ -159,6 +165,11 @@ DiscoFluxCPOrowanStressUpdate::DiscoFluxCPOrowanStressUpdate(const InputParamete
     _vs_edge(getParam<Real>("vs_edge")),
     _vs_screw(getParam<Real>("vs_screw")),
     _temp(getParam<Real>("temp")),
+    _mu(getParam<Real>("mu")),
+    _nu(getParam<Real>("nu")),
+    _g0(getParam<Real>("g0")),
+    _omega0(getParam<Real>("omega0")),
+    _boltz(getParam<Real>("boltz")),
     _mean_free_path_init_flag(getParam<bool>("mean_free_path_init_flag")),
     _disloc_den_threshold_flag(getParam<bool>("disloc_den_threshold_flag")),
     //
@@ -898,7 +909,7 @@ DiscoFluxCPOrowanStressUpdate::updateStateVariables()
                    _dislocation_immobile_screw_positive[_qp][j] +
                    _dislocation_immobile_screw_negative[_qp][j]);
     }
-    _slip_resistance[_qp][i] = _lattice_friction + _Coeff_hardening * mu * _burgers_vector_mag *
+    _slip_resistance[_qp][i] = _lattice_friction + _Coeff_hardening * _mu * _burgers_vector_mag *
                                                        std::sqrt(eff_dislocation_density);
   }
 
@@ -958,9 +969,9 @@ DiscoFluxCPOrowanStressUpdate::DDCUpdate()
     {
       // Compute local internal stress
       _tau_b_local[i] = _Coeff_backstress *
-                        ((mu * std::pow(_L_bar_e, 2)) / (2 * 3.141 * (1 - nu))) *
+                        ((_mu * std::pow(_L_bar_e, 2)) / (2 * 3.141 * (1 - _nu))) *
                         _burgers_vector_mag * (_DD_grad[i] * slip_direction_rotated);
-      _tau_b_local_screw[i] = _Coeff_backstress * ((mu * std::pow(_L_bar_s, 2)) / (2 * 3.141)) *
+      _tau_b_local_screw[i] = _Coeff_backstress * ((_mu * std::pow(_L_bar_s, 2)) / (2 * 3.141)) *
                               _burgers_vector_mag *
                               (_DD_grad_screw[i] * slip_direction_rotated_screw);
       if (_L_bar_e <= 0.0 || _L_bar_s <= 0.0)
@@ -979,11 +990,11 @@ DiscoFluxCPOrowanStressUpdate::DDCUpdate()
                                        _dislocation_immobile_screw_negative[_qp][i]),
                                       -0.5);
       // Compute local internal stress
-      _tau_b_local[i] = _Coeff_backstress * 0.2 *
-                        ((mu * std::pow(_L_bar[i], 1)) / (2 * 3.141 * (1 - nu))) *
+      _tau_b_local[i] = _Coeff_backstress *
+                        ((_mu * std::pow(_L_bar[i], 1)) / (2 * 3.141 * (1 - _nu))) *
                         _burgers_vector_mag * (_DD_grad[i] * slip_direction_rotated);
-      _tau_b_local_screw[i] = _Coeff_backstress * 0.2 *
-                              ((mu * std::pow(_L_bar[i], 1)) / (2 * 3.141)) * _burgers_vector_mag *
+      _tau_b_local_screw[i] = _Coeff_backstress * ((_mu * std::pow(_L_bar[i], 1)) / (2 * 3.141)) *
+                              _burgers_vector_mag *
                               (_DD_grad_screw[i] * slip_direction_rotated_screw);
     }
     // Compute total internal stress
@@ -1024,66 +1035,54 @@ DiscoFluxCPOrowanStressUpdate::getDisloVelocity()
   for (unsigned int i = 0; i < _number_slip_systems; ++i)
   {
     slip_r[i] = _slip_resistance[_qp][i];
-
     tau_eff[i] = (_tau[_qp][i] - _tau_b_local[i]); // this value is changed
     tau_effAbs[i] = std::abs(_tau[_qp][i]) - _tau_b_local[i];
     tau_effSign[i] = std::copysign(1.0, _tau[_qp][i]);
   }
 
-  deltaG0 = g0 * mu * std::pow(_burgers_vector_mag, 3) * 1.0e-3;
+  deltaG0 = _g0 * _mu * std::pow(_burgers_vector_mag, 3);
 
   for (unsigned int i = 0; i < _number_slip_systems; ++i)
   {
-    if (_disloc_den_threshold_flag &&
-        (_DD_EdgeNegative[i] > _max_dd || _DD_EdgePositive[i] > _max_dd))
+    // Compute velocity only if tau>tau_b
+    if (tau_effAbs[i] > 0.0)
     {
-      _dislo_velocity_edge[_qp][i] = 0.0;
-      _dv_dtau[i] = 0.0;
-    }
-    else if (_disloc_den_threshold_flag &&
-             (_DD_ScrewNegative[i] > _max_dd || _DD_ScrewPositive[i] > _max_dd))
-    {
-      _dislo_velocity_screw[_qp][i] = 0.0;
-      _dv_dtau_screw[i] = 0.0;
-    }
-    else
-    {
-      // compute wait time
-      dtw_dtau = 0.0;
-      if (tau_effAbs[i] > small2)
+      // Dislocation density threshold
+      if (_disloc_den_threshold_flag &&
+          (_DD_EdgeNegative[i] > _max_dd || _DD_EdgePositive[i] > _max_dd))
       {
-        inner = 1.0 - std::pow((tau_effAbs[i] / slip_r[i]), _q1);
-        tau_eff[i] = tau_effAbs[i];
+        _dislo_velocity_edge[_qp][i] = 0.0;
+        _dv_dtau[i] = 0.0;
       }
       else
       {
+        // compute wait time
+        dtw_dtau = 0.0;
         inner = 1.0;
         tau_eff[i] = 0.0;
-      }
 
-      if (inner >= 0.00)
-      {
-        deltaG = deltaG0 / (boltz * _temp);
-        exp_arg = deltaG * (std::pow(inner, _q2));
-        t_wait[i] = exp(exp_arg) / omega0;
         if (tau_effAbs[i] > small2)
         {
-          // not computed if taueff < 0.0 because it's a division by 0
-          // as taueff is redefined to zero in precedent if
-          dtw_dtau = t_wait[i] * _q1 * _q2 * deltaG0 / (boltz * _temp * slip_r[i]) *
+          inner = 1.0 - std::pow((tau_effAbs[i] / slip_r[i]), _q1);
+          tau_eff[i] = tau_effAbs[i];
+        }
+
+        if (inner > 0.0)
+        {
+          deltaG = deltaG0 / (_boltz * _temp);
+          exp_arg = deltaG * (std::pow(inner, _q2));
+          t_wait[i] = (exp(exp_arg)) / _omega0;
+          dtw_dtau = t_wait[i] * _q1 * _q2 * deltaG0 / (_boltz * _temp * slip_r[i]) *
                      std::pow(inner, _q2 - 1.0) * std::pow((tau_eff[i] / slip_r[i]), _q1 - 1.0) *
                      tau_effSign[i];
         }
-      }
-      else
-      {
-        t_wait[i] = 1.0 / omega0;
-        ;
-      }
+        else
+        {
+          t_wait[i] = 1.0 / _omega0;
+        }
 
-      // compute running velocity
-      if (tau_effAbs[i] > small2)
-      {
+        // compute running velocity
+
         // compute edge velocity
         xi0[i] = 0.0;
         vel_run[i] = 0.0;
@@ -1106,23 +1105,53 @@ DiscoFluxCPOrowanStressUpdate::getDisloVelocity()
 
         _dv_dtau[i] =
             (_dislo_velocity_edge[_qp][i] / (t_wait[i] + t_run[i])) * (dtr_dtau + dtw_dtau);
-      }
-      else
-      {
-        if (_mean_free_path_init_flag)
+
+        // This is just for test and debug
+        if (_dislo_velocity_edge[_qp][i] > 1000)
         {
-          _dislo_velocity_edge[_qp][i] = tau_effSign[i] * _L_bar_e / t_wait[i];
-          _dv_dtau[i] = (_dislo_velocity_edge[_qp][i] / (t_wait[i] + t_run[i])) * dtw_dtau;
-        }
-        else
-        {
-          _dislo_velocity_edge[_qp][i] = tau_effSign[i] * _L_bar[i] / t_wait[i];
-          _dv_dtau[i] = (_dislo_velocity_edge[_qp][i] / (t_wait[i] + t_run[i])) * dtw_dtau;
+          mooseWarning("Edge dislocation velocity ", _dislo_velocity_edge[_qp][i]);
+          mooseWarning("Edge run time", t_run[i]);
+          mooseWarning("Edge wait time", t_wait[i]);
+          mooseWarning("Shear stress", _tau[_qp][i]);
+          mooseWarning("Backstress", _tau_b_local[i]);
+          mooseWarning("Shear resistance", slip_r[i]);
         }
       }
 
-      if (tau_effAbs[i] > small2)
+      if (_disloc_den_threshold_flag &&
+          (_DD_ScrewNegative[i] > _max_dd || _DD_ScrewPositive[i] > _max_dd))
       {
+        _dislo_velocity_screw[_qp][i] = 0.0;
+        _dv_dtau_screw[i] = 0.0;
+      }
+      else
+      {
+        // compute wait time
+        dtw_dtau = 0.0;
+        inner = 1.0;
+        tau_eff[i] = 0.0;
+
+        if (tau_effAbs[i] > small2)
+        {
+          inner = 1.0 - std::pow((tau_effAbs[i] / slip_r[i]), _q1);
+          tau_eff[i] = tau_effAbs[i];
+        }
+
+        if (inner > 0.0)
+        {
+          deltaG = deltaG0 / (_boltz * _temp);
+          exp_arg = deltaG * (std::pow(inner, _q2));
+          t_wait[i] = (exp(exp_arg)) / _omega0;
+          dtw_dtau = t_wait[i] * _q1 * _q2 * deltaG0 / (_boltz * _temp * slip_r[i]) *
+                     std::pow(inner, _q2 - 1.0) * std::pow((tau_eff[i] / slip_r[i]), _q1 - 1.0) *
+                     tau_effSign[i];
+        }
+        else
+        {
+          t_wait[i] = 1.0 / _omega0;
+        }
+
+        // compute running velocity
         // compute Screw velocity
         // compute running velocity
         xi0[i] = 0.0;
@@ -1147,25 +1176,17 @@ DiscoFluxCPOrowanStressUpdate::getDisloVelocity()
 
         _dv_dtau_screw[i] =
             (_dislo_velocity_screw[_qp][i] / (t_wait[i] + t_run[i])) * (dtr_dtau + dtw_dtau);
-      }
-      else
-      {
-        if (_mean_free_path_init_flag)
+
+        // This is just for test and debug
+        if (_dislo_velocity_screw[_qp][i] > 1000)
         {
-          _dislo_velocity_screw[_qp][i] = tau_effSign[i] * _L_bar_s / t_wait[i];
-          _dv_dtau_screw[i] = (_dislo_velocity_screw[_qp][i] / (t_wait[i] + t_run[i])) * dtw_dtau;
+          mooseWarning("Screw dislocation velocity ", _dislo_velocity_screw[_qp][i]);
+          mooseWarning("Screw run time", t_run[i]);
+          mooseWarning("Screw wait time", t_wait[i]);
+          mooseWarning("Shear stress", _tau[_qp][i]);
+          mooseWarning("Backstress", _tau_b_local[i]);
+          mooseWarning("Shear resistance", slip_r[i]);
         }
-        else
-        {
-          _dislo_velocity_screw[_qp][i] = tau_effSign[i] * _L_bar[i] / t_wait[i];
-          _dv_dtau_screw[i] = (_dislo_velocity_screw[_qp][i] / (t_wait[i] + t_run[i])) * dtw_dtau;
-        }
-      }
-      // This is just for test and debug
-      if (_dislo_velocity_edge[_qp][i] > 100 || _dislo_velocity_screw[_qp][i] > 100)
-      {
-        mooseWarning("Edge dislocation velocity ", _dislo_velocity_edge[_qp][i]);
-        mooseWarning("Screw dislocation velocity ", _dislo_velocity_screw[_qp][i]);
       }
     }
   }
