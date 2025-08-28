@@ -85,7 +85,8 @@ protected:
   const Real _burgers_vector_mag;
   const Real _dislo_density_initial;
   const Real _dislo_density_factor_CDT;
-  const Real _C_multi, _C_trap, _C_m_ann, _C_im_ann, _dd_sat;
+  const Real _C_multi, _C_trap, _C_m_ann, _C_im_ann;
+  const Real _dd_sat;
   Real _Coeff_hardening, _Coeff_backstress, _Coeff_dislength, _q1, _q2, _B0, _B0s, _vs_edge,
       _vs_screw, _temp, _mu, _nu, _g0, _omega0, _boltz;
   Real Lbar;

@@ -1368,8 +1368,12 @@
     slip_sys_file_name    = input_slip_sys.inp
     lattice_friction      = 480.0
     Coeff_hardening       = 0.52
+    Coeff_backstress      = 0.0
     initial_athermal      = 27.0
     dd_sat                = 2.5950e+9
+    sat_A                 = 1.e-16
+    n_rec                 = 4.0
+    gamdot_ref            = 1.e9
     q1                    = 0.376
     q2                    = 1.666
     B0                    = 1.25e-10
@@ -1377,6 +1381,8 @@
     temp                  = 300
     omega_0               = 1e11
     g_0                   = 0.2
+    mu                    = 78.49e+3
+    nu                    = 0.334
 
 
     slip_increment_tolerance = 0.02

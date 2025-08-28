@@ -31,6 +31,7 @@ protected:
 
   const Real _dislo_density_factor_CDT;
   const Real _C_multi, _C_trap, _C_m_ann, _C_im_ann, _dd_sat, _burgers_vector_mag;
+  const Real _zeta_sat;
   const unsigned int _number_slip_systems;
 
   const MaterialProperty<std::vector<Real>> & _dislo_velocity_CP_edge;
@@ -43,6 +44,10 @@ protected:
   // Dislocation sign
   const enum class DislocationSign { positive, negative } _dislocationsign;
 
+  const MaterialProperty<std::vector<Real>> & _dislocation_immobile_sat_edgepos;
+  const MaterialProperty<std::vector<Real>> & _dislocation_immobile_sat_edgeneg;
+  const MaterialProperty<std::vector<Real>> & _dislocation_immobile_sat_screwpos;
+  const MaterialProperty<std::vector<Real>> & _dislocation_immobile_sat_screwneg;
   const MaterialProperty<std::vector<Real>> & _dislocation_mobile_edge;
   const MaterialProperty<std::vector<Real>> & _dislocation_mobile_screw;
   const MaterialProperty<std::vector<Real>> & _dislocation_immobile;

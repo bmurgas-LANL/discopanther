@@ -40,141 +40,149 @@ DiscoFluxCPBCCOrowanStressUpdate::validParams()
 
   // Parameter description in the DiscoFlux paper(International Journal of Plasticity 76 (2016)
   // 111e129)
-  params.addParam<Real>("lattice_friction", 10, "initial lattice friction strength of the material in MPa");
-  params.addParam<Real>("initial_athermal", 30, "initial athermal stress resistance in MPa");
-  params.addParam<Real>("burgers_vector_mag", 1.0e-07, "Magnitude of the Burgers vector in mm");
-  params.addParam<Real>("dislo_density_initial", 1.0e+05, "Initial dislocation density(mm^{-2})");
-  params.addParam<Real>("dislo_density_factor_CDT", 1.0, "factor to convert the dislocation density from CDT to CP");
+  params.addParam<Real>("lattice_friction",           10,         "initial lattice friction strength of the material in MPa");
+  params.addParam<Real>("initial_athermal",           30,         "initial athermal stress resistance in MPa");
+  params.addParam<Real>("burgers_vector_mag",         1.0e-07,    "Magnitude of the Burgers vector in mm");
+  params.addParam<Real>("dislo_density_initial",      1.0e+05,    "Initial dislocation density(mm^{-2})");
+  params.addParam<Real>("dislo_density_factor_CDT",   1.0,        "factor to convert the dislocation density from CDT to CP");
 
-  params.addParam<Real>("C_multi", 0.4, "parameter for dislocation multiplication");
-  params.addParam<Real>("C_trap", 0.36, "parameter for dislocation trapping");
-  params.addParam<Real>("C_m_ann", 0.16, "parameter for dislocation mobile annihilation");
-  params.addParam<Real>("C_im_ann", 0.16, "parameter for dislocation immobile annihilation");
-  params.addParam<Real>("dd_sat", 10e10, "dislocation density saturation value");
-  params.addParam<Real>("Coeff_hardening", 0.5, "parameter to control the material hardening");
-  params.addParam<Real>("Coeff_backstress", 1.0, "parameter to control the backstress");
-  params.addParam<Real>("Coeff_dislength",1.0,"parameter to correlate the avg dislocation segment length with the mean free path of dislocations");
-  params.addParam<Real>("q1", 0.33, "material parameter");
-  params.addParam<Real>("q2", 1.66, "material parameter");
-  params.addParam<Real>("B0", 3.1e-15, "material parameter - edge dislocation drag coefficient");
-  params.addParam<Real>("B0s", 2.4e-15, "material parameter - screw dislocation drag coefficient");
-  params.addParam<Real>("vs_edge", 1.62e6, "material parameter");
-  params.addParam<Real>("vs_screw", 2.2e6, "material parameter");
-  params.addParam<Real>("temp", 300, "Temperature(K)");
+  params.addParam<Real>("C_multi",                    0.4,        "parameter for dislocation multiplication");
+  params.addParam<Real>("C_trap",                     0.36,       "parameter for dislocation trapping");
+  params.addParam<Real>("C_m_ann",                    0.16,       "parameter for dislocation mobile annihilation");
+  params.addParam<Real>("C_im_ann",                   0.16,       "parameter for dislocation immobile annihilation");
 
-  params.addParam<bool>("mean_free_path_init_flag", true, "Flag to determine whether to use initial or actual dislocation density");
-  params.addParam<Real>("L_bar_e", 0.001, "Mean free path edge dislocations");
-  params.addParam<Real>("L_bar_s", 0.001, "Mean free path screw dislocations");
+  params.addParam<Real>("gamdot_ref",                 1.0e-3,     "reference strain rate");
+  params.addParam<Real>("min_dd",                     1.0,        "Minimum dislocation density");
+  params.addParam<Real>("dd_sat",                     10e10,      "reference dislocation density saturation value");
+  params.addParam<Real>("sat_A",                      0.1,        "constant A in Nguyen 2021, eq 2.19");
+  params.addParam<Real>("nrec",                       4.0,        "recovery coefficient, Nguyen 2021 eq 2.16");
 
-  params.addParam<bool>("disloc_den_threshold_flag", false, "Flag to determine whether to use min and max dislocation density threshold");
-  params.addParam<Real>("min_dd", 1.0, "Minimum dislocation density");
-  params.addParam<Real>("max_dd", 7e06, "Maximum dislocation density");
-  params.addParam<Real>("omega_0", 1e11, "Attempt frequency");
-  params.addParam<Real>("g_0", 0.2, "coefficient scaling the barrier energy");
+  params.addParam<Real>("Coeff_hardening",            0.5,        "parameter to control the material hardening");
+  params.addParam<Real>("Coeff_backstress",           1.0,        "parameter to control the backstress");
+  params.addParam<Real>("Coeff_dislength",            1.0,        "parameter to correlate the avg dislocation segment length with the mean free path of dislocations");
+  params.addParam<Real>("q1",                         0.33,       "Energy barrier shape parameter q1 or p");
+  params.addParam<Real>("q2",                         1.66,       "Energy barrier shape parameter q2 or q");
+  params.addParam<Real>("B0",                         2.4e-11,    "Reference drag coefficient of edge dislocations in MPa s");
+  params.addParam<Real>("B0s",                        3.1e-11,    "Reference drag coefficient of screw dislocations in MPa s");
+  params.addParam<Real>("vs_edge",                    1.62e6,     "Limiting edge dislocation velocity in mm/s");
+  params.addParam<Real>("vs_screw",                   2.2e6,      "Limiting edge dislocation velocity in mm/s");
+  params.addParam<Real>("temp",                       300,        "Temperature(K)");
+  params.addParam<Real>("mu",                         54.64e+03,  "Shear modulus in MPa");
+  params.addParam<Real>("nu",                         0.34,       "Poisson's modulus");
+  params.addParam<Real>("g0",                         0.87,       "Dislocation energy barrrier coefficient");
+  params.addParam<Real>("omega0",                     8e11,       "Attempt frequency");
+  params.addParam<Real>("boltz",                      1.38e-20,   "Boltzmann constant in N mm K-1");
 
-  params.addCoupledVar("DD_EdgePositive_1", 1.0, "Coupled dislocation density, EdgePositive");
-  params.addCoupledVar("DD_EdgePositive_2", 1.0, "Coupled dislocation density, EdgePositive");
-  params.addCoupledVar("DD_EdgePositive_3", 1.0, "Coupled dislocation density, EdgePositive");
-  params.addCoupledVar("DD_EdgePositive_4", 1.0, "Coupled dislocation density, EdgePositive");
-  params.addCoupledVar("DD_EdgePositive_5", 1.0, "Coupled dislocation density, EdgePositive");
-  params.addCoupledVar("DD_EdgePositive_6", 1.0, "Coupled dislocation density, EdgePositive");
-  params.addCoupledVar("DD_EdgePositive_7", 1.0, "Coupled dislocation density, EdgePositive");
-  params.addCoupledVar("DD_EdgePositive_8", 1.0, "Coupled dislocation density, EdgePositive");
-  params.addCoupledVar("DD_EdgePositive_9", 1.0, "Coupled dislocation density, EdgePositive");
-  params.addCoupledVar("DD_EdgePositive_10", 1.0, "Coupled dislocation density, EdgePositive");
-  params.addCoupledVar("DD_EdgePositive_11", 1.0, "Coupled dislocation density, EdgePositive");
-  params.addCoupledVar("DD_EdgePositive_12", 1.0, "Coupled dislocation density, EdgePositive");
+  params.addParam<bool>("mean_free_path_init_flag",   true,       "Flag to determine whether to use initial or actual dislocation density");
+  params.addParam<Real>("L_bar_e",                    0.001,      "Mean free path edge dislocations");
+  params.addParam<Real>("L_bar_s",                    0.001,      "Mean free path screw dislocations");
 
-  params.addCoupledVar("DD_EdgePositive_13", 1.0, "Coupled dislocation density, EdgePositive");
-  params.addCoupledVar("DD_EdgePositive_14", 1.0, "Coupled dislocation density, EdgePositive");
-  params.addCoupledVar("DD_EdgePositive_15", 1.0, "Coupled dislocation density, EdgePositive");
-  params.addCoupledVar("DD_EdgePositive_16", 1.0, "Coupled dislocation density, EdgePositive");
-  params.addCoupledVar("DD_EdgePositive_17", 1.0, "Coupled dislocation density, EdgePositive");
-  params.addCoupledVar("DD_EdgePositive_18", 1.0, "Coupled dislocation density, EdgePositive");
-  params.addCoupledVar("DD_EdgePositive_19", 1.0, "Coupled dislocation density, EdgePositive");
-  params.addCoupledVar("DD_EdgePositive_20", 1.0, "Coupled dislocation density, EdgePositive");
-  params.addCoupledVar("DD_EdgePositive_21", 1.0, "Coupled dislocation density, EdgePositive");
-  params.addCoupledVar("DD_EdgePositive_22", 1.0, "Coupled dislocation density, EdgePositive");
-  params.addCoupledVar("DD_EdgePositive_23", 1.0, "Coupled dislocation density, EdgePositive");
-  params.addCoupledVar("DD_EdgePositive_24", 1.0, "Coupled dislocation density, EdgePositive");
+  params.addParam<bool>("disloc_den_threshold_flag",  false,      "Flag to determine whether to use min and max dislocation density threshold");
+  params.addParam<Real>("max_dd",                     7e06,       "Maximum dislocation density");
 
-  params.addCoupledVar("DD_EdgeNegative_1", 1.0, "Coupled dislocation density, EdgeNegative");
-  params.addCoupledVar("DD_EdgeNegative_2", 1.0, "Coupled dislocation density, EdgeNegative");
-  params.addCoupledVar("DD_EdgeNegative_3", 1.0, "Coupled dislocation density, EdgeNegative");
-  params.addCoupledVar("DD_EdgeNegative_4", 1.0, "Coupled dislocation density, EdgeNegative");
-  params.addCoupledVar("DD_EdgeNegative_5", 1.0, "Coupled dislocation density, EdgeNegative");
-  params.addCoupledVar("DD_EdgeNegative_6", 1.0, "Coupled dislocation density, EdgeNegative");
-  params.addCoupledVar("DD_EdgeNegative_7", 1.0, "Coupled dislocation density, EdgeNegative");
-  params.addCoupledVar("DD_EdgeNegative_8", 1.0, "Coupled dislocation density, EdgeNegative");
-  params.addCoupledVar("DD_EdgeNegative_9", 1.0, "Coupled dislocation density, EdgeNegative");
-  params.addCoupledVar("DD_EdgeNegative_10", 1.0, "Coupled dislocation density, EdgeNegative");
-  params.addCoupledVar("DD_EdgeNegative_11", 1.0, "Coupled dislocation density, EdgeNegative");
-  params.addCoupledVar("DD_EdgeNegative_12", 1.0, "Coupled dislocation density, EdgeNegative");
+  params.addCoupledVar("DD_EdgePositive_1",           1.0,        "Coupled dislocation density, EdgePositive");
+  params.addCoupledVar("DD_EdgePositive_2",           1.0,        "Coupled dislocation density, EdgePositive");
+  params.addCoupledVar("DD_EdgePositive_3",           1.0,        "Coupled dislocation density, EdgePositive");
+  params.addCoupledVar("DD_EdgePositive_4",           1.0,        "Coupled dislocation density, EdgePositive");
+  params.addCoupledVar("DD_EdgePositive_5",           1.0,        "Coupled dislocation density, EdgePositive");
+  params.addCoupledVar("DD_EdgePositive_6",           1.0,        "Coupled dislocation density, EdgePositive");
+  params.addCoupledVar("DD_EdgePositive_7",           1.0,        "Coupled dislocation density, EdgePositive");
+  params.addCoupledVar("DD_EdgePositive_8",           1.0,        "Coupled dislocation density, EdgePositive");
+  params.addCoupledVar("DD_EdgePositive_9",           1.0,        "Coupled dislocation density, EdgePositive");
+  params.addCoupledVar("DD_EdgePositive_10",          1.0,        "Coupled dislocation density, EdgePositive");
+  params.addCoupledVar("DD_EdgePositive_11",          1.0,        "Coupled dislocation density, EdgePositive");
+  params.addCoupledVar("DD_EdgePositive_12",          1.0,        "Coupled dislocation density, EdgePositive");
 
-  params.addCoupledVar("DD_EdgeNegative_13", 1.0, "Coupled dislocation density, EdgeNegative");
-  params.addCoupledVar("DD_EdgeNegative_14", 1.0, "Coupled dislocation density, EdgeNegative");
-  params.addCoupledVar("DD_EdgeNegative_15", 1.0, "Coupled dislocation density, EdgeNegative");
-  params.addCoupledVar("DD_EdgeNegative_16", 1.0, "Coupled dislocation density, EdgeNegative");
-  params.addCoupledVar("DD_EdgeNegative_17", 1.0, "Coupled dislocation density, EdgeNegative");
-  params.addCoupledVar("DD_EdgeNegative_18", 1.0, "Coupled dislocation density, EdgeNegative");
-  params.addCoupledVar("DD_EdgeNegative_19", 1.0, "Coupled dislocation density, EdgeNegative");
-  params.addCoupledVar("DD_EdgeNegative_20", 1.0, "Coupled dislocation density, EdgeNegative");
-  params.addCoupledVar("DD_EdgeNegative_21", 1.0, "Coupled dislocation density, EdgeNegative");
-  params.addCoupledVar("DD_EdgeNegative_22", 1.0, "Coupled dislocation density, EdgeNegative");
-  params.addCoupledVar("DD_EdgeNegative_23", 1.0, "Coupled dislocation density, EdgeNegative");
-  params.addCoupledVar("DD_EdgeNegative_24", 1.0, "Coupled dislocation density, EdgeNegative");
+  params.addCoupledVar("DD_EdgePositive_13",          1.0,        "Coupled dislocation density, EdgePositive");
+  params.addCoupledVar("DD_EdgePositive_14",          1.0,        "Coupled dislocation density, EdgePositive");
+  params.addCoupledVar("DD_EdgePositive_15",          1.0,        "Coupled dislocation density, EdgePositive");
+  params.addCoupledVar("DD_EdgePositive_16",          1.0,        "Coupled dislocation density, EdgePositive");
+  params.addCoupledVar("DD_EdgePositive_17",          1.0,        "Coupled dislocation density, EdgePositive");
+  params.addCoupledVar("DD_EdgePositive_18",          1.0,        "Coupled dislocation density, EdgePositive");
+  params.addCoupledVar("DD_EdgePositive_19",          1.0,        "Coupled dislocation density, EdgePositive");
+  params.addCoupledVar("DD_EdgePositive_20",          1.0,        "Coupled dislocation density, EdgePositive");
+  params.addCoupledVar("DD_EdgePositive_21",          1.0,        "Coupled dislocation density, EdgePositive");
+  params.addCoupledVar("DD_EdgePositive_22",          1.0,        "Coupled dislocation density, EdgePositive");
+  params.addCoupledVar("DD_EdgePositive_23",          1.0,        "Coupled dislocation density, EdgePositive");
+  params.addCoupledVar("DD_EdgePositive_24",          1.0,        "Coupled dislocation density, EdgePositive");
 
-  params.addCoupledVar("DD_ScrewPositive_1", 1.0, "Coupled dislocation density, ScrewPositive");
-  params.addCoupledVar("DD_ScrewPositive_2", 1.0, "Coupled dislocation density, ScrewPositive");
-  params.addCoupledVar("DD_ScrewPositive_3", 1.0, "Coupled dislocation density, ScrewPositive");
-  params.addCoupledVar("DD_ScrewPositive_4", 1.0, "Coupled dislocation density, ScrewPositive");
-  params.addCoupledVar("DD_ScrewPositive_5", 1.0, "Coupled dislocation density, ScrewPositive");
-  params.addCoupledVar("DD_ScrewPositive_6", 1.0, "Coupled dislocation density, ScrewPositive");
-  params.addCoupledVar("DD_ScrewPositive_7", 1.0, "Coupled dislocation density, ScrewPositive");
-  params.addCoupledVar("DD_ScrewPositive_8", 1.0, "Coupled dislocation density, ScrewPositive");
-  params.addCoupledVar("DD_ScrewPositive_9", 1.0, "Coupled dislocation density, ScrewPositive");
-  params.addCoupledVar("DD_ScrewPositive_10", 1.0, "Coupled dislocation density, ScrewPositive");
-  params.addCoupledVar("DD_ScrewPositive_11", 1.0, "Coupled dislocation density, ScrewPositive");
-  params.addCoupledVar("DD_ScrewPositive_12", 1.0, "Coupled dislocation density, ScrewPositive");
+  params.addCoupledVar("DD_EdgeNegative_1",           1.0,        "Coupled dislocation density, EdgeNegative");
+  params.addCoupledVar("DD_EdgeNegative_2",           1.0,        "Coupled dislocation density, EdgeNegative");
+  params.addCoupledVar("DD_EdgeNegative_3",           1.0,        "Coupled dislocation density, EdgeNegative");
+  params.addCoupledVar("DD_EdgeNegative_4",           1.0,        "Coupled dislocation density, EdgeNegative");
+  params.addCoupledVar("DD_EdgeNegative_5",           1.0,        "Coupled dislocation density, EdgeNegative");
+  params.addCoupledVar("DD_EdgeNegative_6",           1.0,        "Coupled dislocation density, EdgeNegative");
+  params.addCoupledVar("DD_EdgeNegative_7",           1.0,        "Coupled dislocation density, EdgeNegative");
+  params.addCoupledVar("DD_EdgeNegative_8",           1.0,        "Coupled dislocation density, EdgeNegative");
+  params.addCoupledVar("DD_EdgeNegative_9",           1.0,        "Coupled dislocation density, EdgeNegative");
+  params.addCoupledVar("DD_EdgeNegative_10",          1.0,        "Coupled dislocation density, EdgeNegative");
+  params.addCoupledVar("DD_EdgeNegative_11",          1.0,        "Coupled dislocation density, EdgeNegative");
+  params.addCoupledVar("DD_EdgeNegative_12",          1.0,        "Coupled dislocation density, EdgeNegative");
 
-  params.addCoupledVar("DD_ScrewPositive_13", 1.0, "Coupled dislocation density, ScrewPositive");
-  params.addCoupledVar("DD_ScrewPositive_14", 1.0, "Coupled dislocation density, ScrewPositive");
-  params.addCoupledVar("DD_ScrewPositive_15", 1.0, "Coupled dislocation density, ScrewPositive");
-  params.addCoupledVar("DD_ScrewPositive_16", 1.0, "Coupled dislocation density, ScrewPositive");
-  params.addCoupledVar("DD_ScrewPositive_17", 1.0, "Coupled dislocation density, ScrewPositive");
-  params.addCoupledVar("DD_ScrewPositive_18", 1.0, "Coupled dislocation density, ScrewPositive");
-  params.addCoupledVar("DD_ScrewPositive_19", 1.0, "Coupled dislocation density, ScrewPositive");
-  params.addCoupledVar("DD_ScrewPositive_20", 1.0, "Coupled dislocation density, ScrewPositive");
-  params.addCoupledVar("DD_ScrewPositive_21", 1.0, "Coupled dislocation density, ScrewPositive");
-  params.addCoupledVar("DD_ScrewPositive_22", 1.0, "Coupled dislocation density, ScrewPositive");
-  params.addCoupledVar("DD_ScrewPositive_23", 1.0, "Coupled dislocation density, ScrewPositive");
-  params.addCoupledVar("DD_ScrewPositive_24", 1.0, "Coupled dislocation density, ScrewPositive");
+  params.addCoupledVar("DD_EdgeNegative_13",          1.0,        "Coupled dislocation density, EdgeNegative");
+  params.addCoupledVar("DD_EdgeNegative_14",          1.0,        "Coupled dislocation density, EdgeNegative");
+  params.addCoupledVar("DD_EdgeNegative_15",          1.0,        "Coupled dislocation density, EdgeNegative");
+  params.addCoupledVar("DD_EdgeNegative_16",          1.0,        "Coupled dislocation density, EdgeNegative");
+  params.addCoupledVar("DD_EdgeNegative_17",          1.0,        "Coupled dislocation density, EdgeNegative");
+  params.addCoupledVar("DD_EdgeNegative_18",          1.0,        "Coupled dislocation density, EdgeNegative");
+  params.addCoupledVar("DD_EdgeNegative_19",          1.0,        "Coupled dislocation density, EdgeNegative");
+  params.addCoupledVar("DD_EdgeNegative_20",          1.0,        "Coupled dislocation density, EdgeNegative");
+  params.addCoupledVar("DD_EdgeNegative_21",          1.0,        "Coupled dislocation density, EdgeNegative");
+  params.addCoupledVar("DD_EdgeNegative_22",          1.0,        "Coupled dislocation density, EdgeNegative");
+  params.addCoupledVar("DD_EdgeNegative_23",          1.0,        "Coupled dislocation density, EdgeNegative");
+  params.addCoupledVar("DD_EdgeNegative_24",          1.0,        "Coupled dislocation density, EdgeNegative");
 
-  params.addCoupledVar("DD_ScrewNegative_1", 1.0, "Coupled dislocation density, ScrewNegative");
-  params.addCoupledVar("DD_ScrewNegative_2", 1.0, "Coupled dislocation density, ScrewNegative");
-  params.addCoupledVar("DD_ScrewNegative_3", 1.0, "Coupled dislocation density, ScrewNegative");
-  params.addCoupledVar("DD_ScrewNegative_4", 1.0, "Coupled dislocation density, ScrewNegative");
-  params.addCoupledVar("DD_ScrewNegative_5", 1.0, "Coupled dislocation density, ScrewNegative");
-  params.addCoupledVar("DD_ScrewNegative_6", 1.0, "Coupled dislocation density, ScrewNegative");
-  params.addCoupledVar("DD_ScrewNegative_7", 1.0, "Coupled dislocation density, ScrewNegative");
-  params.addCoupledVar("DD_ScrewNegative_8", 1.0, "Coupled dislocation density, ScrewNegative");
-  params.addCoupledVar("DD_ScrewNegative_9", 1.0, "Coupled dislocation density, ScrewNegative");
-  params.addCoupledVar("DD_ScrewNegative_10", 1.0, "Coupled dislocation density, ScrewNegative");
-  params.addCoupledVar("DD_ScrewNegative_11", 1.0, "Coupled dislocation density, ScrewNegative");
-  params.addCoupledVar("DD_ScrewNegative_12", 1.0, "Coupled dislocation density, ScrewNegative");
+  params.addCoupledVar("DD_ScrewPositive_1",          1.0,        "Coupled dislocation density, ScrewPositive");
+  params.addCoupledVar("DD_ScrewPositive_2",          1.0,        "Coupled dislocation density, ScrewPositive");
+  params.addCoupledVar("DD_ScrewPositive_3",          1.0,        "Coupled dislocation density, ScrewPositive");
+  params.addCoupledVar("DD_ScrewPositive_4",          1.0,        "Coupled dislocation density, ScrewPositive");
+  params.addCoupledVar("DD_ScrewPositive_5",          1.0,        "Coupled dislocation density, ScrewPositive");
+  params.addCoupledVar("DD_ScrewPositive_6",          1.0,        "Coupled dislocation density, ScrewPositive");
+  params.addCoupledVar("DD_ScrewPositive_7",          1.0,        "Coupled dislocation density, ScrewPositive");
+  params.addCoupledVar("DD_ScrewPositive_8",          1.0,        "Coupled dislocation density, ScrewPositive");
+  params.addCoupledVar("DD_ScrewPositive_9",          1.0,        "Coupled dislocation density, ScrewPositive");
+  params.addCoupledVar("DD_ScrewPositive_10",         1.0,        "Coupled dislocation density, ScrewPositive");
+  params.addCoupledVar("DD_ScrewPositive_11",         1.0,        "Coupled dislocation density, ScrewPositive");
+  params.addCoupledVar("DD_ScrewPositive_12",         1.0,        "Coupled dislocation density, ScrewPositive");
 
-  params.addCoupledVar("DD_ScrewNegative_13", 1.0, "Coupled dislocation density, ScrewNegative");
-  params.addCoupledVar("DD_ScrewNegative_14", 1.0, "Coupled dislocation density, ScrewNegative");
-  params.addCoupledVar("DD_ScrewNegative_15", 1.0, "Coupled dislocation density, ScrewNegative");
-  params.addCoupledVar("DD_ScrewNegative_16", 1.0, "Coupled dislocation density, ScrewNegative");
-  params.addCoupledVar("DD_ScrewNegative_17", 1.0, "Coupled dislocation density, ScrewNegative");
-  params.addCoupledVar("DD_ScrewNegative_18", 1.0, "Coupled dislocation density, ScrewNegative");
-  params.addCoupledVar("DD_ScrewNegative_19", 1.0, "Coupled dislocation density, ScrewNegative");
-  params.addCoupledVar("DD_ScrewNegative_20", 1.0, "Coupled dislocation density, ScrewNegative");
-  params.addCoupledVar("DD_ScrewNegative_21", 1.0, "Coupled dislocation density, ScrewNegative");
-  params.addCoupledVar("DD_ScrewNegative_22", 1.0, "Coupled dislocation density, ScrewNegative");
-  params.addCoupledVar("DD_ScrewNegative_23", 1.0, "Coupled dislocation density, ScrewNegative");
-  params.addCoupledVar("DD_ScrewNegative_24", 1.0, "Coupled dislocation density, ScrewNegative");
+  params.addCoupledVar("DD_ScrewPositive_13",         1.0,        "Coupled dislocation density, ScrewPositive");
+  params.addCoupledVar("DD_ScrewPositive_14",         1.0,        "Coupled dislocation density, ScrewPositive");
+  params.addCoupledVar("DD_ScrewPositive_15",         1.0,        "Coupled dislocation density, ScrewPositive");
+  params.addCoupledVar("DD_ScrewPositive_16",         1.0,        "Coupled dislocation density, ScrewPositive");
+  params.addCoupledVar("DD_ScrewPositive_17",         1.0,        "Coupled dislocation density, ScrewPositive");
+  params.addCoupledVar("DD_ScrewPositive_18",         1.0,        "Coupled dislocation density, ScrewPositive");
+  params.addCoupledVar("DD_ScrewPositive_19",         1.0,        "Coupled dislocation density, ScrewPositive");
+  params.addCoupledVar("DD_ScrewPositive_20",         1.0,        "Coupled dislocation density, ScrewPositive");
+  params.addCoupledVar("DD_ScrewPositive_21",         1.0,        "Coupled dislocation density, ScrewPositive");
+  params.addCoupledVar("DD_ScrewPositive_22",         1.0,        "Coupled dislocation density, ScrewPositive");
+  params.addCoupledVar("DD_ScrewPositive_23",         1.0,        "Coupled dislocation density, ScrewPositive");
+  params.addCoupledVar("DD_ScrewPositive_24",         1.0,        "Coupled dislocation density, ScrewPositive");
+
+  params.addCoupledVar("DD_ScrewNegative_1",          1.0,        "Coupled dislocation density, ScrewNegative");
+  params.addCoupledVar("DD_ScrewNegative_2",          1.0,        "Coupled dislocation density, ScrewNegative");
+  params.addCoupledVar("DD_ScrewNegative_3",          1.0,        "Coupled dislocation density, ScrewNegative");
+  params.addCoupledVar("DD_ScrewNegative_4",          1.0,        "Coupled dislocation density, ScrewNegative");
+  params.addCoupledVar("DD_ScrewNegative_5",          1.0,        "Coupled dislocation density, ScrewNegative");
+  params.addCoupledVar("DD_ScrewNegative_6",          1.0,        "Coupled dislocation density, ScrewNegative");
+  params.addCoupledVar("DD_ScrewNegative_7",          1.0,        "Coupled dislocation density, ScrewNegative");
+  params.addCoupledVar("DD_ScrewNegative_8",          1.0,        "Coupled dislocation density, ScrewNegative");
+  params.addCoupledVar("DD_ScrewNegative_9",          1.0,        "Coupled dislocation density, ScrewNegative");
+  params.addCoupledVar("DD_ScrewNegative_10",         1.0,        "Coupled dislocation density, ScrewNegative");
+  params.addCoupledVar("DD_ScrewNegative_11",         1.0,        "Coupled dislocation density, ScrewNegative");
+  params.addCoupledVar("DD_ScrewNegative_12",         1.0,        "Coupled dislocation density, ScrewNegative");
+
+  params.addCoupledVar("DD_ScrewNegative_13",         1.0,        "Coupled dislocation density, ScrewNegative");
+  params.addCoupledVar("DD_ScrewNegative_14",         1.0,        "Coupled dislocation density, ScrewNegative");
+  params.addCoupledVar("DD_ScrewNegative_15",         1.0,        "Coupled dislocation density, ScrewNegative");
+  params.addCoupledVar("DD_ScrewNegative_16",         1.0,        "Coupled dislocation density, ScrewNegative");
+  params.addCoupledVar("DD_ScrewNegative_17",         1.0,        "Coupled dislocation density, ScrewNegative");
+  params.addCoupledVar("DD_ScrewNegative_18",         1.0,        "Coupled dislocation density, ScrewNegative");
+  params.addCoupledVar("DD_ScrewNegative_19",         1.0,        "Coupled dislocation density, ScrewNegative");
+  params.addCoupledVar("DD_ScrewNegative_20",         1.0,        "Coupled dislocation density, ScrewNegative");
+  params.addCoupledVar("DD_ScrewNegative_21",         1.0,        "Coupled dislocation density, ScrewNegative");
+  params.addCoupledVar("DD_ScrewNegative_22",         1.0,        "Coupled dislocation density, ScrewNegative");
+  params.addCoupledVar("DD_ScrewNegative_23",         1.0,        "Coupled dislocation density, ScrewNegative");
+  params.addCoupledVar("DD_ScrewNegative_24",         1.0,        "Coupled dislocation density, ScrewNegative");
 
   return params;
 }
@@ -192,7 +200,13 @@ DiscoFluxCPBCCOrowanStressUpdate::DiscoFluxCPBCCOrowanStressUpdate(const InputPa
     _C_trap(                    getParam<Real>("C_trap")),
     _C_m_ann(                   getParam<Real>("C_m_ann")),
     _C_im_ann(                  getParam<Real>("C_im_ann")),
+
+    _gamdot_ref(                getParam<Real>("gadot_ref")),
+    _min_dd(                    getParam<Real>("min_dd")),
     _dd_sat(                    getParam<Real>("dd_sat")),
+    _sat_A(                     getParam<Real>("sat_A")),
+    _nrec(                      getParam<Real>("nrec")),
+    
     _Coeff_hardening(           getParam<Real>("Coeff_hardening")),
     _Coeff_backstress(          getParam<Real>("Coeff_backstress")),
     _Coeff_dislength(           getParam<Real>("Coeff_dislength")),
@@ -205,10 +219,13 @@ DiscoFluxCPBCCOrowanStressUpdate::DiscoFluxCPBCCOrowanStressUpdate(const InputPa
     _vs_edge(                   getParam<Real>("vs_edge")),
     _vs_screw(                  getParam<Real>("vs_screw")),
     _temp(                      getParam<Real>("temp")),
+    _boltz(                     getParam<Real>("boltz")),
+    _mu(                        getParam<Real>("mu")),
+    _nu(                        getParam<Real>("nu")),
+    _g0(                        getParam<Real>("g0")),
+    _omega0(                    getParam<Real>("omega0")),
     _mean_free_path_init_flag(  getParam<bool>("mean_free_path_init_flag")),
     _disloc_den_threshold_flag( getParam<bool>("disloc_den_threshold_flag")),
-    g0(                         getParam<Real>("g_0")),
-    omega0(                     getParam<Real>("omega_0")),
     
     //
     _DD_EdgePositive_1(         coupledValue("DD_EdgePositive_1")),
@@ -427,6 +444,14 @@ DiscoFluxCPBCCOrowanStressUpdate::DiscoFluxCPBCCOrowanStressUpdate(const InputPa
     _DD_ScrewNegative_24_Grad(  coupledGradient("DD_ScrewNegative_24")),
 
     //
+    _dislocation_immobile_sat_edgepos(
+        declareProperty<std::vector<Real>>        (_base_name + "saturation_immobile_density_edgepos")),
+    _dislocation_immobile_sat_edgeneg(
+        declareProperty<std::vector<Real>>        (_base_name + "saturation_immobile_density_edgeneg")),
+    _dislocation_immobile_sat_screwpos(
+        declareProperty<std::vector<Real>>        (_base_name + "saturation_immobile_density_screwpos")),
+    _dislocation_immobile_sat_screwneg(
+        declareProperty<std::vector<Real>>        (_base_name + "saturation_immobile_density_screwneg")),
     _dislocation_immobile(
         declareProperty<std::vector<Real>>        (_base_name + "dislocation_immobile")),
     _dislocation_immobile_old(
@@ -539,7 +564,6 @@ DiscoFluxCPBCCOrowanStressUpdate::DiscoFluxCPBCCOrowanStressUpdate(const InputPa
     _L_bar(                                                     _number_slip_systems, 0.00),
     _L_bar_e(                                                   getParam<Real>("L_bar_e")),
     _L_bar_s(                                                   getParam<Real>("L_bar_s")),
-    _min_dd(                                                    getParam<Real>("min_dd")),
     _max_dd(                                                    getParam<Real>("max_dd")),
 
     // resize local variables realted to dislocation velocity
@@ -564,6 +588,10 @@ DiscoFluxCPBCCOrowanStressUpdate::initQpStatefulProperties()
   _slip_direction_edge[_qp].resize(                             _number_slip_systems);
   _slip_direction_screw[_qp].resize(                            _number_slip_systems);
   _slip_plane_normalboth[_qp].resize(                           _number_slip_systems);
+  _dislocation_immobile_sat_edgepos[_qp].resize(                _number_slip_systems);
+  _dislocation_immobile_sat_edgeneg[_qp].resize(                _number_slip_systems);
+  _dislocation_immobile_sat_screwpos[_qp].resize(               _number_slip_systems);
+  _dislocation_immobile_sat_screwneg[_qp].resize(               _number_slip_systems);
   _dislocation_immobile[_qp].resize(                            _number_slip_systems);
   _dislocation_immobile_edge_negative[_qp].resize(              _number_slip_systems);
   _dislocation_immobile_screw_negative[_qp].resize(             _number_slip_systems);
@@ -716,6 +744,22 @@ DiscoFluxCPBCCOrowanStressUpdate::initQpStatefulProperties()
     // _L_bar_s[i] = _Coeff_dislength * std::pow((_DD_ScrewPositive[i] + _DD_ScrewNegative[i] +
     //               _dislocation_immobile_screw_negative[_qp][i] +
     //               _dislocation_immobile_screw_positive[_qp][i]),-0.5);
+
+    Real slip_rate  =   _DD_EdgePositive[i]  * std::abs(_dislo_velocity_edge[_qp][i]);
+    _dislocation_immobile_sat_edgepos[_qp][i] = _dd_sat * std::pow(slip_rate / _gamdot_ref, _boltz*_temp/_sat_A);
+    _dislocation_immobile_sat_edgepos[_qp][i] = std::max(_dislocation_immobile_sat_edgepos[_qp][i], _min_dd);
+
+    slip_rate       =   _DD_EdgeNegative[i]  * std::abs(_dislo_velocity_edge[_qp][i]);
+    _dislocation_immobile_sat_edgeneg[_qp][i] = _dd_sat * std::pow(slip_rate / _gamdot_ref, _boltz*_temp/_sat_A);
+    _dislocation_immobile_sat_edgeneg[_qp][i] = std::max(_dislocation_immobile_sat_edgeneg[_qp][i], _min_dd);
+
+    slip_rate       =   _DD_ScrewPositive[i]  * std::abs(_dislo_velocity_screw[_qp][i]);
+    _dislocation_immobile_sat_screwpos[_qp][i] = _dd_sat * std::pow(slip_rate / _gamdot_ref, _boltz*_temp/_sat_A);
+    _dislocation_immobile_sat_screwpos[_qp][i] = std::max(_dislocation_immobile_sat_screwpos[_qp][i], _min_dd);
+
+    slip_rate       =   _DD_ScrewNegative[i]  * std::abs(_dislo_velocity_screw[_qp][i]);
+    _dislocation_immobile_sat_screwneg[_qp][i] = _dd_sat * std::pow(slip_rate / _gamdot_ref, _boltz*_temp/_sat_A);
+    _dislocation_immobile_sat_screwneg[_qp][i] = std::max(_dislocation_immobile_sat_screwneg[_qp][i], _min_dd);
   }
 }
 
@@ -839,6 +883,22 @@ DiscoFluxCPBCCOrowanStressUpdate::setInitialConstitutiveVariableValues()
     _previous_substep_dislocation_mobile[i]             = _dislocation_mobile[_qp][i];
     _previous_substep_dislocation_mobile_edge[i]        = _dislocation_mobile_edge[_qp][i];
     _previous_substep_dislocation_mobile_screw[i]       = _dislocation_mobile_screw[_qp][i];
+
+    Real slip_rate  =   _DD_EdgePositive[i]  * std::abs(_dislo_velocity_edge[_qp][i]);
+    _dislocation_immobile_sat_edgepos[_qp][i] = _dd_sat * std::pow(slip_rate / _gamdot_ref, _boltz*_temp/_sat_A);
+    _dislocation_immobile_sat_edgepos[_qp][i] = std::max(_dislocation_immobile_sat_edgepos[_qp][i], _min_dd);
+
+    slip_rate       =   _DD_EdgeNegative[i]  * std::abs(_dislo_velocity_edge[_qp][i]);
+    _dislocation_immobile_sat_edgeneg[_qp][i] = _dd_sat * std::pow(slip_rate / _gamdot_ref, _boltz*_temp/_sat_A);
+    _dislocation_immobile_sat_edgeneg[_qp][i] = std::max(_dislocation_immobile_sat_edgeneg[_qp][i], _min_dd);
+
+    slip_rate       =   _DD_ScrewPositive[i]  * std::abs(_dislo_velocity_screw[_qp][i]);
+    _dislocation_immobile_sat_screwpos[_qp][i] = _dd_sat * std::pow(slip_rate / _gamdot_ref, _boltz*_temp/_sat_A);
+    _dislocation_immobile_sat_screwpos[_qp][i] = std::max(_dislocation_immobile_sat_screwpos[_qp][i], _min_dd);
+
+    slip_rate       =   _DD_ScrewNegative[i]  * std::abs(_dislo_velocity_screw[_qp][i]);
+    _dislocation_immobile_sat_screwneg[_qp][i] = _dd_sat * std::pow(slip_rate / _gamdot_ref, _boltz*_temp/_sat_A);
+    _dislocation_immobile_sat_screwneg[_qp][i] = std::max(_dislocation_immobile_sat_screwneg[_qp][i], _min_dd);
   }
   _dislocation_immobile[_qp]                            = _dislocation_immobile_old[_qp];
   _dislocation_immobile_edge_negative[_qp]              = _dislocation_immobile_edge_negative_old[_qp];
@@ -857,27 +917,27 @@ DiscoFluxCPBCCOrowanStressUpdate::storeDislocationMobilityInformation()
   // CrystalPlasticityOrowanStressUpdateBase::storeDislocationMobilityInformation();
   for (const auto i : make_range(_number_slip_systems))
   {
-    _slip_direction_edge[_qp][i] = _slip_direction[i];
-    _slip_direction_edge[_qp][i] /= _slip_direction_edge[_qp][i].norm();
-    _slip_direction_edge[_qp][i] = _crysrot[_qp] * _slip_direction_edge[_qp][i];
+    _slip_direction_edge[_qp][i]    =   _slip_direction[i];
+    _slip_direction_edge[_qp][i]    /=  _slip_direction_edge[_qp][i].norm();
+    _slip_direction_edge[_qp][i]    =   _crysrot[_qp] * _slip_direction_edge[_qp][i];
 
-    _slip_plane_normalboth[_qp][i] = _slip_plane_normal[i];
-    _slip_plane_normalboth[_qp][i] /= _slip_plane_normalboth[_qp][i].norm();
-    _slip_plane_normalboth[_qp][i] = _crysrot[_qp] * _slip_plane_normalboth[_qp][i];
+    _slip_plane_normalboth[_qp][i]  =   _slip_plane_normal[i];
+    _slip_plane_normalboth[_qp][i]  /=  _slip_plane_normalboth[_qp][i].norm();
+    _slip_plane_normalboth[_qp][i]  =   _crysrot[_qp] * _slip_plane_normalboth[_qp][i];
   }
 }
 
 void
 DiscoFluxCPBCCOrowanStressUpdate::setSubstepConstitutiveVariableValues()
 {
-  _slip_resistance[_qp]           = _previous_substep_slip_resistance;
-  _dislocation_immobile[_qp]      = _previous_substep_dislocation_immobile;
-  _dislocation_immobile[_qp]      = _previous_substep_dislocation_immobile_edge_negative;
-  _dislocation_immobile[_qp]      = _previous_substep_dislocation_immobile_screw_positive;
-  _dislocation_immobile[_qp]      = _previous_substep_dislocation_immobile_screw_negative;
-  _dislocation_mobile[_qp]        = _previous_substep_dislocation_mobile;
-  _dislocation_mobile_edge[_qp]   = _previous_substep_dislocation_mobile_edge;
-  _dislocation_mobile_screw[_qp]  = _previous_substep_dislocation_mobile_screw;
+  _slip_resistance[_qp]                         = _previous_substep_slip_resistance;
+  _dislocation_immobile[_qp]                    = _previous_substep_dislocation_immobile;
+  _dislocation_immobile_edge_negative[_qp]      = _previous_substep_dislocation_immobile_edge_negative;
+  _dislocation_immobile_screw_positive[_qp]     = _previous_substep_dislocation_immobile_screw_positive;
+  _dislocation_immobile_screw_negative[_qp]     = _previous_substep_dislocation_immobile_screw_negative;
+  _dislocation_mobile[_qp]                      = _previous_substep_dislocation_mobile;
+  _dislocation_mobile_edge[_qp]                 = _previous_substep_dislocation_mobile_edge;
+  _dislocation_mobile_screw[_qp]                = _previous_substep_dislocation_mobile_screw;
 }
 
 bool
@@ -1094,10 +1154,9 @@ DiscoFluxCPBCCOrowanStressUpdate::calculateSlipRate()
     // _slip_increment[_qp][i] = (_DD_EdgePositive[i] + _DD_EdgeNegative[i]) *
     //                           _dislo_density_factor_CDT * _burgers_vector_mag *
     //                           _dislo_velocity_edge[_qp][i];
-    _slip_increment[_qp][i] =
-        ((_DD_EdgePositive[i] + _DD_EdgeNegative[i]) * _dislo_velocity_edge[_qp][i] +
-         (_DD_ScrewPositive[i] + _DD_ScrewNegative[i]) * _dislo_velocity_screw[_qp][i]) *
-        _dislo_density_factor_CDT * _burgers_vector_mag;
+    _slip_increment[_qp][i]   = ((_DD_EdgePositive[i] + _DD_EdgeNegative[i]) * _dislo_velocity_edge[_qp][i] +
+                                (_DD_ScrewPositive[i] + _DD_ScrewNegative[i]) * _dislo_velocity_screw[_qp][i]) *
+                                _dislo_density_factor_CDT * _burgers_vector_mag;
     
     // _slip_increment[_qp][i] = _dislocation_mobile[_qp][i] * _burgers_vector_mag *
     // _dislo_velocity_edge[_qp][i];
@@ -1189,19 +1248,45 @@ DiscoFluxCPBCCOrowanStressUpdate::getDDIncrements()
       //     (_C_trap / _burgers_vector_mag) * std::pow(dislocation_forest, 0.5) *
       //         std::abs(_slip_increment[_qp][i]) -
       //     (_C_im_ann * _dislocation_immobile[_qp][i]) * std::abs(_slip_increment[_qp][i]);
+
+      Real slip_rate  =   _DD_EdgePositive[i]  * std::abs(_dislo_velocity_edge[_qp][i]);
+      _dislocation_immobile_sat_edgepos[_qp][i] = _dd_sat * std::pow(slip_rate / _gamdot_ref, _boltz*_temp/_sat_A);
+      _dislocation_immobile_sat_edgepos[_qp][i] = std::max(_dislocation_immobile_sat_edgepos[_qp][i], _min_dd);
+
+      slip_rate       =   _DD_EdgeNegative[i]  * std::abs(_dislo_velocity_edge[_qp][i]);
+      _dislocation_immobile_sat_edgeneg[_qp][i] = _dd_sat * std::pow(slip_rate / _gamdot_ref, _boltz*_temp/_sat_A);
+      _dislocation_immobile_sat_edgeneg[_qp][i] = std::max(_dislocation_immobile_sat_edgeneg[_qp][i], _min_dd);
+
+      slip_rate       =   _DD_ScrewPositive[i]  * std::abs(_dislo_velocity_screw[_qp][i]);
+      _dislocation_immobile_sat_screwpos[_qp][i] = _dd_sat * std::pow(slip_rate / _gamdot_ref, _boltz*_temp/_sat_A);
+      _dislocation_immobile_sat_screwpos[_qp][i] = std::max(_dislocation_immobile_sat_screwpos[_qp][i], _min_dd);
+
+      slip_rate       =   _DD_ScrewNegative[i]  * std::abs(_dislo_velocity_screw[_qp][i]);
+      _dislocation_immobile_sat_screwneg[_qp][i] = _dd_sat * std::pow(slip_rate / _gamdot_ref, _boltz*_temp/_sat_A);
+      _dislocation_immobile_sat_screwneg[_qp][i] = std::max(_dislocation_immobile_sat_screwneg[_qp][i], _min_dd);
+
+      Real frec_edgepos   = 1.0 - std::pow((_dislocation_immobile[_qp][i]                 / _dislocation_immobile_sat_edgepos[_qp][i]), 1.0/_nrec);
+      Real frec_edgeneg   = 1.0 - std::pow((_dislocation_immobile_edge_negative[_qp][i]   / _dislocation_immobile_sat_edgeneg[_qp][i]), 1.0/_nrec);
+      Real frec_screwpos  = 1.0 - std::pow((_dislocation_immobile_screw_positive[_qp][i]  / _dislocation_immobile_sat_screwpos[_qp][i]), 1.0/_nrec);
+      Real frec_screwneg  = 1.0 - std::pow((_dislocation_immobile_screw_negative[_qp][i]  / _dislocation_immobile_sat_screwpos[_qp][i]), 1.0/_nrec);
+
+      _dislocation_immobile_increment[i]                =  frec_edgepos   * _C_trap * std::pow(dislocation_forest, 0.5) * std::abs(_DD_EdgePositive[i] * _dislo_velocity_edge[_qp][i]);
+      _dislocation_immobile_increment_edge_negative[i]  =  frec_edgeneg   * _C_trap * std::pow(dislocation_forest, 0.5) * std::abs(_DD_EdgeNegative[i] * _dislo_velocity_edge[_qp][i]);
+      _dislocation_immobile_increment_screw_positive[i] =  frec_screwpos  * _C_trap * std::pow(dislocation_forest, 0.5) * std::abs(_DD_ScrewPositive[i] * _dislo_velocity_screw[_qp][i]);
+      _dislocation_immobile_increment_screw_negative[i] =  frec_screwneg  * _C_trap * std::pow(dislocation_forest, 0.5) * std::abs(_DD_ScrewNegative[i] * _dislo_velocity_screw[_qp][i]);
       
-      _dislocation_immobile_increment[i] =
-          _C_trap * std::pow(dislocation_forest, 0.5) * std::abs(_DD_EdgePositive[i] * _dislo_velocity_edge[_qp][i]) -
-          (0.25 * _C_im_ann * std::pow(dislocation_forest, 0.5) / _dd_sat) * _DD_EdgePositive[i] * _DD_EdgePositive[i] * std::abs(_dislo_velocity_edge[_qp][i]);
-      _dislocation_immobile_increment_edge_negative[i] =
-          _C_trap * std::pow(dislocation_forest, 0.5) * std::abs(_DD_EdgeNegative[i] * _dislo_velocity_edge[_qp][i]) -
-          (0.25 * _C_im_ann * std::pow(dislocation_forest, 0.5) / _dd_sat) * _DD_EdgeNegative[i] * _DD_EdgeNegative[i] * std::abs(_dislo_velocity_edge[_qp][i]);
-      _dislocation_immobile_increment_screw_positive[i] =
-          _C_trap * std::pow(dislocation_forest, 0.5) * std::abs(_DD_ScrewPositive[i] * _dislo_velocity_screw[_qp][i]) -
-          (0.25 * _C_im_ann * std::pow(dislocation_forest, 0.5) / _dd_sat) * _DD_ScrewPositive[i] * _DD_ScrewPositive[i] * std::abs(_dislo_velocity_screw[_qp][i]);
-      _dislocation_immobile_increment_screw_negative[i] =
-          _C_trap * std::pow(dislocation_forest, 0.5) * std::abs(_DD_ScrewNegative[i] * _dislo_velocity_screw[_qp][i]) -
-          (0.25 * _C_im_ann * std::pow(dislocation_forest, 0.5) / _dd_sat) * _DD_ScrewNegative[i] * _DD_ScrewNegative[i] * std::abs(_dislo_velocity_screw[_qp][i]);
+      // _dislocation_immobile_increment[i] = 
+      //     _C_trap * std::pow(dislocation_forest, 0.5) * std::abs(_DD_EdgePositive[i] * _dislo_velocity_edge[_qp][i]) -
+      //     (0.25 * _C_im_ann * std::pow(dislocation_forest, 0.5) / _dislocation_immobile_sat[_qp][i]) * _DD_EdgePositive[i] * _DD_EdgePositive[i] * std::abs(_dislo_velocity_edge[_qp][i]);
+      // _dislocation_immobile_increment_edge_negative[i] =
+      //     _C_trap * std::pow(dislocation_forest, 0.5) * std::abs(_DD_EdgeNegative[i] * _dislo_velocity_edge[_qp][i]) -
+      //     (0.25 * _C_im_ann * std::pow(dislocation_forest, 0.5) / _dislocation_immobile_sat[_qp][i]) * _DD_EdgeNegative[i] * _DD_EdgeNegative[i] * std::abs(_dislo_velocity_edge[_qp][i]);
+      // _dislocation_immobile_increment_screw_positive[i] =
+      //     _C_trap * std::pow(dislocation_forest, 0.5) * std::abs(_DD_ScrewPositive[i] * _dislo_velocity_screw[_qp][i]) -
+      //     (0.25 * _C_im_ann * std::pow(dislocation_forest, 0.5) / _dislocation_immobile_sat[_qp][i]) * _DD_ScrewPositive[i] * _DD_ScrewPositive[i] * std::abs(_dislo_velocity_screw[_qp][i]);
+      // _dislocation_immobile_increment_screw_negative[i] =
+      //     _C_trap * std::pow(dislocation_forest, 0.5) * std::abs(_DD_ScrewNegative[i] * _dislo_velocity_screw[_qp][i]) -
+      //     (0.25 * _C_im_ann * std::pow(dislocation_forest, 0.5) / _dislocation_immobile_sat[_qp][i]) * _DD_ScrewNegative[i] * _DD_ScrewNegative[i] * std::abs(_dislo_velocity_screw[_qp][i]);
     }
     else
     {
@@ -1246,7 +1331,7 @@ DiscoFluxCPBCCOrowanStressUpdate::updateStateVariables()
                                     _dislocation_immobile_screw_positive[_qp][j] +
                                     _dislocation_immobile_screw_negative[_qp][j]);
     }
-    _slip_resistance[_qp][i]    = _lattice_friction + _Coeff_hardening * mu * _burgers_vector_mag * std::sqrt(eff_dislocation_density);
+    _slip_resistance[_qp][i]    = _lattice_friction + _Coeff_hardening * _mu * _burgers_vector_mag * std::sqrt(eff_dislocation_density);
   }
 
   return true;
@@ -1270,9 +1355,9 @@ DiscoFluxCPBCCOrowanStressUpdate::areConstitutiveStateVariablesConverged()
 void
 DiscoFluxCPBCCOrowanStressUpdate::updateSubstepConstitutiveVariableValues()
 {
-  _previous_substep_slip_resistance = _slip_resistance[_qp];
-  _previous_substep_dislocation_immobile = _dislocation_immobile[_qp];
-  _previous_substep_dislocation_immobile_edge_negative = _dislocation_immobile_edge_negative[_qp];
+  _previous_substep_slip_resistance                     = _slip_resistance[_qp];
+  _previous_substep_dislocation_immobile                = _dislocation_immobile[_qp];
+  _previous_substep_dislocation_immobile_edge_negative  = _dislocation_immobile_edge_negative[_qp];
   _previous_substep_dislocation_immobile_screw_positive = _dislocation_immobile_screw_positive[_qp];
   _previous_substep_dislocation_immobile_screw_negative = _dislocation_immobile_screw_negative[_qp];
 }
@@ -1290,9 +1375,9 @@ DiscoFluxCPBCCOrowanStressUpdate::DDCUpdate()
     slip_direction_rotated_screw  = _slip_direction_screw[_qp][i];
     
     // Compute gradient of GNDs
-    _DD_grad[i](0)        = (_DD_EdgePositive_Grad[i](0) - _DD_EdgeNegative_Grad[i](0)) * _dislo_density_factor_CDT;
-    _DD_grad[i](1)        = (_DD_EdgePositive_Grad[i](1) - _DD_EdgeNegative_Grad[i](1)) * _dislo_density_factor_CDT;
-    _DD_grad[i](2)        = (_DD_EdgePositive_Grad[i](2) - _DD_EdgeNegative_Grad[i](2)) * _dislo_density_factor_CDT;
+    _DD_grad[i](0)        = (_DD_EdgePositive_Grad[i](0)  - _DD_EdgeNegative_Grad[i](0))  * _dislo_density_factor_CDT;
+    _DD_grad[i](1)        = (_DD_EdgePositive_Grad[i](1)  - _DD_EdgeNegative_Grad[i](1))  * _dislo_density_factor_CDT;
+    _DD_grad[i](2)        = (_DD_EdgePositive_Grad[i](2)  - _DD_EdgeNegative_Grad[i](2))  * _dislo_density_factor_CDT;
     _DD_grad_screw[i](0)  = (_DD_ScrewPositive_Grad[i](0) - _DD_ScrewNegative_Grad[i](0)) * _dislo_density_factor_CDT;
     _DD_grad_screw[i](1)  = (_DD_ScrewPositive_Grad[i](1) - _DD_ScrewNegative_Grad[i](1)) * _dislo_density_factor_CDT;
     _DD_grad_screw[i](2)  = (_DD_ScrewPositive_Grad[i](2) - _DD_ScrewNegative_Grad[i](2)) * _dislo_density_factor_CDT;
@@ -1300,12 +1385,9 @@ DiscoFluxCPBCCOrowanStressUpdate::DDCUpdate()
     if (_mean_free_path_init_flag)
     {
       // Compute local internal stress
-      _tau_b_local[i]       = _Coeff_backstress *
-                              ((mu * std::pow(_L_bar_e, 2)) / (2 * 3.141 * (1 - nu))) *
-                              _burgers_vector_mag * (_DD_grad[i] * slip_direction_rotated);
-      _tau_b_local_screw[i] = _Coeff_backstress * ((mu * std::pow(_L_bar_s, 2)) / (2 * 3.141)) *
-                              _burgers_vector_mag *
-                              (_DD_grad_screw[i] * slip_direction_rotated_screw);
+      _tau_b_local[i]       = _Coeff_backstress * ((_mu * std::pow(_L_bar_e, 2)) / (2 * 3.141 * (1 - _nu))) * _burgers_vector_mag * (_DD_grad[i] * slip_direction_rotated);
+      _tau_b_local_screw[i] = _Coeff_backstress * ((_mu * std::pow(_L_bar_s, 2)) / (2 * 3.141))             *_burgers_vector_mag  * (_DD_grad_screw[i] * slip_direction_rotated_screw);
+
       if (_L_bar_e <= 0.0 || _L_bar_s <= 0.0)
       {
         // if (_print_convergence_message)
@@ -1322,12 +1404,8 @@ DiscoFluxCPBCCOrowanStressUpdate::DDCUpdate()
                                        _dislocation_immobile_screw_negative[_qp][i]),
                                       -0.5);
       // Compute local internal stress
-      _tau_b_local[i]         = _Coeff_backstress *
-                                ((mu * std::pow(_L_bar[i], 1)) / (2 * 3.141 * (1 - nu))) *
-                                _burgers_vector_mag * (_DD_grad[i] * slip_direction_rotated);
-      _tau_b_local_screw[i]   = _Coeff_backstress *
-                                ((mu * std::pow(_L_bar[i], 1)) / (2 * 3.141)) * _burgers_vector_mag *
-                                (_DD_grad_screw[i] * slip_direction_rotated_screw);
+      _tau_b_local[i]         = _Coeff_backstress * ((_mu * std::pow(_L_bar[i], 1)) / (2 * 3.141 * (1 - _nu)))  * _burgers_vector_mag * (_DD_grad[i]        * slip_direction_rotated);
+      _tau_b_local_screw[i]   = _Coeff_backstress * ((_mu * std::pow(_L_bar[i], 1)) / (2 * 3.141))              * _burgers_vector_mag * (_DD_grad_screw[i]  * slip_direction_rotated_screw);
     }
     // Compute total internal stress
     Stress_internal += (_tau_b_local[i] + _tau_b_local_screw[i]) *
@@ -1339,8 +1417,7 @@ DiscoFluxCPBCCOrowanStressUpdate::DDCUpdate()
   {
     slip_direction_rotated      = _slip_direction_edge[_qp][i];      //_slip_direction[i];
     slip_plane_normal_rotated   = _slip_plane_normalboth[_qp][i]; //_slip_plane_normal[i];
-    _tau_b_local[i]             = _initial_athermal + Stress_internal.contract(
-                                  libMesh::outer_product(slip_direction_rotated, slip_plane_normal_rotated));
+    _tau_b_local[i]             = _initial_athermal + Stress_internal.contract(libMesh::outer_product(slip_direction_rotated, slip_plane_normal_rotated));
   }
 }
 
@@ -1372,135 +1449,153 @@ DiscoFluxCPBCCOrowanStressUpdate::getDisloVelocity()
     tau_effSign[i]  = std::copysign(1.0, _tau[_qp][i]);
   }
 
-  deltaG0 = g0 * mu * std::pow(_burgers_vector_mag, 3); // * 1.0e-3;
+  deltaG0 = _g0 * _mu * std::pow(_burgers_vector_mag, 3);
 
   for (unsigned int i = 0; i < _number_slip_systems; ++i)
   {
-    if (_disloc_den_threshold_flag && (_DD_EdgeNegative[i] > _max_dd || _DD_EdgePositive[i] > _max_dd))
+    // Compute velocity only if tau>tau_b
+    if (tau_effAbs[i] > 0.0)
     {
-      _dislo_velocity_edge[_qp][i]  = 0.0;
-      _dv_dtau[i]                   = 0.0;
-    }
-    else if (_disloc_den_threshold_flag && (_DD_ScrewNegative[i] > _max_dd || _DD_ScrewPositive[i] > _max_dd))
-    {
-      _dislo_velocity_screw[_qp][i] = 0.0;
-      _dv_dtau_screw[i]             = 0.0;
-    }
-    else
-    {
-      // compute wait time
-      dtw_dtau        = 0.0;
-      if (tau_effAbs[i] > small2)
+      // Dislocation density threshold
+      if (_disloc_den_threshold_flag &&
+          (_DD_EdgeNegative[i] > _max_dd || _DD_EdgePositive[i] > _max_dd))
       {
-        inner         = 1.0 - std::pow((tau_effAbs[i] / slip_r[i]), _q1);
-        tau_eff[i]    = tau_effAbs[i];
+        _dislo_velocity_edge[_qp][i] = 0.0;
+        _dv_dtau[i] = 0.0;
       }
       else
       {
-        inner         = 1.0;
-        tau_eff[i]    = 0.0;
-      }
+        // compute wait time
+        dtw_dtau = 0.0;
+        inner = 1.0;
+        tau_eff[i] = 0.0;
 
-      if (inner >= 0.00)
-      {
-        deltaG        = deltaG0 / (boltz * _temp);
-        exp_arg       = deltaG * (std::pow(inner, _q2));
-        t_wait[i]     = exp(exp_arg) / omega0;
         if (tau_effAbs[i] > small2)
         {
-          // not computed if taueff < 0.0 because it's a division by 0
-          // as taueff is redefined to zero in precedent if
-          dtw_dtau    = t_wait[i] * _q1 * _q2 * deltaG0 / (boltz * _temp * slip_r[i]) *
-                        std::pow(inner, _q2 - 1.0) * std::pow((tau_eff[i] / slip_r[i]), _q1 - 1.0) *
-                        tau_effSign[i];
+          inner = 1.0 - std::pow((tau_effAbs[i] / slip_r[i]), _q1);
+          tau_eff[i] = tau_effAbs[i];
         }
-      }
-      else
-      {
-        t_wait[i] = 1.0 / omega0;
-      }
 
-      // compute running velocity
-      if (tau_effAbs[i] > small2)
-      {
+        if (inner > 0.0)
+        {
+          deltaG = deltaG0 / (_boltz * _temp);
+          exp_arg = deltaG * (std::pow(inner, _q2));
+          t_wait[i] = (exp(exp_arg)) / _omega0;
+          dtw_dtau = t_wait[i] * _q1 * _q2 * deltaG0 / (_boltz * _temp * slip_r[i]) *
+                     std::pow(inner, _q2 - 1.0) * std::pow((tau_eff[i] / slip_r[i]), _q1 - 1.0) *
+                     tau_effSign[i];
+        }
+        else
+        {
+          t_wait[i] = 1.0 / _omega0;
+        }
+
+        // compute running velocity
+
         // compute edge velocity
-        xi0[i]          = 0.0;
-        vel_run[i]      = 0.0;
-        xi0[i]          = _B0 * _vs_edge / (2 * _burgers_vector_mag * tau_effAbs[i]);
-        vel_run[i]      = _vs_edge * (std::pow((xi0[i] * xi0[i] + 1), 0.5) - xi0[i]);
+        xi0[i] = 0.0;
+        vel_run[i] = 0.0;
+        xi0[i] = _B0 * _vs_edge / (2 * _burgers_vector_mag * tau_effAbs[i]);
+        vel_run[i] = _vs_edge * (std::pow((xi0[i] * xi0[i] + 1), 0.5) - xi0[i]);
 
         if (_mean_free_path_init_flag)
         {
-          t_run[i]                      = _L_bar_e / vel_run[i];
-          _dislo_velocity_edge[_qp][i]  = tau_effSign[i] * _L_bar_e / (t_wait[i] + t_run[i]);
+          t_run[i] = _L_bar_e / vel_run[i];
+          _dislo_velocity_edge[_qp][i] = tau_effSign[i] * _L_bar_e / (t_wait[i] + t_run[i]);
         }
         else
         {
-          t_run[i]                      = _L_bar[i] / vel_run[i];
-          _dislo_velocity_edge[_qp][i]  = tau_effSign[i] * _L_bar[i] / (t_wait[i] + t_run[i]);
+          t_run[i] = _L_bar[i] / vel_run[i];
+          _dislo_velocity_edge[_qp][i] = tau_effSign[i] * _L_bar[i] / (t_wait[i] + t_run[i]);
         }
 
-        dtr_dtau    = t_run[i] * xi0[i] * tau_effSign[i] / (std::pow((xi0[i] * xi0[i] + 1), 0.5) * tau_effAbs[i]);
-        _dv_dtau[i] = (_dislo_velocity_edge[_qp][i] / (t_wait[i] + t_run[i])) * (dtr_dtau + dtw_dtau);
+        dtr_dtau = t_run[i] * xi0[i] * tau_effSign[i] /
+                   (std::pow((xi0[i] * xi0[i] + 1), 0.5) * tau_effAbs[i]);
+
+        _dv_dtau[i] =
+            (_dislo_velocity_edge[_qp][i] / (t_wait[i] + t_run[i])) * (dtr_dtau + dtw_dtau);
+
+        // This is just for test and debug
+        if (_dislo_velocity_edge[_qp][i] > 1000)
+        {
+          mooseWarning("Edge dislocation velocity ", _dislo_velocity_edge[_qp][i]);
+          mooseWarning("Edge run time", t_run[i]);
+          mooseWarning("Edge wait time", t_wait[i]);
+          mooseWarning("Shear stress", _tau[_qp][i]);
+          mooseWarning("Backstress", _tau_b_local[i]);
+          mooseWarning("Shear resistance", slip_r[i]);
+        }
+      }
+
+      if (_disloc_den_threshold_flag &&
+          (_DD_ScrewNegative[i] > _max_dd || _DD_ScrewPositive[i] > _max_dd))
+      {
+        _dislo_velocity_screw[_qp][i] = 0.0;
+        _dv_dtau_screw[i] = 0.0;
       }
       else
       {
-        if (_mean_free_path_init_flag)
+        // compute wait time
+        dtw_dtau = 0.0;
+        inner = 1.0;
+        tau_eff[i] = 0.0;
+
+        if (tau_effAbs[i] > small2)
         {
-          _dislo_velocity_edge[_qp][i]  = tau_effSign[i] * _L_bar_e / t_wait[i];
-          _dv_dtau[i]                   = (_dislo_velocity_edge[_qp][i] / (t_wait[i] + t_run[i])) * dtw_dtau;
+          inner = 1.0 - std::pow((tau_effAbs[i] / slip_r[i]), _q1);
+          tau_eff[i] = tau_effAbs[i];
+        }
+
+        if (inner > 0.0)
+        {
+          deltaG = deltaG0 / (_boltz * _temp);
+          exp_arg = deltaG * (std::pow(inner, _q2));
+          t_wait[i] = (exp(exp_arg)) / _omega0;
+          dtw_dtau = t_wait[i] * _q1 * _q2 * deltaG0 / (_boltz * _temp * slip_r[i]) *
+                     std::pow(inner, _q2 - 1.0) * std::pow((tau_eff[i] / slip_r[i]), _q1 - 1.0) *
+                     tau_effSign[i];
         }
         else
         {
-          _dislo_velocity_edge[_qp][i]  = tau_effSign[i] * _L_bar[i] / t_wait[i];
-          _dv_dtau[i]                   = (_dislo_velocity_edge[_qp][i] / (t_wait[i] + t_run[i])) * dtw_dtau;
+          t_wait[i] = 1.0 / _omega0;
         }
-      }
 
-      if (tau_effAbs[i] > small2)
-      {
+        // compute running velocity
         // compute Screw velocity
         // compute running velocity
-        xi0[i]        = 0.0;
-        vel_run[i]    = 0.0;
-        xi0[i]        = _B0s * _vs_screw / (2 * _burgers_vector_mag * tau_effAbs[i]);
-        vel_run[i]    = _vs_screw * (std::pow((xi0[i] * xi0[i] + 1), 0.5) - xi0[i]);
+        xi0[i] = 0.0;
+        vel_run[i] = 0.0;
+        xi0[i] = _B0s * _vs_screw / (2 * _burgers_vector_mag * tau_effAbs[i]);
+        vel_run[i] = _vs_screw * (std::pow((xi0[i] * xi0[i] + 1), 0.5) - xi0[i]);
 
         // compute running time
         if (_mean_free_path_init_flag)
         {
-          t_run[i]                      = _L_bar_s / vel_run[i];
+          t_run[i] = _L_bar_s / vel_run[i];
           _dislo_velocity_screw[_qp][i] = tau_effSign[i] * _L_bar_s / (t_wait[i] + t_run[i]);
         }
         else
         {
-          t_run[i]                      = _L_bar[i] / vel_run[i];
+          t_run[i] = _L_bar[i] / vel_run[i];
           _dislo_velocity_screw[_qp][i] = tau_effSign[i] * _L_bar[i] / (t_wait[i] + t_run[i]);
         }
 
-        dtr_dtau          = t_run[i] * xi0[i] * tau_effSign[i] / (std::pow((xi0[i] * xi0[i] + 1), 0.5) * tau_effAbs[i]);
-        _dv_dtau_screw[i] = (_dislo_velocity_screw[_qp][i] / (t_wait[i] + t_run[i])) * (dtr_dtau + dtw_dtau);
-      }
-      else
-      {
-        if (_mean_free_path_init_flag)
-        {
-          _dislo_velocity_screw[_qp][i] = tau_effSign[i] * _L_bar_s / t_wait[i];
-          _dv_dtau_screw[i]             = (_dislo_velocity_screw[_qp][i] / (t_wait[i] + t_run[i])) * dtw_dtau;
-        }
-        else
-        {
-          _dislo_velocity_screw[_qp][i] = tau_effSign[i] * _L_bar[i] / t_wait[i];
-          _dv_dtau_screw[i]             = (_dislo_velocity_screw[_qp][i] / (t_wait[i] + t_run[i])) * dtw_dtau;
-        }
-      }
+        dtr_dtau = t_run[i] * xi0[i] * tau_effSign[i] /
+                   (std::pow((xi0[i] * xi0[i] + 1), 0.5) * tau_effAbs[i]);
 
-      // // This is just for test and debug
-      if (_dislo_velocity_edge[_qp][i] > 100 || _dislo_velocity_screw[_qp][i] > 100)
-      {
-        mooseWarning("Edge dislocation velocity ",  _dislo_velocity_edge[_qp][i]);
-        mooseWarning("Screw dislocation velocity ", _dislo_velocity_screw[_qp][i]);
-        mooseWarning("Shear stress ", tau_eff[i]);
+        _dv_dtau_screw[i] =
+            (_dislo_velocity_screw[_qp][i] / (t_wait[i] + t_run[i])) * (dtr_dtau + dtw_dtau);
+
+        // This is just for test and debug
+        if (_dislo_velocity_screw[_qp][i] > 1000)
+        {
+          mooseWarning("Screw dislocation velocity ", _dislo_velocity_screw[_qp][i]);
+          mooseWarning("Screw run time", t_run[i]);
+          mooseWarning("Screw wait time", t_wait[i]);
+          mooseWarning("Shear stress", _tau[_qp][i]);
+          mooseWarning("Backstress", _tau_b_local[i]);
+          mooseWarning("Shear resistance", slip_r[i]);
+        }
       }
     }
   }
