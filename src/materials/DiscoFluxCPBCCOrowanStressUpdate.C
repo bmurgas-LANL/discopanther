@@ -201,7 +201,7 @@ DiscoFluxCPBCCOrowanStressUpdate::DiscoFluxCPBCCOrowanStressUpdate(const InputPa
     _C_m_ann(                   getParam<Real>("C_m_ann")),
     _C_im_ann(                  getParam<Real>("C_im_ann")),
 
-    _gamdot_ref(                getParam<Real>("gadot_ref")),
+    _gamdot_ref(                getParam<Real>("gamdot_ref")),
     _min_dd(                    getParam<Real>("min_dd")),
     _dd_sat(                    getParam<Real>("dd_sat")),
     _sat_A(                     getParam<Real>("sat_A")),
@@ -730,10 +730,10 @@ DiscoFluxCPBCCOrowanStressUpdate::initQpStatefulProperties()
     _dislocation_mobile_edge[_qp][i]  = (_DD_EdgeNegative[i] + _DD_EdgePositive[i]) * _dislo_density_factor_CDT;
     _dislocation_mobile_screw[_qp][i] = (_DD_ScrewPositive[i] + _DD_ScrewNegative[i]) * _dislo_density_factor_CDT;
 
-    _dislocation_immobile[_qp][i]                 = _dislo_density_initial * 0.25;
-    _dislocation_immobile_edge_negative[_qp][i]   = _dislo_density_initial * 0.25;
-    _dislocation_immobile_screw_positive[_qp][i]  = _dislo_density_initial * 0.25;
-    _dislocation_immobile_screw_negative[_qp][i]  = _dislo_density_initial * 0.25;
+    _dislocation_immobile[_qp][i]                 = _dislo_density_initial;
+    _dislocation_immobile_edge_negative[_qp][i]   = _dislo_density_initial;
+    _dislocation_immobile_screw_positive[_qp][i]  = _dislo_density_initial;
+    _dislocation_immobile_screw_negative[_qp][i]  = _dislo_density_initial;
     _dislo_velocity_edge[_qp][i]                  = 0.00;
     _dislo_velocity_screw[_qp][i]                 = 0.00;
     _kappa[_qp][i]                                = 0.0;
