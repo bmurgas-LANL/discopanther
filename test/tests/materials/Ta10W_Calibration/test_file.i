@@ -1363,27 +1363,29 @@
     # abs_tol = 1e-12
   []
   [./CP_DiscoFlux]
-    type                  = DiscoFluxCPBCCOrowanStressUpdate
-    number_slip_systems   = 24
-    slip_sys_file_name    = input_slip_sys.inp
-    lattice_friction      = 480.0
-    Coeff_hardening       = 0.52
-    Coeff_backstress      = 0.0
-    initial_athermal      = 27.0
-    dd_sat                = 2.5950e+9
-    sat_A                 = 1.e-16
-    min_dd                = 123750
-    nrec                  = 4.0
-    gamdot_ref            = 1.e9
-    q1                    = 0.376
-    q2                    = 1.666
-    B0                    = 1.25e-10
-    vs_edge               = 2.e6
-    temp                  = 300
-    omega0                = 1e11
-    g0                    = 0.2
-    mu                    = 78.49e+3
-    nu                    = 0.334
+    type                      = DiscoFluxCPBCCOrowanStressUpdate
+    number_slip_systems       = 24
+    slip_sys_file_name        = input_slip_sys.inp
+    lattice_friction          = 655.0
+    lattice_friction_112      = 575.0
+    lattice_friction_112_atw  = 1075.0
+    Coeff_hardening           = 0.52
+    Coeff_backstress          = 0.0
+    initial_athermal          = 27.0
+    dd_sat                    = 2.5950e+9
+    sat_A                     = 1.e-16
+    min_dd                    = 123750
+    nrec                      = 4.0
+    gamdot_ref                = 1.e9
+    q1                        = 0.376
+    q2                        = 1.666
+    B0                        = 1.25e-10
+    vs_edge                   = 2.e6
+    temp                      = 300
+    omega0                    = 1e11
+    g0                        = 0.2
+    mu                        = 78.49e+3
+    nu                        = 0.334
 
 
     slip_increment_tolerance = 0.02

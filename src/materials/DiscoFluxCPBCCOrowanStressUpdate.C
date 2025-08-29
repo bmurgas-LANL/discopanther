@@ -41,6 +41,8 @@ DiscoFluxCPBCCOrowanStressUpdate::validParams()
   // Parameter description in the DiscoFlux paper(International Journal of Plasticity 76 (2016)
   // 111e129)
   params.addParam<Real>("lattice_friction",           10,         "initial lattice friction strength of the material in MPa");
+  params.addParam<Real>("lattice_friction_112",       10,         "initial lattice friction strength of the material in MPa");
+  params.addParam<Real>("lattice_friction_112_atw",   10,         "initial lattice friction strength of the material in MPa");
   params.addParam<Real>("initial_athermal",           30,         "initial athermal stress resistance in MPa");
   params.addParam<Real>("burgers_vector_mag",         1.0e-07,    "Magnitude of the Burgers vector in mm");
   params.addParam<Real>("dislo_density_initial",      1.0e+05,    "Initial dislocation density(mm^{-2})");
@@ -190,6 +192,8 @@ DiscoFluxCPBCCOrowanStressUpdate::validParams()
 DiscoFluxCPBCCOrowanStressUpdate::DiscoFluxCPBCCOrowanStressUpdate(const InputParameters & parameters)
   : CrystalPlasticityOrowanStressUpdateBase(parameters),
     _lattice_friction(          getParam<Real>("lattice_friction")),
+    _lattice_friction_112(      getParam<Real>("lattice_friction_112")),
+    _lattice_friction_112_atw(  getParam<Real>("lattice_friction_112_atw")),
     _initial_athermal(          getParam<Real>("initial_athermal")),
     
     //
@@ -720,7 +724,11 @@ DiscoFluxCPBCCOrowanStressUpdate::initQpStatefulProperties()
         _slip_plane_normalboth[_qp][i].cross(_slip_direction_edge[_qp][i]);
     _slip_direction_screw[_qp][i]   /= _slip_direction_screw[_qp][i].norm();
 
-    _slip_resistance[_qp][i]        = _lattice_friction;
+    if (i < 12)
+      _slip_resistance[_qp][i]      = _lattice_friction;
+    else 
+      _slip_resistance[_qp][i]      = _lattice_friction_112;
+
     _slip_increment[_qp][i]         = 0.0;
 
     // _dislocation_mobile[_qp][i] =
@@ -1331,7 +1339,15 @@ DiscoFluxCPBCCOrowanStressUpdate::updateStateVariables()
                                     _dislocation_immobile_screw_positive[_qp][j] +
                                     _dislocation_immobile_screw_negative[_qp][j]);
     }
-    _slip_resistance[_qp][i]    = _lattice_friction + _Coeff_hardening * _mu * _burgers_vector_mag * std::sqrt(eff_dislocation_density);
+    Real tau_eff     = (_tau[_qp][i] - _tau_b[_qp][i]);
+    if (i < 12)
+      _slip_resistance[_qp][i]  = _lattice_friction;
+    else if (i >= 12 && tau_eff > 0)
+      _slip_resistance[_qp][i]  = _lattice_friction_112;
+    else 
+      _slip_resistance[_qp][i]  = _lattice_friction_112_atw;
+
+    _slip_resistance[_qp][i]    += _Coeff_hardening * _mu * _burgers_vector_mag * std::sqrt(eff_dislocation_density);
   }
 
   return true;
