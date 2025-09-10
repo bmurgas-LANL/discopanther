@@ -615,9 +615,9 @@ DiscoFluxCPOrowanStressUpdate::setSubstepConstitutiveVariableValues()
 {
   _slip_resistance[_qp] = _previous_substep_slip_resistance;
   _dislocation_immobile[_qp] = _previous_substep_dislocation_immobile;
-  _dislocation_immobile[_qp] = _previous_substep_dislocation_immobile_edge_negative;
-  _dislocation_immobile[_qp] = _previous_substep_dislocation_immobile_screw_positive;
-  _dislocation_immobile[_qp] = _previous_substep_dislocation_immobile_screw_negative;
+  _dislocation_immobile_edge_negative[_qp] = _previous_substep_dislocation_immobile_edge_negative;
+  _dislocation_immobile_screw_positive[_qp] = _previous_substep_dislocation_immobile_screw_positive;
+  _dislocation_immobile_screw_negative[_qp] = _previous_substep_dislocation_immobile_screw_negative;
   _dislocation_mobile[_qp] = _previous_substep_dislocation_mobile;
   _dislocation_mobile_edge[_qp] = _previous_substep_dislocation_mobile_edge;
   _dislocation_mobile_screw[_qp] = _previous_substep_dislocation_mobile_screw;
@@ -1047,6 +1047,9 @@ DiscoFluxCPOrowanStressUpdate::getDisloVelocity()
     // Compute velocity only if tau>tau_b
     if (tau_effAbs[i] > 0.0)
     {
+      ////////////////////////////////////////////////////////////
+      // Compute velocity and derivative for edge dislocations //
+      ////////////////////////////////////////////////////////////
       // Dislocation density threshold
       if (_disloc_den_threshold_flag &&
           (_DD_EdgeNegative[i] > _max_dd || _DD_EdgePositive[i] > _max_dd))
@@ -1071,14 +1074,21 @@ DiscoFluxCPOrowanStressUpdate::getDisloVelocity()
         {
           deltaG = deltaG0 / (_boltz * _temp);
           exp_arg = deltaG * (std::pow(inner, _q2));
-          t_wait[i] = (exp(exp_arg)) / _omega0;
-          dtw_dtau = t_wait[i] * _q1 * _q2 * deltaG0 / (_boltz * _temp * slip_r[i]) *
+          // t_wait[i] = (exp(exp_arg)) / _omega0;
+          // dtw_dtau = t_wait[i] * _q1 * _q2 * deltaG0 / (_boltz * _temp * slip_r[i]) *
+          //            std::pow(inner, _q2 - 1.0) * std::pow((tau_eff[i] / slip_r[i]), _q1 - 1.0) *
+          //            tau_effSign[i];
+
+          // second form of waiting time with exponential
+          t_wait[i] = (exp(exp_arg) - 1.0) / _omega0;
+          dtw_dtau = (exp(exp_arg) / _omega0) * _q1 * _q2 * deltaG0 / (_boltz * _temp * slip_r[i]) *
                      std::pow(inner, _q2 - 1.0) * std::pow((tau_eff[i] / slip_r[i]), _q1 - 1.0) *
                      tau_effSign[i];
         }
         else
         {
-          t_wait[i] = 1.0 / _omega0;
+          // t_wait[i] = 1.0 / _omega0;
+          t_wait[i] = 0.0;
         }
 
         // compute running velocity
@@ -1118,6 +1128,13 @@ DiscoFluxCPOrowanStressUpdate::getDisloVelocity()
         }
       }
 
+      ////////////////////////////////////////////////////////////
+      // Compute velocity and derivative for screw dislocations //
+      ////////////////////////////////////////////////////////////
+
+      t_wait[i] = 0.00;
+      t_run[i] = 0.00;
+
       if (_disloc_den_threshold_flag &&
           (_DD_ScrewNegative[i] > _max_dd || _DD_ScrewPositive[i] > _max_dd))
       {
@@ -1141,14 +1158,21 @@ DiscoFluxCPOrowanStressUpdate::getDisloVelocity()
         {
           deltaG = deltaG0 / (_boltz * _temp);
           exp_arg = deltaG * (std::pow(inner, _q2));
-          t_wait[i] = (exp(exp_arg)) / _omega0;
-          dtw_dtau = t_wait[i] * _q1 * _q2 * deltaG0 / (_boltz * _temp * slip_r[i]) *
+          // t_wait[i] = (exp(exp_arg)) / _omega0;
+          // dtw_dtau = t_wait[i] * _q1 * _q2 * deltaG0 / (_boltz * _temp * slip_r[i]) *
+          //            std::pow(inner, _q2 - 1.0) * std::pow((tau_eff[i] / slip_r[i]), _q1 - 1.0) *
+          //            tau_effSign[i];
+
+          // second form of waiting time with exponential
+          t_wait[i] = (exp(exp_arg) - 1.0) / _omega0;
+          dtw_dtau = (exp(exp_arg) / _omega0) * _q1 * _q2 * deltaG0 / (_boltz * _temp * slip_r[i]) *
                      std::pow(inner, _q2 - 1.0) * std::pow((tau_eff[i] / slip_r[i]), _q1 - 1.0) *
                      tau_effSign[i];
         }
         else
         {
-          t_wait[i] = 1.0 / _omega0;
+          // t_wait[i] = 1.0 / _omega0;
+          t_wait[i] = 0.0;
         }
 
         // compute running velocity

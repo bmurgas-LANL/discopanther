@@ -124,6 +124,10 @@ DislocationSourceVolume::computeQpResidual()
       break;
   }
 
+  //   if(slip_rate>0.00001){
+  //     mooseWarning("Slip rate in source volume is ", slip_rate);
+  //   }
+
   _dislocation_mobile_increment_mult =
       (_C_multi * std::pow(dislocation_forest, 0.5)) * std::abs(slip_rate);
   _dislocation_mobile_increment_trap =
@@ -135,7 +139,7 @@ DislocationSourceVolume::computeQpResidual()
   dislocation_mobile_increment =
       (_dislocation_mobile_increment_mult - _dislocation_mobile_increment_trap -
        _dislocation_mobile_increment_ann);
-  dislocation_mobile_increment *= _dt / _dislo_density_factor_CDT;
+  dislocation_mobile_increment *= _fe_problem.dt() / _dislo_density_factor_CDT;
 
   return -_test[_i][_qp] * dislocation_mobile_increment;
 }
@@ -196,7 +200,7 @@ DislocationSourceVolume::computeQpJacobian()
   dislocation_mobile_increment =
       (_dislocation_mobile_increment_mult - _dislocation_mobile_increment_trap -
        _dislocation_mobile_increment_ann);
-  dislocation_mobile_increment *= _dt / _dislo_density_factor_CDT;
+  dislocation_mobile_increment *= _fe_problem.dt() / _dislo_density_factor_CDT;
 
   return -_test[_i][_qp] * dislocation_mobile_increment;
 }
