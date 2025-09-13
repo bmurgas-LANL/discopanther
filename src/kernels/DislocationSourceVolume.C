@@ -135,7 +135,7 @@ DislocationSourceVolume::computeQpResidual()
   _dislocation_mobile_increment_ann =   (0.25 * _C_m_ann * std::pow(dislocation_forest, 0.5) / (saturation_density)) * _u[_qp] * std::abs(slip_rate);
 
   dislocation_mobile_increment = (_dislocation_mobile_increment_mult - _dislocation_mobile_increment_trap - _dislocation_mobile_increment_ann);
-  dislocation_mobile_increment *= _dt / _dislo_density_factor_CDT;
+  dislocation_mobile_increment *= 1.0 / _dislo_density_factor_CDT;
 
   return -_test[_i][_qp] * dislocation_mobile_increment;
 }
@@ -186,7 +186,7 @@ DislocationSourceVolume::computeQpJacobian()
   _dislocation_mobile_increment_ann = (0.25 * _C_m_ann * std::pow(dislocation_forest, 0.5) / _dd_sat) * 2.0 * _u[_qp] * std::abs(slip_rate);
 
   dislocation_mobile_increment = (_dislocation_mobile_increment_mult - _dislocation_mobile_increment_trap -  _dislocation_mobile_increment_ann);
-  dislocation_mobile_increment *= _dt / _dislo_density_factor_CDT;
+  dislocation_mobile_increment *= 1.0 / _dislo_density_factor_CDT;
 
   return -_test[_i][_qp] * dislocation_mobile_increment;
 }

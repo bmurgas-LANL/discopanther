@@ -951,207 +951,209 @@ DiscoFluxCPBCCOrowanStressUpdate::setSubstepConstitutiveVariableValues()
 bool
 DiscoFluxCPBCCOrowanStressUpdate::calculateSlipRate()
 {
-  _DD_EdgeNegative[0]   = _DD_EdgeNegative_1[_qp];
-  _DD_EdgeNegative[1]   = _DD_EdgeNegative_2[_qp];
-  _DD_EdgeNegative[2]   = _DD_EdgeNegative_3[_qp];
-  _DD_EdgeNegative[3]   = _DD_EdgeNegative_4[_qp];
-  _DD_EdgeNegative[4]   = _DD_EdgeNegative_5[_qp];
-  _DD_EdgeNegative[5]   = _DD_EdgeNegative_6[_qp];
-  _DD_EdgeNegative[6]   = _DD_EdgeNegative_7[_qp];
-  _DD_EdgeNegative[7]   = _DD_EdgeNegative_8[_qp];
-  _DD_EdgeNegative[8]   = _DD_EdgeNegative_9[_qp];
-  _DD_EdgeNegative[9]   = _DD_EdgeNegative_10[_qp];
-  _DD_EdgeNegative[10]  = _DD_EdgeNegative_11[_qp];
-  _DD_EdgeNegative[11]  = _DD_EdgeNegative_12[_qp];
-  _DD_EdgeNegative[12]  = _DD_EdgeNegative_13[_qp];
-  _DD_EdgeNegative[13]  = _DD_EdgeNegative_14[_qp];
-  _DD_EdgeNegative[14]  = _DD_EdgeNegative_15[_qp];
-  _DD_EdgeNegative[15]  = _DD_EdgeNegative_16[_qp];
-  _DD_EdgeNegative[16]  = _DD_EdgeNegative_17[_qp];
-  _DD_EdgeNegative[17]  = _DD_EdgeNegative_18[_qp];
-  _DD_EdgeNegative[18]  = _DD_EdgeNegative_19[_qp];
-  _DD_EdgeNegative[19]  = _DD_EdgeNegative_20[_qp];
-  _DD_EdgeNegative[20]  = _DD_EdgeNegative_21[_qp];
-  _DD_EdgeNegative[21]  = _DD_EdgeNegative_22[_qp];
-  _DD_EdgeNegative[22]  = _DD_EdgeNegative_23[_qp];
-  _DD_EdgeNegative[23]  = _DD_EdgeNegative_24[_qp];
+  {
+    _DD_EdgeNegative[0]   = _DD_EdgeNegative_1[_qp];
+    _DD_EdgeNegative[1]   = _DD_EdgeNegative_2[_qp];
+    _DD_EdgeNegative[2]   = _DD_EdgeNegative_3[_qp];
+    _DD_EdgeNegative[3]   = _DD_EdgeNegative_4[_qp];
+    _DD_EdgeNegative[4]   = _DD_EdgeNegative_5[_qp];
+    _DD_EdgeNegative[5]   = _DD_EdgeNegative_6[_qp];
+    _DD_EdgeNegative[6]   = _DD_EdgeNegative_7[_qp];
+    _DD_EdgeNegative[7]   = _DD_EdgeNegative_8[_qp];
+    _DD_EdgeNegative[8]   = _DD_EdgeNegative_9[_qp];
+    _DD_EdgeNegative[9]   = _DD_EdgeNegative_10[_qp];
+    _DD_EdgeNegative[10]  = _DD_EdgeNegative_11[_qp];
+    _DD_EdgeNegative[11]  = _DD_EdgeNegative_12[_qp];
+    _DD_EdgeNegative[12]  = _DD_EdgeNegative_13[_qp];
+    _DD_EdgeNegative[13]  = _DD_EdgeNegative_14[_qp];
+    _DD_EdgeNegative[14]  = _DD_EdgeNegative_15[_qp];
+    _DD_EdgeNegative[15]  = _DD_EdgeNegative_16[_qp];
+    _DD_EdgeNegative[16]  = _DD_EdgeNegative_17[_qp];
+    _DD_EdgeNegative[17]  = _DD_EdgeNegative_18[_qp];
+    _DD_EdgeNegative[18]  = _DD_EdgeNegative_19[_qp];
+    _DD_EdgeNegative[19]  = _DD_EdgeNegative_20[_qp];
+    _DD_EdgeNegative[20]  = _DD_EdgeNegative_21[_qp];
+    _DD_EdgeNegative[21]  = _DD_EdgeNegative_22[_qp];
+    _DD_EdgeNegative[22]  = _DD_EdgeNegative_23[_qp];
+    _DD_EdgeNegative[23]  = _DD_EdgeNegative_24[_qp];
 
-  _DD_EdgePositive[0]   = _DD_EdgePositive_1[_qp];
-  _DD_EdgePositive[1]   = _DD_EdgePositive_2[_qp];
-  _DD_EdgePositive[2]   = _DD_EdgePositive_3[_qp];
-  _DD_EdgePositive[3]   = _DD_EdgePositive_4[_qp];
-  _DD_EdgePositive[4]   = _DD_EdgePositive_5[_qp];
-  _DD_EdgePositive[5]   = _DD_EdgePositive_6[_qp];
-  _DD_EdgePositive[6]   = _DD_EdgePositive_7[_qp];
-  _DD_EdgePositive[7]   = _DD_EdgePositive_8[_qp];
-  _DD_EdgePositive[8]   = _DD_EdgePositive_9[_qp];
-  _DD_EdgePositive[9]   = _DD_EdgePositive_10[_qp];
-  _DD_EdgePositive[10]  = _DD_EdgePositive_11[_qp];
-  _DD_EdgePositive[11]  = _DD_EdgePositive_12[_qp];
-  _DD_EdgePositive[12]  = _DD_EdgePositive_13[_qp];
-  _DD_EdgePositive[13]  = _DD_EdgePositive_14[_qp];
-  _DD_EdgePositive[14]  = _DD_EdgePositive_15[_qp];
-  _DD_EdgePositive[15]  = _DD_EdgePositive_16[_qp];
-  _DD_EdgePositive[16]  = _DD_EdgePositive_17[_qp];
-  _DD_EdgePositive[17]  = _DD_EdgePositive_18[_qp];
-  _DD_EdgePositive[18]  = _DD_EdgePositive_19[_qp];
-  _DD_EdgePositive[19]  = _DD_EdgePositive_20[_qp];
-  _DD_EdgePositive[20]  = _DD_EdgePositive_21[_qp];
-  _DD_EdgePositive[21]  = _DD_EdgePositive_22[_qp];
-  _DD_EdgePositive[22]  = _DD_EdgePositive_23[_qp];
-  _DD_EdgePositive[23]  = _DD_EdgePositive_24[_qp];
+    _DD_EdgePositive[0]   = _DD_EdgePositive_1[_qp];
+    _DD_EdgePositive[1]   = _DD_EdgePositive_2[_qp];
+    _DD_EdgePositive[2]   = _DD_EdgePositive_3[_qp];
+    _DD_EdgePositive[3]   = _DD_EdgePositive_4[_qp];
+    _DD_EdgePositive[4]   = _DD_EdgePositive_5[_qp];
+    _DD_EdgePositive[5]   = _DD_EdgePositive_6[_qp];
+    _DD_EdgePositive[6]   = _DD_EdgePositive_7[_qp];
+    _DD_EdgePositive[7]   = _DD_EdgePositive_8[_qp];
+    _DD_EdgePositive[8]   = _DD_EdgePositive_9[_qp];
+    _DD_EdgePositive[9]   = _DD_EdgePositive_10[_qp];
+    _DD_EdgePositive[10]  = _DD_EdgePositive_11[_qp];
+    _DD_EdgePositive[11]  = _DD_EdgePositive_12[_qp];
+    _DD_EdgePositive[12]  = _DD_EdgePositive_13[_qp];
+    _DD_EdgePositive[13]  = _DD_EdgePositive_14[_qp];
+    _DD_EdgePositive[14]  = _DD_EdgePositive_15[_qp];
+    _DD_EdgePositive[15]  = _DD_EdgePositive_16[_qp];
+    _DD_EdgePositive[16]  = _DD_EdgePositive_17[_qp];
+    _DD_EdgePositive[17]  = _DD_EdgePositive_18[_qp];
+    _DD_EdgePositive[18]  = _DD_EdgePositive_19[_qp];
+    _DD_EdgePositive[19]  = _DD_EdgePositive_20[_qp];
+    _DD_EdgePositive[20]  = _DD_EdgePositive_21[_qp];
+    _DD_EdgePositive[21]  = _DD_EdgePositive_22[_qp];
+    _DD_EdgePositive[22]  = _DD_EdgePositive_23[_qp];
+    _DD_EdgePositive[23]  = _DD_EdgePositive_24[_qp];
 
-  _DD_ScrewNegative[0]    = _DD_ScrewNegative_1[_qp];
-  _DD_ScrewNegative[1]    = _DD_ScrewNegative_2[_qp];
-  _DD_ScrewNegative[2]    = _DD_ScrewNegative_3[_qp];
-  _DD_ScrewNegative[3]    = _DD_ScrewNegative_4[_qp];
-  _DD_ScrewNegative[4]    = _DD_ScrewNegative_5[_qp];
-  _DD_ScrewNegative[5]    = _DD_ScrewNegative_6[_qp];
-  _DD_ScrewNegative[6]    = _DD_ScrewNegative_7[_qp];
-  _DD_ScrewNegative[7]    = _DD_ScrewNegative_8[_qp];
-  _DD_ScrewNegative[8]    = _DD_ScrewNegative_9[_qp];
-  _DD_ScrewNegative[9]    = _DD_ScrewNegative_10[_qp];
-  _DD_ScrewNegative[10]   = _DD_ScrewNegative_11[_qp];
-  _DD_ScrewNegative[11]   = _DD_ScrewNegative_12[_qp];
-  _DD_ScrewNegative[12]   = _DD_ScrewNegative_13[_qp];
-  _DD_ScrewNegative[13]   = _DD_ScrewNegative_14[_qp];
-  _DD_ScrewNegative[14]   = _DD_ScrewNegative_15[_qp];
-  _DD_ScrewNegative[15]   = _DD_ScrewNegative_16[_qp];
-  _DD_ScrewNegative[16]   = _DD_ScrewNegative_17[_qp];
-  _DD_ScrewNegative[17]   = _DD_ScrewNegative_18[_qp];
-  _DD_ScrewNegative[18]   = _DD_ScrewNegative_19[_qp];
-  _DD_ScrewNegative[19]   = _DD_ScrewNegative_20[_qp];
-  _DD_ScrewNegative[20]   = _DD_ScrewNegative_21[_qp];
-  _DD_ScrewNegative[21]   = _DD_ScrewNegative_22[_qp];
-  _DD_ScrewNegative[22]   = _DD_ScrewNegative_23[_qp];
-  _DD_ScrewNegative[23]   = _DD_ScrewNegative_24[_qp];
+    _DD_ScrewNegative[0]    = _DD_ScrewNegative_1[_qp];
+    _DD_ScrewNegative[1]    = _DD_ScrewNegative_2[_qp];
+    _DD_ScrewNegative[2]    = _DD_ScrewNegative_3[_qp];
+    _DD_ScrewNegative[3]    = _DD_ScrewNegative_4[_qp];
+    _DD_ScrewNegative[4]    = _DD_ScrewNegative_5[_qp];
+    _DD_ScrewNegative[5]    = _DD_ScrewNegative_6[_qp];
+    _DD_ScrewNegative[6]    = _DD_ScrewNegative_7[_qp];
+    _DD_ScrewNegative[7]    = _DD_ScrewNegative_8[_qp];
+    _DD_ScrewNegative[8]    = _DD_ScrewNegative_9[_qp];
+    _DD_ScrewNegative[9]    = _DD_ScrewNegative_10[_qp];
+    _DD_ScrewNegative[10]   = _DD_ScrewNegative_11[_qp];
+    _DD_ScrewNegative[11]   = _DD_ScrewNegative_12[_qp];
+    _DD_ScrewNegative[12]   = _DD_ScrewNegative_13[_qp];
+    _DD_ScrewNegative[13]   = _DD_ScrewNegative_14[_qp];
+    _DD_ScrewNegative[14]   = _DD_ScrewNegative_15[_qp];
+    _DD_ScrewNegative[15]   = _DD_ScrewNegative_16[_qp];
+    _DD_ScrewNegative[16]   = _DD_ScrewNegative_17[_qp];
+    _DD_ScrewNegative[17]   = _DD_ScrewNegative_18[_qp];
+    _DD_ScrewNegative[18]   = _DD_ScrewNegative_19[_qp];
+    _DD_ScrewNegative[19]   = _DD_ScrewNegative_20[_qp];
+    _DD_ScrewNegative[20]   = _DD_ScrewNegative_21[_qp];
+    _DD_ScrewNegative[21]   = _DD_ScrewNegative_22[_qp];
+    _DD_ScrewNegative[22]   = _DD_ScrewNegative_23[_qp];
+    _DD_ScrewNegative[23]   = _DD_ScrewNegative_24[_qp];
 
-  _DD_ScrewPositive[0]    = _DD_ScrewPositive_1[_qp];
-  _DD_ScrewPositive[1]    = _DD_ScrewPositive_2[_qp];
-  _DD_ScrewPositive[2]    = _DD_ScrewPositive_3[_qp];
-  _DD_ScrewPositive[3]    = _DD_ScrewPositive_4[_qp];
-  _DD_ScrewPositive[4]    = _DD_ScrewPositive_5[_qp];
-  _DD_ScrewPositive[5]    = _DD_ScrewPositive_6[_qp];
-  _DD_ScrewPositive[6]    = _DD_ScrewPositive_7[_qp];
-  _DD_ScrewPositive[7]    = _DD_ScrewPositive_8[_qp];
-  _DD_ScrewPositive[8]    = _DD_ScrewPositive_9[_qp];
-  _DD_ScrewPositive[9]    = _DD_ScrewPositive_10[_qp];
-  _DD_ScrewPositive[10]   = _DD_ScrewPositive_11[_qp];
-  _DD_ScrewPositive[11]   = _DD_ScrewPositive_12[_qp];
-  _DD_ScrewPositive[12]   = _DD_ScrewPositive_13[_qp];
-  _DD_ScrewPositive[13]   = _DD_ScrewPositive_14[_qp];
-  _DD_ScrewPositive[14]   = _DD_ScrewPositive_15[_qp];
-  _DD_ScrewPositive[15]   = _DD_ScrewPositive_16[_qp];
-  _DD_ScrewPositive[16]   = _DD_ScrewPositive_17[_qp];
-  _DD_ScrewPositive[17]   = _DD_ScrewPositive_18[_qp];
-  _DD_ScrewPositive[18]   = _DD_ScrewPositive_19[_qp];
-  _DD_ScrewPositive[19]   = _DD_ScrewPositive_20[_qp];
-  _DD_ScrewPositive[20]   = _DD_ScrewPositive_21[_qp];
-  _DD_ScrewPositive[21]   = _DD_ScrewPositive_22[_qp];
-  _DD_ScrewPositive[22]   = _DD_ScrewPositive_23[_qp];
-  _DD_ScrewPositive[23]   = _DD_ScrewPositive_24[_qp];
+    _DD_ScrewPositive[0]    = _DD_ScrewPositive_1[_qp];
+    _DD_ScrewPositive[1]    = _DD_ScrewPositive_2[_qp];
+    _DD_ScrewPositive[2]    = _DD_ScrewPositive_3[_qp];
+    _DD_ScrewPositive[3]    = _DD_ScrewPositive_4[_qp];
+    _DD_ScrewPositive[4]    = _DD_ScrewPositive_5[_qp];
+    _DD_ScrewPositive[5]    = _DD_ScrewPositive_6[_qp];
+    _DD_ScrewPositive[6]    = _DD_ScrewPositive_7[_qp];
+    _DD_ScrewPositive[7]    = _DD_ScrewPositive_8[_qp];
+    _DD_ScrewPositive[8]    = _DD_ScrewPositive_9[_qp];
+    _DD_ScrewPositive[9]    = _DD_ScrewPositive_10[_qp];
+    _DD_ScrewPositive[10]   = _DD_ScrewPositive_11[_qp];
+    _DD_ScrewPositive[11]   = _DD_ScrewPositive_12[_qp];
+    _DD_ScrewPositive[12]   = _DD_ScrewPositive_13[_qp];
+    _DD_ScrewPositive[13]   = _DD_ScrewPositive_14[_qp];
+    _DD_ScrewPositive[14]   = _DD_ScrewPositive_15[_qp];
+    _DD_ScrewPositive[15]   = _DD_ScrewPositive_16[_qp];
+    _DD_ScrewPositive[16]   = _DD_ScrewPositive_17[_qp];
+    _DD_ScrewPositive[17]   = _DD_ScrewPositive_18[_qp];
+    _DD_ScrewPositive[18]   = _DD_ScrewPositive_19[_qp];
+    _DD_ScrewPositive[19]   = _DD_ScrewPositive_20[_qp];
+    _DD_ScrewPositive[20]   = _DD_ScrewPositive_21[_qp];
+    _DD_ScrewPositive[21]   = _DD_ScrewPositive_22[_qp];
+    _DD_ScrewPositive[22]   = _DD_ScrewPositive_23[_qp];
+    _DD_ScrewPositive[23]   = _DD_ScrewPositive_24[_qp];
 
-  //
-  _DD_EdgeNegative_Grad[0]   = _DD_EdgeNegative_1_Grad[_qp];
-  _DD_EdgeNegative_Grad[1]   = _DD_EdgeNegative_2_Grad[_qp];
-  _DD_EdgeNegative_Grad[2]   = _DD_EdgeNegative_3_Grad[_qp];
-  _DD_EdgeNegative_Grad[3]   = _DD_EdgeNegative_4_Grad[_qp];
-  _DD_EdgeNegative_Grad[4]   = _DD_EdgeNegative_5_Grad[_qp];
-  _DD_EdgeNegative_Grad[5]   = _DD_EdgeNegative_6_Grad[_qp];
-  _DD_EdgeNegative_Grad[6]   = _DD_EdgeNegative_7_Grad[_qp];
-  _DD_EdgeNegative_Grad[7]   = _DD_EdgeNegative_8_Grad[_qp];
-  _DD_EdgeNegative_Grad[8]   = _DD_EdgeNegative_9_Grad[_qp];
-  _DD_EdgeNegative_Grad[9]   = _DD_EdgeNegative_10_Grad[_qp];
-  _DD_EdgeNegative_Grad[10]  = _DD_EdgeNegative_11_Grad[_qp];
-  _DD_EdgeNegative_Grad[11]  = _DD_EdgeNegative_12_Grad[_qp];
-  _DD_EdgeNegative_Grad[12]  = _DD_EdgeNegative_13_Grad[_qp];
-  _DD_EdgeNegative_Grad[13]  = _DD_EdgeNegative_14_Grad[_qp];
-  _DD_EdgeNegative_Grad[14]  = _DD_EdgeNegative_15_Grad[_qp];
-  _DD_EdgeNegative_Grad[15]  = _DD_EdgeNegative_16_Grad[_qp];
-  _DD_EdgeNegative_Grad[16]  = _DD_EdgeNegative_17_Grad[_qp];
-  _DD_EdgeNegative_Grad[17]  = _DD_EdgeNegative_18_Grad[_qp];
-  _DD_EdgeNegative_Grad[18]  = _DD_EdgeNegative_19_Grad[_qp];
-  _DD_EdgeNegative_Grad[19]  = _DD_EdgeNegative_20_Grad[_qp];
-  _DD_EdgeNegative_Grad[20]  = _DD_EdgeNegative_21_Grad[_qp];
-  _DD_EdgeNegative_Grad[21]  = _DD_EdgeNegative_22_Grad[_qp];
-  _DD_EdgeNegative_Grad[22]  = _DD_EdgeNegative_23_Grad[_qp];
-  _DD_EdgeNegative_Grad[23]  = _DD_EdgeNegative_24_Grad[_qp];
+    //
+    _DD_EdgeNegative_Grad[0]   = _DD_EdgeNegative_1_Grad[_qp];
+    _DD_EdgeNegative_Grad[1]   = _DD_EdgeNegative_2_Grad[_qp];
+    _DD_EdgeNegative_Grad[2]   = _DD_EdgeNegative_3_Grad[_qp];
+    _DD_EdgeNegative_Grad[3]   = _DD_EdgeNegative_4_Grad[_qp];
+    _DD_EdgeNegative_Grad[4]   = _DD_EdgeNegative_5_Grad[_qp];
+    _DD_EdgeNegative_Grad[5]   = _DD_EdgeNegative_6_Grad[_qp];
+    _DD_EdgeNegative_Grad[6]   = _DD_EdgeNegative_7_Grad[_qp];
+    _DD_EdgeNegative_Grad[7]   = _DD_EdgeNegative_8_Grad[_qp];
+    _DD_EdgeNegative_Grad[8]   = _DD_EdgeNegative_9_Grad[_qp];
+    _DD_EdgeNegative_Grad[9]   = _DD_EdgeNegative_10_Grad[_qp];
+    _DD_EdgeNegative_Grad[10]  = _DD_EdgeNegative_11_Grad[_qp];
+    _DD_EdgeNegative_Grad[11]  = _DD_EdgeNegative_12_Grad[_qp];
+    _DD_EdgeNegative_Grad[12]  = _DD_EdgeNegative_13_Grad[_qp];
+    _DD_EdgeNegative_Grad[13]  = _DD_EdgeNegative_14_Grad[_qp];
+    _DD_EdgeNegative_Grad[14]  = _DD_EdgeNegative_15_Grad[_qp];
+    _DD_EdgeNegative_Grad[15]  = _DD_EdgeNegative_16_Grad[_qp];
+    _DD_EdgeNegative_Grad[16]  = _DD_EdgeNegative_17_Grad[_qp];
+    _DD_EdgeNegative_Grad[17]  = _DD_EdgeNegative_18_Grad[_qp];
+    _DD_EdgeNegative_Grad[18]  = _DD_EdgeNegative_19_Grad[_qp];
+    _DD_EdgeNegative_Grad[19]  = _DD_EdgeNegative_20_Grad[_qp];
+    _DD_EdgeNegative_Grad[20]  = _DD_EdgeNegative_21_Grad[_qp];
+    _DD_EdgeNegative_Grad[21]  = _DD_EdgeNegative_22_Grad[_qp];
+    _DD_EdgeNegative_Grad[22]  = _DD_EdgeNegative_23_Grad[_qp];
+    _DD_EdgeNegative_Grad[23]  = _DD_EdgeNegative_24_Grad[_qp];
 
-  _DD_EdgePositive_Grad[0]   = _DD_EdgePositive_1_Grad[_qp];
-  _DD_EdgePositive_Grad[1]   = _DD_EdgePositive_2_Grad[_qp];
-  _DD_EdgePositive_Grad[2]   = _DD_EdgePositive_3_Grad[_qp];
-  _DD_EdgePositive_Grad[3]   = _DD_EdgePositive_4_Grad[_qp];
-  _DD_EdgePositive_Grad[4]   = _DD_EdgePositive_5_Grad[_qp];
-  _DD_EdgePositive_Grad[5]   = _DD_EdgePositive_6_Grad[_qp];
-  _DD_EdgePositive_Grad[6]   = _DD_EdgePositive_7_Grad[_qp];
-  _DD_EdgePositive_Grad[7]   = _DD_EdgePositive_8_Grad[_qp];
-  _DD_EdgePositive_Grad[8]   = _DD_EdgePositive_9_Grad[_qp];
-  _DD_EdgePositive_Grad[9]   = _DD_EdgePositive_10_Grad[_qp];
-  _DD_EdgePositive_Grad[10]  = _DD_EdgePositive_11_Grad[_qp];
-  _DD_EdgePositive_Grad[11]  = _DD_EdgePositive_12_Grad[_qp];
-  _DD_EdgePositive_Grad[12]  = _DD_EdgePositive_13_Grad[_qp];
-  _DD_EdgePositive_Grad[13]  = _DD_EdgePositive_14_Grad[_qp];
-  _DD_EdgePositive_Grad[14]  = _DD_EdgePositive_15_Grad[_qp];
-  _DD_EdgePositive_Grad[15]  = _DD_EdgePositive_16_Grad[_qp];
-  _DD_EdgePositive_Grad[16]  = _DD_EdgePositive_17_Grad[_qp];
-  _DD_EdgePositive_Grad[17]  = _DD_EdgePositive_18_Grad[_qp];
-  _DD_EdgePositive_Grad[18]  = _DD_EdgePositive_19_Grad[_qp];
-  _DD_EdgePositive_Grad[19]  = _DD_EdgePositive_20_Grad[_qp];
-  _DD_EdgePositive_Grad[20]  = _DD_EdgePositive_21_Grad[_qp];
-  _DD_EdgePositive_Grad[21]  = _DD_EdgePositive_22_Grad[_qp];
-  _DD_EdgePositive_Grad[22]  = _DD_EdgePositive_23_Grad[_qp];
-  _DD_EdgePositive_Grad[23]  = _DD_EdgePositive_24_Grad[_qp];
+    _DD_EdgePositive_Grad[0]   = _DD_EdgePositive_1_Grad[_qp];
+    _DD_EdgePositive_Grad[1]   = _DD_EdgePositive_2_Grad[_qp];
+    _DD_EdgePositive_Grad[2]   = _DD_EdgePositive_3_Grad[_qp];
+    _DD_EdgePositive_Grad[3]   = _DD_EdgePositive_4_Grad[_qp];
+    _DD_EdgePositive_Grad[4]   = _DD_EdgePositive_5_Grad[_qp];
+    _DD_EdgePositive_Grad[5]   = _DD_EdgePositive_6_Grad[_qp];
+    _DD_EdgePositive_Grad[6]   = _DD_EdgePositive_7_Grad[_qp];
+    _DD_EdgePositive_Grad[7]   = _DD_EdgePositive_8_Grad[_qp];
+    _DD_EdgePositive_Grad[8]   = _DD_EdgePositive_9_Grad[_qp];
+    _DD_EdgePositive_Grad[9]   = _DD_EdgePositive_10_Grad[_qp];
+    _DD_EdgePositive_Grad[10]  = _DD_EdgePositive_11_Grad[_qp];
+    _DD_EdgePositive_Grad[11]  = _DD_EdgePositive_12_Grad[_qp];
+    _DD_EdgePositive_Grad[12]  = _DD_EdgePositive_13_Grad[_qp];
+    _DD_EdgePositive_Grad[13]  = _DD_EdgePositive_14_Grad[_qp];
+    _DD_EdgePositive_Grad[14]  = _DD_EdgePositive_15_Grad[_qp];
+    _DD_EdgePositive_Grad[15]  = _DD_EdgePositive_16_Grad[_qp];
+    _DD_EdgePositive_Grad[16]  = _DD_EdgePositive_17_Grad[_qp];
+    _DD_EdgePositive_Grad[17]  = _DD_EdgePositive_18_Grad[_qp];
+    _DD_EdgePositive_Grad[18]  = _DD_EdgePositive_19_Grad[_qp];
+    _DD_EdgePositive_Grad[19]  = _DD_EdgePositive_20_Grad[_qp];
+    _DD_EdgePositive_Grad[20]  = _DD_EdgePositive_21_Grad[_qp];
+    _DD_EdgePositive_Grad[21]  = _DD_EdgePositive_22_Grad[_qp];
+    _DD_EdgePositive_Grad[22]  = _DD_EdgePositive_23_Grad[_qp];
+    _DD_EdgePositive_Grad[23]  = _DD_EdgePositive_24_Grad[_qp];
 
-  _DD_ScrewNegative_Grad[0]    = _DD_ScrewNegative_1_Grad[_qp];
-  _DD_ScrewNegative_Grad[1]    = _DD_ScrewNegative_2_Grad[_qp];
-  _DD_ScrewNegative_Grad[2]    = _DD_ScrewNegative_3_Grad[_qp];
-  _DD_ScrewNegative_Grad[3]    = _DD_ScrewNegative_4_Grad[_qp];
-  _DD_ScrewNegative_Grad[4]    = _DD_ScrewNegative_5_Grad[_qp];
-  _DD_ScrewNegative_Grad[5]    = _DD_ScrewNegative_6_Grad[_qp];
-  _DD_ScrewNegative_Grad[6]    = _DD_ScrewNegative_7_Grad[_qp];
-  _DD_ScrewNegative_Grad[7]    = _DD_ScrewNegative_8_Grad[_qp];
-  _DD_ScrewNegative_Grad[8]    = _DD_ScrewNegative_9_Grad[_qp];
-  _DD_ScrewNegative_Grad[9]    = _DD_ScrewNegative_10_Grad[_qp];
-  _DD_ScrewNegative_Grad[10]   = _DD_ScrewNegative_11_Grad[_qp];
-  _DD_ScrewNegative_Grad[11]   = _DD_ScrewNegative_12_Grad[_qp];
-  _DD_ScrewNegative_Grad[12]   = _DD_ScrewNegative_13_Grad[_qp];
-  _DD_ScrewNegative_Grad[13]   = _DD_ScrewNegative_14_Grad[_qp];
-  _DD_ScrewNegative_Grad[14]   = _DD_ScrewNegative_15_Grad[_qp];
-  _DD_ScrewNegative_Grad[15]   = _DD_ScrewNegative_16_Grad[_qp];
-  _DD_ScrewNegative_Grad[16]   = _DD_ScrewNegative_17_Grad[_qp];
-  _DD_ScrewNegative_Grad[17]   = _DD_ScrewNegative_18_Grad[_qp];
-  _DD_ScrewNegative_Grad[18]   = _DD_ScrewNegative_19_Grad[_qp];
-  _DD_ScrewNegative_Grad[19]   = _DD_ScrewNegative_20_Grad[_qp];
-  _DD_ScrewNegative_Grad[20]   = _DD_ScrewNegative_21_Grad[_qp];
-  _DD_ScrewNegative_Grad[21]   = _DD_ScrewNegative_22_Grad[_qp];
-  _DD_ScrewNegative_Grad[22]   = _DD_ScrewNegative_23_Grad[_qp];
-  _DD_ScrewNegative_Grad[23]   = _DD_ScrewNegative_24_Grad[_qp];
+    _DD_ScrewNegative_Grad[0]    = _DD_ScrewNegative_1_Grad[_qp];
+    _DD_ScrewNegative_Grad[1]    = _DD_ScrewNegative_2_Grad[_qp];
+    _DD_ScrewNegative_Grad[2]    = _DD_ScrewNegative_3_Grad[_qp];
+    _DD_ScrewNegative_Grad[3]    = _DD_ScrewNegative_4_Grad[_qp];
+    _DD_ScrewNegative_Grad[4]    = _DD_ScrewNegative_5_Grad[_qp];
+    _DD_ScrewNegative_Grad[5]    = _DD_ScrewNegative_6_Grad[_qp];
+    _DD_ScrewNegative_Grad[6]    = _DD_ScrewNegative_7_Grad[_qp];
+    _DD_ScrewNegative_Grad[7]    = _DD_ScrewNegative_8_Grad[_qp];
+    _DD_ScrewNegative_Grad[8]    = _DD_ScrewNegative_9_Grad[_qp];
+    _DD_ScrewNegative_Grad[9]    = _DD_ScrewNegative_10_Grad[_qp];
+    _DD_ScrewNegative_Grad[10]   = _DD_ScrewNegative_11_Grad[_qp];
+    _DD_ScrewNegative_Grad[11]   = _DD_ScrewNegative_12_Grad[_qp];
+    _DD_ScrewNegative_Grad[12]   = _DD_ScrewNegative_13_Grad[_qp];
+    _DD_ScrewNegative_Grad[13]   = _DD_ScrewNegative_14_Grad[_qp];
+    _DD_ScrewNegative_Grad[14]   = _DD_ScrewNegative_15_Grad[_qp];
+    _DD_ScrewNegative_Grad[15]   = _DD_ScrewNegative_16_Grad[_qp];
+    _DD_ScrewNegative_Grad[16]   = _DD_ScrewNegative_17_Grad[_qp];
+    _DD_ScrewNegative_Grad[17]   = _DD_ScrewNegative_18_Grad[_qp];
+    _DD_ScrewNegative_Grad[18]   = _DD_ScrewNegative_19_Grad[_qp];
+    _DD_ScrewNegative_Grad[19]   = _DD_ScrewNegative_20_Grad[_qp];
+    _DD_ScrewNegative_Grad[20]   = _DD_ScrewNegative_21_Grad[_qp];
+    _DD_ScrewNegative_Grad[21]   = _DD_ScrewNegative_22_Grad[_qp];
+    _DD_ScrewNegative_Grad[22]   = _DD_ScrewNegative_23_Grad[_qp];
+    _DD_ScrewNegative_Grad[23]   = _DD_ScrewNegative_24_Grad[_qp];
 
-  _DD_ScrewPositive_Grad[0]    = _DD_ScrewPositive_1_Grad[_qp];
-  _DD_ScrewPositive_Grad[1]    = _DD_ScrewPositive_2_Grad[_qp];
-  _DD_ScrewPositive_Grad[2]    = _DD_ScrewPositive_3_Grad[_qp];
-  _DD_ScrewPositive_Grad[3]    = _DD_ScrewPositive_4_Grad[_qp];
-  _DD_ScrewPositive_Grad[4]    = _DD_ScrewPositive_5_Grad[_qp];
-  _DD_ScrewPositive_Grad[5]    = _DD_ScrewPositive_6_Grad[_qp];
-  _DD_ScrewPositive_Grad[6]    = _DD_ScrewPositive_7_Grad[_qp];
-  _DD_ScrewPositive_Grad[7]    = _DD_ScrewPositive_8_Grad[_qp];
-  _DD_ScrewPositive_Grad[8]    = _DD_ScrewPositive_9_Grad[_qp];
-  _DD_ScrewPositive_Grad[9]    = _DD_ScrewPositive_10_Grad[_qp];
-  _DD_ScrewPositive_Grad[10]   = _DD_ScrewPositive_11_Grad[_qp];
-  _DD_ScrewPositive_Grad[11]   = _DD_ScrewPositive_12_Grad[_qp];
-  _DD_ScrewPositive_Grad[12]   = _DD_ScrewPositive_13_Grad[_qp];
-  _DD_ScrewPositive_Grad[13]   = _DD_ScrewPositive_14_Grad[_qp];
-  _DD_ScrewPositive_Grad[14]   = _DD_ScrewPositive_15_Grad[_qp];
-  _DD_ScrewPositive_Grad[15]   = _DD_ScrewPositive_16_Grad[_qp];
-  _DD_ScrewPositive_Grad[16]   = _DD_ScrewPositive_17_Grad[_qp];
-  _DD_ScrewPositive_Grad[17]   = _DD_ScrewPositive_18_Grad[_qp];
-  _DD_ScrewPositive_Grad[18]   = _DD_ScrewPositive_19_Grad[_qp];
-  _DD_ScrewPositive_Grad[19]   = _DD_ScrewPositive_20_Grad[_qp];
-  _DD_ScrewPositive_Grad[20]   = _DD_ScrewPositive_21_Grad[_qp];
-  _DD_ScrewPositive_Grad[21]   = _DD_ScrewPositive_22_Grad[_qp];
-  _DD_ScrewPositive_Grad[22]   = _DD_ScrewPositive_23_Grad[_qp];
-  _DD_ScrewPositive_Grad[23]   = _DD_ScrewPositive_24_Grad[_qp];
-  //
+    _DD_ScrewPositive_Grad[0]    = _DD_ScrewPositive_1_Grad[_qp];
+    _DD_ScrewPositive_Grad[1]    = _DD_ScrewPositive_2_Grad[_qp];
+    _DD_ScrewPositive_Grad[2]    = _DD_ScrewPositive_3_Grad[_qp];
+    _DD_ScrewPositive_Grad[3]    = _DD_ScrewPositive_4_Grad[_qp];
+    _DD_ScrewPositive_Grad[4]    = _DD_ScrewPositive_5_Grad[_qp];
+    _DD_ScrewPositive_Grad[5]    = _DD_ScrewPositive_6_Grad[_qp];
+    _DD_ScrewPositive_Grad[6]    = _DD_ScrewPositive_7_Grad[_qp];
+    _DD_ScrewPositive_Grad[7]    = _DD_ScrewPositive_8_Grad[_qp];
+    _DD_ScrewPositive_Grad[8]    = _DD_ScrewPositive_9_Grad[_qp];
+    _DD_ScrewPositive_Grad[9]    = _DD_ScrewPositive_10_Grad[_qp];
+    _DD_ScrewPositive_Grad[10]   = _DD_ScrewPositive_11_Grad[_qp];
+    _DD_ScrewPositive_Grad[11]   = _DD_ScrewPositive_12_Grad[_qp];
+    _DD_ScrewPositive_Grad[12]   = _DD_ScrewPositive_13_Grad[_qp];
+    _DD_ScrewPositive_Grad[13]   = _DD_ScrewPositive_14_Grad[_qp];
+    _DD_ScrewPositive_Grad[14]   = _DD_ScrewPositive_15_Grad[_qp];
+    _DD_ScrewPositive_Grad[15]   = _DD_ScrewPositive_16_Grad[_qp];
+    _DD_ScrewPositive_Grad[16]   = _DD_ScrewPositive_17_Grad[_qp];
+    _DD_ScrewPositive_Grad[17]   = _DD_ScrewPositive_18_Grad[_qp];
+    _DD_ScrewPositive_Grad[18]   = _DD_ScrewPositive_19_Grad[_qp];
+    _DD_ScrewPositive_Grad[19]   = _DD_ScrewPositive_20_Grad[_qp];
+    _DD_ScrewPositive_Grad[20]   = _DD_ScrewPositive_21_Grad[_qp];
+    _DD_ScrewPositive_Grad[21]   = _DD_ScrewPositive_22_Grad[_qp];
+    _DD_ScrewPositive_Grad[22]   = _DD_ScrewPositive_23_Grad[_qp];
+    _DD_ScrewPositive_Grad[23]   = _DD_ScrewPositive_24_Grad[_qp];
+    //
+  }
   
   // compute dislocation velocity according to DiscoFlux material model
   DDCUpdate();
@@ -1496,14 +1498,21 @@ DiscoFluxCPBCCOrowanStressUpdate::getDisloVelocity()
         {
           deltaG = deltaG0 / (_boltz * _temp);
           exp_arg = deltaG * (std::pow(inner, _q2));
-          t_wait[i] = (exp(exp_arg)) / _omega0;
-          dtw_dtau = t_wait[i] * _q1 * _q2 * deltaG0 / (_boltz * _temp * slip_r[i]) *
+          // t_wait[i] = (exp(exp_arg)) / _omega0;
+          // dtw_dtau = t_wait[i] * _q1 * _q2 * deltaG0 / (_boltz * _temp * slip_r[i]) *
+          //            std::pow(inner, _q2 - 1.0) * std::pow((tau_eff[i] / slip_r[i]), _q1 - 1.0) *
+          //            tau_effSign[i];
+
+          // second form of waiting time with exponential
+          t_wait[i] = (exp(exp_arg) - 1.0) / _omega0;
+          dtw_dtau = (exp(exp_arg) / _omega0) * _q1 * _q2 * deltaG0 / (_boltz * _temp * slip_r[i]) *
                      std::pow(inner, _q2 - 1.0) * std::pow((tau_eff[i] / slip_r[i]), _q1 - 1.0) *
                      tau_effSign[i];
         }
         else
         {
-          t_wait[i] = 1.0 / _omega0;
+          // t_wait[i] = 1.0 / _omega0;
+          t_wait[i] = 0.0;
         }
 
         // compute running velocity
@@ -1543,6 +1552,9 @@ DiscoFluxCPBCCOrowanStressUpdate::getDisloVelocity()
         }
       }
 
+      t_wait[i] = 0.00;
+      t_run[i] = 0.00;
+
       if (_disloc_den_threshold_flag &&
           (_DD_ScrewNegative[i] > _max_dd || _DD_ScrewPositive[i] > _max_dd))
       {
@@ -1566,14 +1578,21 @@ DiscoFluxCPBCCOrowanStressUpdate::getDisloVelocity()
         {
           deltaG = deltaG0 / (_boltz * _temp);
           exp_arg = deltaG * (std::pow(inner, _q2));
-          t_wait[i] = (exp(exp_arg)) / _omega0;
-          dtw_dtau = t_wait[i] * _q1 * _q2 * deltaG0 / (_boltz * _temp * slip_r[i]) *
+          // t_wait[i] = (exp(exp_arg)) / _omega0;
+          // dtw_dtau = t_wait[i] * _q1 * _q2 * deltaG0 / (_boltz * _temp * slip_r[i]) *
+          //            std::pow(inner, _q2 - 1.0) * std::pow((tau_eff[i] / slip_r[i]), _q1 - 1.0) *
+          //            tau_effSign[i];
+
+          // second form of waiting time with exponential
+          t_wait[i] = (exp(exp_arg) - 1.0) / _omega0;
+          dtw_dtau = (exp(exp_arg) / _omega0) * _q1 * _q2 * deltaG0 / (_boltz * _temp * slip_r[i]) *
                      std::pow(inner, _q2 - 1.0) * std::pow((tau_eff[i] / slip_r[i]), _q1 - 1.0) *
                      tau_effSign[i];
         }
         else
         {
-          t_wait[i] = 1.0 / _omega0;
+          // t_wait[i] = 1.0 / _omega0;
+          t_wait[i] = 0.0;
         }
 
         // compute running velocity
