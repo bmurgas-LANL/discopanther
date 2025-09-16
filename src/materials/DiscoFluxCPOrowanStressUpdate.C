@@ -328,12 +328,12 @@ DiscoFluxCPOrowanStressUpdate::DiscoFluxCPOrowanStressUpdate(const InputParamete
     _DD_ScrewPositive_Grad(_number_slip_systems, 0.00),
     _DD_ScrewNegative_Grad(_number_slip_systems, 0.00),
     // Other variables necessary for this model
-    _slip_direction_edge(
-        declareProperty<std::vector<RealVectorValue>>(_base_name + "slip_direction_edge")),
-    _slip_direction_screw(
-        declareProperty<std::vector<RealVectorValue>>(_base_name + "slip_direction_screw")),
-    _slip_plane_normalboth(
-        declareProperty<std::vector<RealVectorValue>>(_base_name + "slip_plane_normalboth")),
+    // _slip_direction_edge(
+    //     getMaterialProperty<std::vector<RealVectorValue>>(_base_name + "slip_direction_edge")),
+    // _slip_direction_screw(
+    //     getMaterialProperty<std::vector<RealVectorValue>>(_base_name + "slip_direction_screw")),
+    // _slip_plane_normalboth(
+    //     getMaterialProperty<std::vector<RealVectorValue>>(_base_name + "slip_plane_normalboth")),
     //
     _crysrot(getMaterialProperty<RankTwoTensor>(_base_name + "crysrot")),
     // resize local caching vectors used for substepping

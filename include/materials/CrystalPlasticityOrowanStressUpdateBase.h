@@ -243,6 +243,7 @@ protected:
   const MaterialProperty<std::vector<Real>> & _dislocation_immobile_old;
   MaterialProperty<std::vector<Real>> & _tau_b;
   MaterialProperty<std::vector<Real>> & _kappa;
+  MaterialProperty<std::vector<Real>> & _kappa_screw;
 
   /// Substepping time step value used within the inheriting constitutive models
   Real _substep_dt;

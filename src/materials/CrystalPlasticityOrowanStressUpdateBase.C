@@ -168,7 +168,8 @@ CrystalPlasticityOrowanStressUpdateBase::CrystalPlasticityOrowanStressUpdateBase
     _dislocation_immobile(declareProperty<std::vector<Real>>("dislocation_immobile")),
     _dislocation_immobile_old(getMaterialPropertyOld<std::vector<Real>>("dislocation_immobile")),
     _tau_b(declareProperty<std::vector<Real>>("back_stress")),
-    _kappa(declareProperty<std::vector<Real>>("GND_density"))
+    _kappa(declareProperty<std::vector<Real>>(_base_name + "kappa")),
+    _kappa_screw(declareProperty<std::vector<Real>>(_base_name + "kappa_screw"))
 {
   getSlipSystems();
   sortCrossSlipFamilies();
@@ -189,7 +190,13 @@ void
 CrystalPlasticityOrowanStressUpdateBase::setMaterialVectorSize()
 {
   _tau[_qp].resize(_number_slip_systems);
+  _tau_b[_qp].resize(_number_slip_systems);
+  _kappa[_qp].resize(_number_slip_systems);
+  _kappa_screw[_qp].resize(_number_slip_systems);
   _flow_direction[_qp].resize(_number_slip_systems);
+  _slip_direction_edge[_qp].resize(_number_slip_systems);
+  _slip_direction_screw[_qp].resize(_number_slip_systems);
+  _slip_plane_normalboth[_qp].resize(_number_slip_systems);
   for (const auto i : make_range(_number_slip_systems))
   {
     _flow_direction[_qp][i].zero();

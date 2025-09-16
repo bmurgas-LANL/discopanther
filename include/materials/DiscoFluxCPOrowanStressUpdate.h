@@ -246,9 +246,9 @@ protected:
   std::vector<RealVectorValue> _DD_ScrewPositive_Grad;
   std::vector<RealVectorValue> _DD_ScrewNegative_Grad;
 
-  MaterialProperty<std::vector<RealVectorValue>> & _slip_direction_edge;
-  MaterialProperty<std::vector<RealVectorValue>> & _slip_direction_screw;
-  MaterialProperty<std::vector<RealVectorValue>> & _slip_plane_normalboth;
+  // MaterialProperty<std::vector<RealVectorValue>> & _slip_direction_edge;
+  // MaterialProperty<std::vector<RealVectorValue>> & _slip_direction_screw;
+  // MaterialProperty<std::vector<RealVectorValue>> & _slip_plane_normalboth;
 
   const MaterialProperty<RankTwoTensor> & _crysrot;
 
