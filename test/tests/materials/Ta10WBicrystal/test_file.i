@@ -3,16 +3,13 @@
   volumetric_locking_correction = true
 []
 
-[Mesh]
-  [./MeshFile]
-   type = FileMeshGenerator
-   file = 'bx_hex8_ne6.e'
+[Mesh] 
+  [./nepermesh]
+    type = FileMeshGenerator
+    file = 'bx_bar_hex8_cl16e-3.e'
   [../]
+  displacements = 'disp_x disp_y disp_z'
 []
-
-# [Problem]
-#   restart_file_base = method_Discoflux_cp/LATEST  # You may also use a specific number here
-# []
 
 [Outputs]
     file_base = method_Discoflux
@@ -20,12 +17,12 @@
     exodus = true
     # console = true
     # interval = 25
-    [out]
-      type = Checkpoint
-      time_step_interval = 10
-      num_files = 2
+    #[out]
+    #  type = Checkpoint
+    #  time_step_interval = 10
+    #  num_files = 2
       # wall_time_interval = 3600 # seconds
-    []
+    #[]
 []
 
 [UserObjects]
@@ -250,6 +247,202 @@
     order = FIRST
     family = LAGRANGE
   [../]
+
+  ## POSITIVE SCREW
+  [./DD_ScrewPositive_1]
+    order = FIRST
+    family = LAGRANGE
+  [../]
+  [./DD_ScrewPositive_2]
+    order = FIRST
+    family = LAGRANGE
+  [../]
+  [./DD_ScrewPositive_3]
+    order = FIRST
+    family = LAGRANGE
+  [../]
+  [./DD_ScrewPositive_4]
+    order = FIRST
+    family = LAGRANGE
+  [../]
+  [./DD_ScrewPositive_5]
+    order = FIRST
+    family = LAGRANGE
+  [../]
+  [./DD_ScrewPositive_6]
+    order = FIRST
+    family = LAGRANGE
+  [../]
+  [./DD_ScrewPositive_7]
+    order = FIRST
+    family = LAGRANGE
+  [../]
+  [./DD_ScrewPositive_8]
+    order = FIRST
+    family = LAGRANGE
+  [../]
+  [./DD_ScrewPositive_9]
+    order = FIRST
+    family = LAGRANGE
+  [../]
+  [./DD_ScrewPositive_10]
+    order = FIRST
+    family = LAGRANGE
+  [../]
+  [./DD_ScrewPositive_11]
+    order = FIRST
+    family = LAGRANGE
+  [../]
+  [./DD_ScrewPositive_12]
+    order = FIRST
+    family = LAGRANGE
+  [../]
+  [./DD_ScrewPositive_13]
+    order = FIRST
+    family = LAGRANGE
+  [../]
+  [./DD_ScrewPositive_14]
+    order = FIRST
+    family = LAGRANGE
+  [../]
+  [./DD_ScrewPositive_15]
+    order = FIRST
+    family = LAGRANGE
+  [../]
+  [./DD_ScrewPositive_16]
+    order = FIRST
+    family = LAGRANGE
+  [../]
+  [./DD_ScrewPositive_17]
+    order = FIRST
+    family = LAGRANGE
+  [../]
+  [./DD_ScrewPositive_18]
+    order = FIRST
+    family = LAGRANGE
+  [../]
+  [./DD_ScrewPositive_19]
+    order = FIRST
+    family = LAGRANGE
+  [../]
+  [./DD_ScrewPositive_20]
+    order = FIRST
+    family = LAGRANGE
+  [../]
+  [./DD_ScrewPositive_21]
+    order = FIRST
+    family = LAGRANGE
+  [../]
+  [./DD_ScrewPositive_22]
+    order = FIRST
+    family = LAGRANGE
+  [../]
+  [./DD_ScrewPositive_23]
+    order = FIRST
+    family = LAGRANGE
+  [../]
+  [./DD_ScrewPositive_24]
+    order = FIRST
+    family = LAGRANGE
+  [../]
+
+  ## NEGATIVE EDGE
+  [./DD_ScrewNegative_1]
+    order = FIRST
+    family = LAGRANGE
+  [../]
+  [./DD_ScrewNegative_2]
+    order = FIRST
+    family = LAGRANGE
+  [../]
+  [./DD_ScrewNegative_3]
+    order = FIRST
+    family = LAGRANGE
+  [../]
+  [./DD_ScrewNegative_4]
+    order = FIRST
+    family = LAGRANGE
+  [../]
+  [./DD_ScrewNegative_5]
+    order = FIRST
+    family = LAGRANGE
+  [../]
+  [./DD_ScrewNegative_6]
+    order = FIRST
+    family = LAGRANGE
+  [../]
+  [./DD_ScrewNegative_7]
+    order = FIRST
+    family = LAGRANGE
+  [../]
+  [./DD_ScrewNegative_8]
+    order = FIRST
+    family = LAGRANGE
+  [../]
+  [./DD_ScrewNegative_9]
+    order = FIRST
+    family = LAGRANGE
+  [../]
+  [./DD_ScrewNegative_10]
+    order = FIRST
+    family = LAGRANGE
+  [../]
+  [./DD_ScrewNegative_11]
+    order = FIRST
+    family = LAGRANGE
+  [../]
+  [./DD_ScrewNegative_12]
+    order = FIRST
+    family = LAGRANGE
+  [../]
+  [./DD_ScrewNegative_13]
+    order = FIRST
+    family = LAGRANGE
+  [../]
+  [./DD_ScrewNegative_14]
+    order = FIRST
+    family = LAGRANGE
+  [../]
+  [./DD_ScrewNegative_15]
+    order = FIRST
+    family = LAGRANGE
+  [../]
+  [./DD_ScrewNegative_16]
+    order = FIRST
+    family = LAGRANGE
+  [../]
+  [./DD_ScrewNegative_17]
+    order = FIRST
+    family = LAGRANGE
+  [../]
+  [./DD_ScrewNegative_18]
+    order = FIRST
+    family = LAGRANGE
+  [../]
+  [./DD_ScrewNegative_19]
+    order = FIRST
+    family = LAGRANGE
+  [../]
+  [./DD_ScrewNegative_20]
+    order = FIRST
+    family = LAGRANGE
+  [../]
+  [./DD_ScrewNegative_21]
+    order = FIRST
+    family = LAGRANGE
+  [../]
+  [./DD_ScrewNegative_22]
+    order = FIRST
+    family = LAGRANGE
+  [../]
+  [./DD_ScrewNegative_23]
+    order = FIRST
+    family = LAGRANGE
+  [../]
+  [./DD_ScrewNegative_24]
+    order = FIRST
+    family = LAGRANGE
+  [../]
 []
 
 [ICs]
@@ -258,252 +451,504 @@
   [./ic_DD_EdgePositive_1]
     type = ConstantIC
     variable = DD_EdgePositive_1
-    value = 250000
+    value = 1250
   [../]
   [./ic_DD_EdgePositive_2]
     type = ConstantIC
     variable = DD_EdgePositive_2
-    value = 250000
+    value = 1250
   [../]
   [./ic_DD_EdgePositive_3]
       type = ConstantIC
       variable = DD_EdgePositive_3
-      value = 250000
+      value = 1250
   [../]
   [./ic_DD_EdgePositive_4]
     type = ConstantIC
     variable = DD_EdgePositive_4
-    value = 250000
+    value = 1250
   [../]
   [./ic_DD_EdgePositive_5]
     type = ConstantIC
     variable = DD_EdgePositive_5
-    value = 250000
+    value = 1250
   [../]
     [./ic_DD_EdgePositive_6]
       type = ConstantIC
       variable = DD_EdgePositive_6
-      value = 250000
+      value = 1250
     [../]
   [./ic_DD_EdgePositive_7]
     type = ConstantIC
     variable = DD_EdgePositive_7
-    value = 250000
+    value = 1250
   [../]
   [./ic_DD_EdgePositive_8]
     type = ConstantIC
     variable = DD_EdgePositive_8
-    value = 250000
+    value = 1250
   [../]
     [./ic_DD_EdgePositive_9]
       type = ConstantIC
       variable = DD_EdgePositive_9
-      value = 250000
+      value = 1250
     [../]
   [./ic_DD_EdgePositive_10]
     type = ConstantIC
     variable = DD_EdgePositive_10
-    value = 250000
+    value = 1250
   [../]
   [./ic_DD_EdgePositive_11]
     type = ConstantIC
     variable = DD_EdgePositive_11
-    value = 250000
+    value = 1250
   [../]
   [./ic_DD_EdgePositive_12]
     #type = FunctionIC
     type = ConstantIC
     variable = DD_EdgePositive_12
     #function = init_rho_edge_pos_12
-    value = 250000
+    value = 1250
   [../]
   [./ic_DD_EdgePositive_13]
     type = ConstantIC
     variable = DD_EdgePositive_13
-    value = 250000
+    value = 1250
   [../]
   [./ic_DD_EdgePositive_14]
     type = ConstantIC
     variable = DD_EdgePositive_14
-    value = 250000
+    value = 1250
   [../]
   [./ic_DD_EdgePositive_15]
       type = ConstantIC
       variable = DD_EdgePositive_15
-      value = 250000
+      value = 1250
   [../]
   [./ic_DD_EdgePositive_16]
     type = ConstantIC
     variable = DD_EdgePositive_16
-    value = 250000
+    value = 1250
   [../]
   [./ic_DD_EdgePositive_17]
     type = ConstantIC
     variable = DD_EdgePositive_17
-    value = 250000
+    value = 1250
   [../]
   [./ic_DD_EdgePositive_18]
     type = ConstantIC
     variable = DD_EdgePositive_18
-    value = 250000
+    value = 1250
   [../]
   [./ic_DD_EdgePositive_19]
     type = ConstantIC
     variable = DD_EdgePositive_19
-    value = 250000
+    value = 1250
   [../]
   [./ic_DD_EdgePositive_20]
     type = ConstantIC
     variable = DD_EdgePositive_20
-    value = 250000
+    value = 1250
   [../]
     [./ic_DD_EdgePositive_21]
       type = ConstantIC
       variable = DD_EdgePositive_21
-      value = 250000
+      value = 1250
     [../]
   [./ic_DD_EdgePositive_22]
     type = ConstantIC
     variable = DD_EdgePositive_22
-    value = 250000
+    value = 1250
   [../]
   [./ic_DD_EdgePositive_23]
     type = ConstantIC
     variable = DD_EdgePositive_23
-    value = 250000
+    value = 1250
   [../]
   [./ic_DD_EdgePositive_24]
     #type = FunctionIC
     type = ConstantIC
     variable = DD_EdgePositive_24
     #function = init_rho_edge_pos_12
-    value = 250000
+    value = 1250
   [../]
 
   ## NEGATIVE EDGE
   [./ic_DD_EdgeNegative_1]
     type = ConstantIC
     variable = DD_EdgeNegative_1
-    value = 250000
+    value = 1250
   [../]
   [./ic_DD_EdgeNegative_2]
     type = ConstantIC
     variable = DD_EdgeNegative_2
-    value = 250000
+    value = 1250
   [../]
   [./ic_DD_EdgeNegative_3]
     type = ConstantIC
     variable = DD_EdgeNegative_3
-    value = 250000
+    value = 1250
   [../]
   [./ic_DD_EdgeNegative_4]
     type = ConstantIC
     variable = DD_EdgeNegative_4
-    value = 250000
+    value = 1250
   [../]
   [./ic_DD_EdgeNegative_5]
     type = ConstantIC
     variable = DD_EdgeNegative_5
-    value = 250000
+    value = 1250
   [../]
     [./ic_DD_EdgeNegative_6]
       type = ConstantIC
       variable = DD_EdgeNegative_6
-      value = 250000
+      value = 1250
     [../]
   [./ic_DD_EdgeNegative_7]
     type = ConstantIC
     variable = DD_EdgeNegative_7
-    value = 250000
+    value = 1250
   [../]
   [./ic_DD_EdgeNegative_8]
     type = ConstantIC
     variable = DD_EdgeNegative_8
-    value = 250000
+    value = 1250
   [../]
     [./ic_DD_EdgeNegative_9]
       type = ConstantIC
       variable = DD_EdgeNegative_9
-      value = 250000
+      value = 1250
     [../]
   [./ic_DD_EdgeNegative_10]
     type = ConstantIC
     variable = DD_EdgeNegative_10
-    value = 250000
+    value = 1250
   [../]
   [./ic_DD_EdgeNegative_11]
     type = ConstantIC
     variable = DD_EdgeNegative_11
-    value = 250000
+    value = 1250
   [../]
   [./ic_DD_EdgeNegative_12]
     type = ConstantIC
     #type = FunctionIC
     variable = DD_EdgeNegative_12
-    value = 250000
+    value = 1250
     #function = init_rho_edge_neg_12
   [../]
   [./ic_DD_EdgeNegative_13]
     type = ConstantIC
     variable = DD_EdgeNegative_13
-    value = 250000
+    value = 1250
   [../]
   [./ic_DD_EdgeNegative_14]
     type = ConstantIC
     variable = DD_EdgeNegative_14
-    value = 250000
+    value = 1250
   [../]
   [./ic_DD_EdgeNegative_15]
       type = ConstantIC
       variable = DD_EdgeNegative_15
-      value = 250000
+      value = 1250
   [../]
   [./ic_DD_EdgeNegative_16]
     type = ConstantIC
     variable = DD_EdgeNegative_16
-    value = 250000
+    value = 1250
   [../]
   [./ic_DD_EdgeNegative_17]
     type = ConstantIC
     variable = DD_EdgeNegative_17
-    value = 250000
+    value = 1250
   [../]
   [./ic_DD_EdgeNegative_18]
     type = ConstantIC
     variable = DD_EdgeNegative_18
-    value = 250000
+    value = 1250
   [../]
   [./ic_DD_EdgeNegative_19]
     type = ConstantIC
     variable = DD_EdgeNegative_19
-    value = 250000
+    value = 1250
   [../]
   [./ic_DD_EdgeNegative_20]
     type = ConstantIC
     variable = DD_EdgeNegative_20
-    value = 250000
+    value = 1250
   [../]
   [./ic_DD_EdgeNegative_21]
     type = ConstantIC
     variable = DD_EdgeNegative_21
-    value = 250000
+    value = 1250
   [../]
   [./ic_DD_EdgeNegative_22]
     type = ConstantIC
     variable = DD_EdgeNegative_22
-    value = 250000
+    value = 1250
   [../]
   [./ic_DD_EdgeNegative_23]
     type = ConstantIC
     variable = DD_EdgeNegative_23
-    value = 250000
+    value = 1250
   [../]
   [./ic_DD_EdgeNegative_24]
     #type = FunctionIC
     type = ConstantIC
     variable = DD_EdgeNegative_24
     #function = init_rho_edge_pos_12
-    value = 250000
+    value = 1250
+  [../]
+
+  ## POSITIVE EDGE
+  [./ic_DD_ScrewPositive_1]
+    type = ConstantIC
+    variable = DD_ScrewPositive_1
+    value = 1250
+  [../]
+  [./ic_DD_ScrewPositive_2]
+    type = ConstantIC
+    variable = DD_ScrewPositive_2
+    value = 1250
+  [../]
+  [./ic_DD_ScrewPositive_3]
+      type = ConstantIC
+      variable = DD_ScrewPositive_3
+      value = 1250
+  [../]
+  [./ic_DD_ScrewPositive_4]
+    type = ConstantIC
+    variable = DD_ScrewPositive_4
+    value = 1250
+  [../]
+  [./ic_DD_ScrewPositive_5]
+    type = ConstantIC
+    variable = DD_ScrewPositive_5
+    value = 1250
+  [../]
+    [./ic_DD_ScrewPositive_6]
+      type = ConstantIC
+      variable = DD_ScrewPositive_6
+      value = 1250
+    [../]
+  [./ic_DD_ScrewPositive_7]
+    type = ConstantIC
+    variable = DD_ScrewPositive_7
+    value = 1250
+  [../]
+  [./ic_DD_ScrewPositive_8]
+    type = ConstantIC
+    variable = DD_ScrewPositive_8
+    value = 1250
+  [../]
+    [./ic_DD_ScrewPositive_9]
+      type = ConstantIC
+      variable = DD_ScrewPositive_9
+      value = 1250
+    [../]
+  [./ic_DD_ScrewPositive_10]
+    type = ConstantIC
+    variable = DD_ScrewPositive_10
+    value = 1250
+  [../]
+  [./ic_DD_ScrewPositive_11]
+    type = ConstantIC
+    variable = DD_ScrewPositive_11
+    value = 1250
+  [../]
+  [./ic_DD_ScrewPositive_12]
+    #type = FunctionIC
+    type = ConstantIC
+    variable = DD_ScrewPositive_12
+    #function = init_rho_edge_pos_12
+    value = 1250
+  [../]
+  [./ic_DD_ScrewPositive_13]
+    type = ConstantIC
+    variable = DD_ScrewPositive_13
+    value = 1250
+  [../]
+  [./ic_DD_ScrewPositive_14]
+    type = ConstantIC
+    variable = DD_ScrewPositive_14
+    value = 1250
+  [../]
+  [./ic_DD_ScrewPositive_15]
+      type = ConstantIC
+      variable = DD_ScrewPositive_15
+      value = 1250
+  [../]
+  [./ic_DD_ScrewPositive_16]
+    type = ConstantIC
+    variable = DD_ScrewPositive_16
+    value = 1250
+  [../]
+  [./ic_DD_ScrewPositive_17]
+    type = ConstantIC
+    variable = DD_ScrewPositive_17
+    value = 1250
+  [../]
+  [./ic_DD_ScrewPositive_18]
+    type = ConstantIC
+    variable = DD_ScrewPositive_18
+    value = 1250
+  [../]
+  [./ic_DD_ScrewPositive_19]
+    type = ConstantIC
+    variable = DD_ScrewPositive_19
+    value = 1250
+  [../]
+  [./ic_DD_ScrewPositive_20]
+    type = ConstantIC
+    variable = DD_ScrewPositive_20
+    value = 1250
+  [../]
+    [./ic_DD_ScrewPositive_21]
+      type = ConstantIC
+      variable = DD_ScrewPositive_21
+      value = 1250
+    [../]
+  [./ic_DD_ScrewPositive_22]
+    type = ConstantIC
+    variable = DD_ScrewPositive_22
+    value = 1250
+  [../]
+  [./ic_DD_ScrewPositive_23]
+    type = ConstantIC
+    variable = DD_ScrewPositive_23
+    value = 1250
+  [../]
+  [./ic_DD_ScrewPositive_24]
+    #type = FunctionIC
+    type = ConstantIC
+    variable = DD_ScrewPositive_24
+    #function = init_rho_edge_pos_12
+    value = 1250
+  [../]
+
+  ## NEGATIVE EDGE
+  [./ic_DD_ScrewNegative_1]
+    type = ConstantIC
+    variable = DD_ScrewNegative_1
+    value = 1250
+  [../]
+  [./ic_DD_ScrewNegative_2]
+    type = ConstantIC
+    variable = DD_ScrewNegative_2
+    value = 1250
+  [../]
+  [./ic_DD_ScrewNegative_3]
+    type = ConstantIC
+    variable = DD_ScrewNegative_3
+    value = 1250
+  [../]
+  [./ic_DD_ScrewNegative_4]
+    type = ConstantIC
+    variable = DD_ScrewNegative_4
+    value = 1250
+  [../]
+  [./ic_DD_ScrewNegative_5]
+    type = ConstantIC
+    variable = DD_ScrewNegative_5
+    value = 1250
+  [../]
+    [./ic_DD_ScrewNegative_6]
+      type = ConstantIC
+      variable = DD_ScrewNegative_6
+      value = 1250
+    [../]
+  [./ic_DD_ScrewNegative_7]
+    type = ConstantIC
+    variable = DD_ScrewNegative_7
+    value = 1250
+  [../]
+  [./ic_DD_ScrewNegative_8]
+    type = ConstantIC
+    variable = DD_ScrewNegative_8
+    value = 1250
+  [../]
+    [./ic_DD_ScrewNegative_9]
+      type = ConstantIC
+      variable = DD_ScrewNegative_9
+      value = 1250
+    [../]
+  [./ic_DD_ScrewNegative_10]
+    type = ConstantIC
+    variable = DD_ScrewNegative_10
+    value = 1250
+  [../]
+  [./ic_DD_ScrewNegative_11]
+    type = ConstantIC
+    variable = DD_ScrewNegative_11
+    value = 1250
+  [../]
+  [./ic_DD_ScrewNegative_12]
+    type = ConstantIC
+    #type = FunctionIC
+    variable = DD_ScrewNegative_12
+    value = 1250
+    #function = init_rho_edge_neg_12
+  [../]
+  [./ic_DD_ScrewNegative_13]
+    type = ConstantIC
+    variable = DD_ScrewNegative_13
+    value = 1250
+  [../]
+  [./ic_DD_ScrewNegative_14]
+    type = ConstantIC
+    variable = DD_ScrewNegative_14
+    value = 1250
+  [../]
+  [./ic_DD_ScrewNegative_15]
+      type = ConstantIC
+      variable = DD_ScrewNegative_15
+      value = 1250
+  [../]
+  [./ic_DD_ScrewNegative_16]
+    type = ConstantIC
+    variable = DD_ScrewNegative_16
+    value = 1250
+  [../]
+  [./ic_DD_ScrewNegative_17]
+    type = ConstantIC
+    variable = DD_ScrewNegative_17
+    value = 1250
+  [../]
+  [./ic_DD_ScrewNegative_18]
+    type = ConstantIC
+    variable = DD_ScrewNegative_18
+    value = 1250
+  [../]
+  [./ic_DD_ScrewNegative_19]
+    type = ConstantIC
+    variable = DD_ScrewNegative_19
+    value = 1250
+  [../]
+  [./ic_DD_ScrewNegative_20]
+    type = ConstantIC
+    variable = DD_ScrewNegative_20
+    value = 1250
+  [../]
+  [./ic_DD_ScrewNegative_21]
+    type = ConstantIC
+    variable = DD_ScrewNegative_21
+    value = 1250
+  [../]
+  [./ic_DD_ScrewNegative_22]
+    type = ConstantIC
+    variable = DD_ScrewNegative_22
+    value = 1250
+  [../]
+  [./ic_DD_ScrewNegative_23]
+    type = ConstantIC
+    variable = DD_ScrewNegative_23
+    value = 1250
+  [../]
+  [./ic_DD_ScrewNegative_24]
+    #type = FunctionIC
+    type = ConstantIC
+    variable = DD_ScrewNegative_24
+    #function = init_rho_edge_pos_12
+    value = 1250
   [../]
 []
 
@@ -1200,6 +1645,684 @@
       slip_system_index = 24
       #block = 1
     [../]
+
+  #======= Screw dislocations ========
+  [./dot_DD_ScrewPositive_1]
+    # type = TimeDerivative  
+    type = MassLumpedTimeDerivative
+    variable = DD_ScrewPositive_1
+    # block = 1
+  [../]
+    [./Source_DD_ScrewPositive_1]
+      type = DislocationSourceVolume  
+      variable = DD_ScrewPositive_1
+      dislocation_character = screw
+      dislocation_sign = positive
+      slip_system_index = 1
+      #block = 1
+    [../]
+  [./dot_DD_ScrewPositive_2]
+    # type = TimeDerivative  
+    type = MassLumpedTimeDerivative
+    variable = DD_ScrewPositive_2
+    # block = 1
+  [../]
+    [./Source_DD_ScrewPositive_2]
+      type = DislocationSourceVolume  
+      variable = DD_ScrewPositive_2
+      dislocation_character = screw
+      dislocation_sign = positive
+      slip_system_index = 2
+      #block = 1
+    [../]
+  [./dot_DD_ScrewPositive_3]
+    # type = TimeDerivative  
+    type = MassLumpedTimeDerivative
+    variable = DD_ScrewPositive_3
+    #block = 1
+  [../]
+    [./Source_DD_ScrewPositive_3]
+      type = DislocationSourceVolume  
+      variable = DD_ScrewPositive_3
+      dislocation_character = screw
+      dislocation_sign = positive
+      slip_system_index = 3
+      # block = 1
+    [../]
+  [./dot_DD_ScrewPositive_4]
+    # type = TimeDerivative  
+    type = MassLumpedTimeDerivative
+    variable = DD_ScrewPositive_4
+    #block = 1
+  [../]
+    [./Source_DD_ScrewPositive_4]
+      type = DislocationSourceVolume  
+      variable = DD_ScrewPositive_4
+      dislocation_character = screw
+      dislocation_sign = positive
+      slip_system_index = 4
+      #block = 1
+    [../]
+  [./dot_DD_ScrewPositive_5]
+    # type = TimeDerivative  
+    type = MassLumpedTimeDerivative
+    variable = DD_ScrewPositive_5
+    #block = 1
+  [../]
+    [./Source_DD_ScrewPositive_5]
+      type = DislocationSourceVolume  
+      variable = DD_ScrewPositive_5
+      dislocation_character = screw
+      dislocation_sign = positive
+      slip_system_index = 5
+      #block = 1
+    [../]
+  [./dot_DD_ScrewPositive_6]
+    # type = TimeDerivative  
+    type = MassLumpedTimeDerivative
+    variable = DD_ScrewPositive_6
+    #block = 1
+  [../]
+    [./Source_DD_ScrewPositive_6]
+      type = DislocationSourceVolume  
+      variable = DD_ScrewPositive_6
+      dislocation_character = screw
+      dislocation_sign = positive
+      slip_system_index = 6
+      #block = 1
+    [../]
+  [./dot_DD_ScrewPositive_7]
+    # type = TimeDerivative  
+    type = MassLumpedTimeDerivative
+    variable = DD_ScrewPositive_7
+    #block = 1
+  [../]
+    [./Source_DD_ScrewPositive_7]
+      type = DislocationSourceVolume  
+      variable = DD_ScrewPositive_7
+      dislocation_character = screw
+      dislocation_sign = positive
+      slip_system_index = 7
+      #block = 1
+    [../]
+  [./dot_DD_ScrewPositive_8]
+    # type = TimeDerivative  
+    type = MassLumpedTimeDerivative
+    variable = DD_ScrewPositive_8
+    #block = 1
+  [../]
+    [./Source_DD_ScrewPositive_8]
+      type = DislocationSourceVolume  
+      variable = DD_ScrewPositive_8
+      dislocation_character = screw
+      dislocation_sign = positive
+      slip_system_index = 8
+      #block = 1
+    [../]
+  [./dot_DD_ScrewPositive_9]
+    # type = TimeDerivative  
+    type = MassLumpedTimeDerivative
+    variable = DD_ScrewPositive_9
+    #block = 1
+  [../]
+    [./Source_DD_ScrewPositive_9]
+      type = DislocationSourceVolume  
+      variable = DD_ScrewPositive_9
+      dislocation_character = screw
+      dislocation_sign = positive
+      slip_system_index = 9
+      #block = 1
+    [../]
+  [./dot_DD_ScrewPositive_10]
+    # type = TimeDerivative  
+    type = MassLumpedTimeDerivative
+    variable = DD_ScrewPositive_10
+    #block = 1
+  [../]
+    [./Source_DD_ScrewPositive_10]
+      type = DislocationSourceVolume  
+      variable = DD_ScrewPositive_10
+      dislocation_character = screw
+      dislocation_sign = positive
+      slip_system_index = 10
+      #block = 1
+    [../]
+  [./dot_DD_ScrewPositive_11]
+    # type = TimeDerivative  
+    type = MassLumpedTimeDerivative
+    variable = DD_ScrewPositive_11
+    #block = 1
+  [../]
+    [./Source_DD_ScrewPositive_11]
+      type = DislocationSourceVolume  
+      variable = DD_ScrewPositive_11
+      dislocation_character = screw
+      dislocation_sign = positive
+      slip_system_index = 11
+      #block = 1
+    [../]
+  [./dot_DD_ScrewPositive_12]
+    # type = TimeDerivative  
+    type = MassLumpedTimeDerivative
+    variable = DD_ScrewPositive_12
+    #block = 1
+  [../]
+    [./Source_DD_ScrewPositive_12]
+      type = DislocationSourceVolume  
+      variable = DD_ScrewPositive_12
+      dislocation_character = screw
+      dislocation_sign = positive
+      slip_system_index = 12
+      #block = 1
+    [../]
+  
+  [./dot_DD_ScrewPositive_13]
+    # type = TimeDerivative  
+    type = MassLumpedTimeDerivative
+    variable = DD_ScrewPositive_13
+    # block = 1
+  [../]
+    [./Source_DD_ScrewPositive_13]
+      type = DislocationSourceVolume  
+      variable = DD_ScrewPositive_13
+      dislocation_character = screw
+      dislocation_sign = positive
+      slip_system_index = 13
+      #block = 1
+    [../]
+  [./dot_DD_ScrewPositive_14]
+    # type = TimeDerivative  
+    type = MassLumpedTimeDerivative
+    variable = DD_ScrewPositive_14
+    # block = 1
+  [../]
+    [./Source_DD_ScrewPositive_14]
+      type = DislocationSourceVolume  
+      variable = DD_ScrewPositive_14
+      dislocation_character = screw
+      dislocation_sign = positive
+      slip_system_index = 14
+      #block = 1
+    [../]
+  [./dot_DD_ScrewPositive_15]
+    # type = TimeDerivative  
+    type = MassLumpedTimeDerivative
+    variable = DD_ScrewPositive_15
+    #block = 1
+  [../]
+    [./Source_DD_ScrewPositive_15]
+      type = DislocationSourceVolume  
+      variable = DD_ScrewPositive_15
+      dislocation_character = screw
+      dislocation_sign = positive
+      slip_system_index = 15
+      # block = 1
+    [../]
+  [./dot_DD_ScrewPositive_16]
+    # type = TimeDerivative  
+    type = MassLumpedTimeDerivative
+    variable = DD_ScrewPositive_16
+    #block = 1
+  [../]
+    [./Source_DD_ScrewPositive_16]
+      type = DislocationSourceVolume  
+      variable = DD_ScrewPositive_16
+      dislocation_character = screw
+      dislocation_sign = positive
+      slip_system_index = 16
+      #block = 1
+    [../]
+  [./dot_DD_ScrewPositive_17]
+    # type = TimeDerivative  
+    type = MassLumpedTimeDerivative
+    variable = DD_ScrewPositive_17
+    #block = 1
+  [../]
+    [./Source_DD_ScrewPositive_17]
+      type = DislocationSourceVolume  
+      variable = DD_ScrewPositive_17
+      dislocation_character = screw
+      dislocation_sign = positive
+      slip_system_index = 17
+      #block = 1
+    [../]
+  [./dot_DD_ScrewPositive_18]
+    # type = TimeDerivative  
+    type = MassLumpedTimeDerivative
+    variable = DD_ScrewPositive_18
+    #block = 1
+  [../]
+    [./Source_DD_ScrewPositive_18]
+      type = DislocationSourceVolume  
+      variable = DD_ScrewPositive_18
+      dislocation_character = screw
+      dislocation_sign = positive
+      slip_system_index = 18
+      #block = 1
+    [../]
+  [./dot_DD_ScrewPositive_19]
+    # type = TimeDerivative  
+    type = MassLumpedTimeDerivative
+    variable = DD_ScrewPositive_19
+    #block = 1
+  [../]
+    [./Source_DD_ScrewPositive_19]
+      type = DislocationSourceVolume  
+      variable = DD_ScrewPositive_19
+      dislocation_character = screw
+      dislocation_sign = positive
+      slip_system_index = 19
+      #block = 1
+    [../]
+  [./dot_DD_ScrewPositive_20]
+    # type = TimeDerivative  
+    type = MassLumpedTimeDerivative
+    variable = DD_ScrewPositive_20
+    #block = 1
+  [../]
+    [./Source_DD_ScrewPositive_20]
+      type = DislocationSourceVolume  
+      variable = DD_ScrewPositive_20
+      dislocation_character = screw
+      dislocation_sign = positive
+      slip_system_index = 20
+      #block = 1
+    [../]
+  [./dot_DD_ScrewPositive_21]
+    # type = TimeDerivative  
+    type = MassLumpedTimeDerivative
+    variable = DD_ScrewPositive_21
+    #block = 1
+  [../]
+    [./Source_DD_ScrewPositive_21]
+      type = DislocationSourceVolume  
+      variable = DD_ScrewPositive_21
+      dislocation_character = screw
+      dislocation_sign = positive
+      slip_system_index = 21
+      #block = 1
+    [../]
+  [./dot_DD_ScrewPositive_22]
+    # type = TimeDerivative  
+    type = MassLumpedTimeDerivative
+    variable = DD_ScrewPositive_22
+    #block = 1
+  [../]
+    [./Source_DD_ScrewPositive_22]
+      type = DislocationSourceVolume  
+      variable = DD_ScrewPositive_22
+      dislocation_character = screw
+      dislocation_sign = positive
+      slip_system_index = 22
+      #block = 1
+    [../]
+  [./dot_DD_ScrewPositive_23]
+    # type = TimeDerivative  
+    type = MassLumpedTimeDerivative
+    variable = DD_ScrewPositive_23
+    #block = 1
+  [../]
+    [./Source_DD_ScrewPositive_23]
+      type = DislocationSourceVolume  
+      variable = DD_ScrewPositive_23
+      dislocation_character = screw
+      dislocation_sign = positive
+      slip_system_index = 23
+      #block = 1
+    [../]
+  [./dot_DD_ScrewPositive_24]
+    # type = TimeDerivative  
+    type = MassLumpedTimeDerivative
+    variable = DD_ScrewPositive_24
+    #block = 1
+  [../]
+    [./Source_DD_ScrewPositive_24]
+      type = DislocationSourceVolume  
+      variable = DD_ScrewPositive_24
+      dislocation_character = screw
+      dislocation_sign = positive
+      slip_system_index = 24
+      #block = 1
+    [../]
+
+  # ==========
+  [./dot_DD_ScrewNegative_1]
+    # type = TimeDerivative  
+    type = MassLumpedTimeDerivative
+    variable = DD_ScrewNegative_1
+    #block = 1
+  [../]
+    [./Source_DD_ScrewNegative_1]
+      type = DislocationSourceVolume  
+      variable = DD_ScrewNegative_1
+      dislocation_character = screw
+      dislocation_sign = negative
+      slip_system_index = 1
+      #block = 1
+    [../]
+  [./dot_DD_ScrewNegative_2]
+    # type = TimeDerivative  
+    type = MassLumpedTimeDerivative
+    variable = DD_ScrewNegative_2
+    #block = 1
+  [../]
+    [./Source_DD_ScrewNegative_2]
+      type = DislocationSourceVolume  
+      variable = DD_ScrewNegative_2
+      dislocation_character = screw
+      dislocation_sign = negative
+      slip_system_index = 2
+      #block = 1
+    [../]
+  [./dot_DD_ScrewNegative_3]
+    # type = TimeDerivative  
+    type = MassLumpedTimeDerivative
+    variable = DD_ScrewNegative_3
+    #block = 1
+  [../]
+    [./Source_DD_ScrewNegative_3]
+      type = DislocationSourceVolume  
+      variable = DD_ScrewNegative_3
+      dislocation_character = screw
+      dislocation_sign = negative
+      slip_system_index = 3
+      #block = 1
+    [../]
+  [./dot_DD_ScrewNegative_4]
+    # type = TimeDerivative  
+    type = MassLumpedTimeDerivative
+    variable = DD_ScrewNegative_4
+    #block = 1
+  [../]
+    [./Source_DD_ScrewNegative_4]
+      type = DislocationSourceVolume  
+      variable = DD_ScrewNegative_4
+      dislocation_character = screw
+      dislocation_sign = negative
+      slip_system_index = 4
+      #block = 1
+    [../]
+  [./dot_DD_ScrewNegative_5]
+    # type = TimeDerivative  
+    type = MassLumpedTimeDerivative
+    variable = DD_ScrewNegative_5
+    #block = 1
+  [../]
+    [./Source_DD_ScrewNegative_5]
+      type = DislocationSourceVolume  
+      variable = DD_ScrewNegative_5
+      dislocation_character = screw
+      dislocation_sign = negative
+      slip_system_index = 5
+      #block = 1
+    [../]
+  [./dot_DD_ScrewNegative_6]
+    # type = TimeDerivative  
+    type = MassLumpedTimeDerivative
+    variable = DD_ScrewNegative_6
+    #block = 1
+  [../]
+    [./Source_DD_ScrewNegative_6]
+      type = DislocationSourceVolume  
+      variable = DD_ScrewNegative_6
+      dislocation_character = screw
+      dislocation_sign = negative
+      slip_system_index = 6
+      #block = 1
+    [../]
+  [./dot_DD_ScrewNegative_7]
+    # type = TimeDerivative  
+    type = MassLumpedTimeDerivative
+    variable = DD_ScrewNegative_7
+    #block = 1
+  [../]
+    [./Source_DD_ScrewNegative_7]
+      type = DislocationSourceVolume  
+      variable = DD_ScrewNegative_7
+      dislocation_character = screw
+      dislocation_sign = negative
+      slip_system_index = 7
+      #block = 1
+    [../]
+  [./dot_DD_ScrewNegative_8]
+    # type = TimeDerivative  
+    type = MassLumpedTimeDerivative
+    variable = DD_ScrewNegative_8
+    #block = 1
+  [../]
+    [./Source_DD_ScrewNegative_8]
+      type = DislocationSourceVolume  
+      variable = DD_ScrewNegative_8
+      dislocation_character = screw
+      dislocation_sign = negative
+      slip_system_index = 8
+      #block = 1
+    [../]
+  [./dot_DD_ScrewNegative_9]
+    # type = TimeDerivative  
+    type = MassLumpedTimeDerivative
+    variable = DD_ScrewNegative_9
+    #block = 1
+  [../]
+    [./Source_DD_ScrewNegative_9]
+      type = DislocationSourceVolume  
+      variable = DD_ScrewNegative_9
+      dislocation_character = screw
+      dislocation_sign = negative
+      slip_system_index = 9
+      #block = 1
+    [../]
+  [./dot_DD_ScrewNegative_10]
+    # type = TimeDerivative  
+    type = MassLumpedTimeDerivative
+    variable = DD_ScrewNegative_10
+    #block = 1
+  [../]
+    [./Source_DD_ScrewNegative_10]
+      type = DislocationSourceVolume  
+      variable = DD_ScrewNegative_10
+      dislocation_character = screw
+      dislocation_sign = negative
+      slip_system_index = 10
+      #block = 1
+    [../]
+  [./dot_DD_ScrewNegative_11]
+    # type = TimeDerivative  
+    type = MassLumpedTimeDerivative
+    variable = DD_ScrewNegative_11
+    #block = 1
+  [../]
+    [./Source_DD_ScrewNegative_11]
+      type = DislocationSourceVolume  
+      variable = DD_ScrewNegative_11
+      dislocation_character = screw
+      dislocation_sign = negative
+      slip_system_index = 11
+      #block = 1
+    [../]
+  [./dot_DD_ScrewNegative_12]
+    # type = TimeDerivative  
+    type = MassLumpedTimeDerivative
+    variable = DD_ScrewNegative_12
+    #block = 1
+  [../]
+    [./Source_DD_ScrewNegative_12]
+      type = DislocationSourceVolume  
+      variable = DD_ScrewNegative_12
+      dislocation_character = screw
+      dislocation_sign = negative
+      slip_system_index = 12
+      #block = 1
+    [../]
+
+  [./dot_DD_ScrewNegative_13]
+    # type = TimeDerivative  
+    type = MassLumpedTimeDerivative
+    variable = DD_ScrewNegative_13
+    # block = 1
+  [../]
+    [./Source_DD_ScrewNegative_13]
+      type = DislocationSourceVolume  
+      variable = DD_ScrewNegative_13
+      dislocation_character = screw
+      dislocation_sign = negative
+      slip_system_index = 13
+      #block = 1
+    [../]
+  [./dot_DD_ScrewNegative_14]
+    # type = TimeDerivative  
+    type = MassLumpedTimeDerivative
+    variable = DD_ScrewNegative_14
+    # block = 1
+  [../]
+    [./Source_DD_ScrewNegative_14]
+      type = DislocationSourceVolume  
+      variable = DD_ScrewNegative_14
+      dislocation_character = screw
+      dislocation_sign = negative
+      slip_system_index = 14
+      #block = 1
+    [../]
+  [./dot_DD_ScrewNegative_15]
+    # type = TimeDerivative  
+    type = MassLumpedTimeDerivative
+    variable = DD_ScrewNegative_15
+    #block = 1
+  [../]
+    [./Source_DD_ScrewNegative_15]
+      type = DislocationSourceVolume  
+      variable = DD_ScrewNegative_15
+      dislocation_character = screw
+      dislocation_sign = negative
+      slip_system_index = 15
+      # block = 1
+    [../]
+  [./dot_DD_ScrewNegative_16]
+    # type = TimeDerivative  
+    type = MassLumpedTimeDerivative
+    variable = DD_ScrewNegative_16
+    #block = 1
+  [../]
+    [./Source_DD_ScrewNegative_16]
+      type = DislocationSourceVolume  
+      variable = DD_ScrewNegative_16
+      dislocation_character = screw
+      dislocation_sign = negative
+      slip_system_index = 16
+      #block = 1
+    [../]
+  [./dot_DD_ScrewNegative_17]
+    # type = TimeDerivative  
+    type = MassLumpedTimeDerivative
+    variable = DD_ScrewNegative_17
+    #block = 1
+  [../]
+    [./Source_DD_ScrewNegative_17]
+      type = DislocationSourceVolume  
+      variable = DD_ScrewNegative_17
+      dislocation_character = screw
+      dislocation_sign = negative
+      slip_system_index = 17
+      #block = 1
+    [../]
+  [./dot_DD_ScrewNegative_18]
+    # type = TimeDerivative  
+    type = MassLumpedTimeDerivative
+    variable = DD_ScrewNegative_18
+    #block = 1
+  [../]
+    [./Source_DD_ScrewNegative_18]
+      type = DislocationSourceVolume  
+      variable = DD_ScrewNegative_18
+      dislocation_character = screw
+      dislocation_sign = negative
+      slip_system_index = 18
+      #block = 1
+    [../]
+  [./dot_DD_ScrewNegative_19]
+    # type = TimeDerivative  
+    type = MassLumpedTimeDerivative
+    variable = DD_ScrewNegative_19
+    #block = 1
+  [../]
+    [./Source_DD_ScrewNegative_19]
+      type = DislocationSourceVolume  
+      variable = DD_ScrewNegative_19
+      dislocation_character = screw
+      dislocation_sign = negative
+      slip_system_index = 19
+      #block = 1
+    [../]
+  [./dot_DD_ScrewNegative_20]
+    # type = TimeDerivative  
+    type = MassLumpedTimeDerivative
+    variable = DD_ScrewNegative_20
+    #block = 1
+  [../]
+    [./Source_DD_ScrewNegative_20]
+      type = DislocationSourceVolume  
+      variable = DD_ScrewNegative_20
+      dislocation_character = screw
+      dislocation_sign = negative
+      slip_system_index = 20
+      #block = 1
+    [../]
+  [./dot_DD_ScrewNegative_21]
+    # type = TimeDerivative  
+    type = MassLumpedTimeDerivative
+    variable = DD_ScrewNegative_21
+    #block = 1
+  [../]
+    [./Source_DD_ScrewNegative_21]
+      type = DislocationSourceVolume  
+      variable = DD_ScrewNegative_21
+      dislocation_character = screw
+      dislocation_sign = negative
+      slip_system_index = 21
+      #block = 1
+    [../]
+  [./dot_DD_ScrewNegative_22]
+    # type = TimeDerivative  
+    type = MassLumpedTimeDerivative
+    variable = DD_ScrewNegative_22
+    #block = 1
+  [../]
+    [./Source_DD_ScrewNegative_22]
+      type = DislocationSourceVolume  
+      variable = DD_ScrewNegative_22
+      dislocation_character = screw
+      dislocation_sign = negative
+      slip_system_index = 22
+      #block = 1
+    [../]
+  [./dot_DD_ScrewNegative_23]
+    # type = TimeDerivative  
+    type = MassLumpedTimeDerivative
+    variable = DD_ScrewNegative_23
+    #block = 1
+  [../]
+    [./Source_DD_ScrewNegative_23]
+      type = DislocationSourceVolume  
+      variable = DD_ScrewNegative_23
+      dislocation_character = screw
+      dislocation_sign = negative
+      slip_system_index = 23
+      #block = 1
+    [../]
+  [./dot_DD_ScrewNegative_24]
+    # type = TimeDerivative  
+    type = MassLumpedTimeDerivative
+    variable = DD_ScrewNegative_24
+    #block = 1
+  [../]
+    [./Source_DD_ScrewNegative_24]
+      type = DislocationSourceVolume  
+      variable = DD_ScrewNegative_24
+      dislocation_character = screw
+      dislocation_sign = negative
+      slip_system_index = 24
+      #block = 1
+    [../]
 []
 
 [AuxVariables]
@@ -1250,18 +2373,18 @@
   # Y : Bottom and Top
   # Z : Back and Front
   ##############################################
-  [./BC_ZX]
+  [./BC_X]
     type = FunctionDirichletBC
     variable = disp_x
     boundary = 'z0'
-    # boundary = back
+    # boundary = left
     function = 0.0
   [../]
-  [./BC_ZY]
+  [./BC_Y]
     type = FunctionDirichletBC
     variable = disp_y
     boundary = 'z0'
-    # boundary = back
+    # boundary = bottom
     function = 0.0
   [../]
   [./BC_Z]
@@ -1271,37 +2394,26 @@
     # boundary = back
     function = 0.0
   [../]
-
-  [./BC_Z1X]
-    type = FunctionDirichletBC
-    variable = disp_x
-    boundary = 'z1'
-    # boundary = front
-    function = 0.0
-  [../]
-  [./BC_Z1Y]
-    type = FunctionDirichletBC
-    variable = disp_y
-    # boundary = front
-    boundary = 'z1'
-    function = 0.0
-  [../]
-
-  # Compression along z
-  [./BC_Loading]
+  [./BC_Z1]
     type = FunctionDirichletBC
     variable = disp_z
-    boundary = 'z0 z1'
-    # boundary = front
-    function = '-0.001*z*t'
-  [../] 
-[]
+    boundary = 'z1'
+    # boundary = back
+    function = 0.0
+  [../]
+  
+  [./BC_Loading]
+    type = FunctionDirichletBC
+    variable = disp_x
+    boundary = 'z0 z1 '
+    function = '0.001*z*t'
+  [../]
+  []
 
 [Physics/SolidMechanics/QuasiStatic/all]
   strain = FINITE
   add_variables = true
   new_system = true
-  # formulation = total
   incremental = true
 []
 
@@ -1309,8 +2421,6 @@
   [./elasticity_tensor]
     type = ComputeElasticityTensorCP
     C_ijkl = '2.8251e5 1.6124e5 1.61245 2.8251e5 1.61245 2.8251e5 0.8315e5 0.8315e5 0.8315e5'
-    # C_ijkl = '1.684e5 1.214e5 1.214e5 1.684e5 1.214e5 1.684e5 0.754e5 0.754e5 0.754e5'
-    # C_ijkl = '11e3 12e3 13e3 22e3 23e3 33e3 44e3 55e3 66e3'
     fill_method = symmetric9
     read_prop_user_object = prop_read
   [../]
@@ -1318,26 +2428,34 @@
     type = ComputeMultipleCrystalPlasticityOrowanStress
     crystal_plasticity_models = 'CP_DiscoFlux'
     tan_mod_type = exact
-    # maximum_substep_iteration = 20
-    print_state_variable_convergence_error_messages = true
-    # rtol = 0.0001
-    # abs_tol = 1e-12
+    print_state_variable_convergence_error_messages = false
   []
   [./CP_DiscoFlux]
-    type                  = DiscoFluxCPBCCOrowanStressUpdate
-    number_slip_systems   = 24
-    slip_sys_file_name    = input_slip_sys.inp
-    lattice_friction      = 480.0
-    Coeff_hardening       = 0.52
-    initial_athermal      = 27.0
-    dd_sat                = 2.5950e+9
-    q1                    = 0.376
-    q2                    = 1.666
-    B0                    = 1.25e-10
-    vs_edge               = 2.e6
-    temp                  = 300
-    omega_0               = 1e11
-    g_0                   = 0.2
+    type                      = DiscoFluxCPBCCOrowanStressUpdate
+    number_slip_systems       = 24
+    slip_sys_file_name        = input_slip_sys.inp
+    lattice_friction          = 480.0
+    lattice_friction_112      = 575.0
+    lattice_friction_112_atw  = 1075.0
+    Coeff_hardening           = 0.52
+    Coeff_backstress          = 0.0
+    initial_athermal          = 27.0
+    dd_sat                    = 2.5950e+9
+    sat_A                     = 1.e-16
+    min_dd                    = 123750
+    nrec                      = 4.0
+    gamdot_ref                = 1.e9
+    q1                        = 0.376
+    q2                        = 1.666
+    B0                        = 1.25e-10
+    B0s                       = 1.25e-10
+    vs_edge                   = 2.e6
+    vs_screw                  = 2.e6
+    temp                      = 300
+    omega0                    = 1e11
+    g0                        = 0.2
+    mu                        = 78.49e+3
+    nu                        = 0.334
 
 
     slip_increment_tolerance = 0.02
@@ -1396,6 +2514,56 @@
     DD_EdgeNegative_23  = DD_EdgeNegative_23
     DD_EdgeNegative_24  = DD_EdgeNegative_24
 
+    DD_ScrewPositive_1   = DD_ScrewPositive_1
+    DD_ScrewPositive_2   = DD_ScrewPositive_2
+    DD_ScrewPositive_3   = DD_ScrewPositive_3
+    DD_ScrewPositive_4   = DD_ScrewPositive_4
+    DD_ScrewPositive_5   = DD_ScrewPositive_5
+    DD_ScrewPositive_6   = DD_ScrewPositive_6
+    DD_ScrewPositive_7   = DD_ScrewPositive_7
+    DD_ScrewPositive_8   = DD_ScrewPositive_8
+    DD_ScrewPositive_9   = DD_ScrewPositive_9
+    DD_ScrewPositive_10  = DD_ScrewPositive_10
+    DD_ScrewPositive_11  = DD_ScrewPositive_11
+    DD_ScrewPositive_12  = DD_ScrewPositive_12
+    DD_ScrewPositive_13  = DD_ScrewPositive_13
+    DD_ScrewPositive_14  = DD_ScrewPositive_14
+    DD_ScrewPositive_15  = DD_ScrewPositive_15
+    DD_ScrewPositive_16  = DD_ScrewPositive_16
+    DD_ScrewPositive_17  = DD_ScrewPositive_17
+    DD_ScrewPositive_18  = DD_ScrewPositive_18
+    DD_ScrewPositive_19  = DD_ScrewPositive_19
+    DD_ScrewPositive_20  = DD_ScrewPositive_20
+    DD_ScrewPositive_21  = DD_ScrewPositive_21
+    DD_ScrewPositive_22  = DD_ScrewPositive_22
+    DD_ScrewPositive_23  = DD_ScrewPositive_23
+    DD_ScrewPositive_24  = DD_ScrewPositive_24
+
+    DD_ScrewNegative_1   = DD_ScrewNegative_1
+    DD_ScrewNegative_2   = DD_ScrewNegative_2
+    DD_ScrewNegative_3   = DD_ScrewNegative_3
+    DD_ScrewNegative_4   = DD_ScrewNegative_4
+    DD_ScrewNegative_5   = DD_ScrewNegative_5
+    DD_ScrewNegative_6   = DD_ScrewNegative_6
+    DD_ScrewNegative_7   = DD_ScrewNegative_7
+    DD_ScrewNegative_8   = DD_ScrewNegative_8
+    DD_ScrewNegative_9   = DD_ScrewNegative_9
+    DD_ScrewNegative_10  = DD_ScrewNegative_10
+    DD_ScrewNegative_11  = DD_ScrewNegative_11
+    DD_ScrewNegative_12  = DD_ScrewNegative_12
+    DD_ScrewNegative_13  = DD_ScrewNegative_13
+    DD_ScrewNegative_14  = DD_ScrewNegative_14
+    DD_ScrewNegative_15  = DD_ScrewNegative_15
+    DD_ScrewNegative_16  = DD_ScrewNegative_16
+    DD_ScrewNegative_17  = DD_ScrewNegative_17
+    DD_ScrewNegative_18  = DD_ScrewNegative_18
+    DD_ScrewNegative_19  = DD_ScrewNegative_19
+    DD_ScrewNegative_20  = DD_ScrewNegative_20
+    DD_ScrewNegative_21  = DD_ScrewNegative_21
+    DD_ScrewNegative_22  = DD_ScrewNegative_22
+    DD_ScrewNegative_23  = DD_ScrewNegative_23
+    DD_ScrewNegative_24  = DD_ScrewNegative_24
+
     print_state_variable_convergence_error_messages = false
   [../]
   [updated_euler_angle]
@@ -1421,7 +2589,7 @@
 
 [GlobalParams]
   number_slip_systems     = 24
-  dislo_density_initial   = 250000
+  dislo_density_initial   = 123750
   C_multi                 = 0.1919  
   C_trap                  = 0.17271 
   C_m_ann                 = 0.0 
@@ -1445,24 +2613,13 @@
   petsc_options_value = 'hypre    boomeramg          31'
   line_search = 'none'
   l_max_its = 5000
-  nl_max_its = 5000
+  nl_max_its = 50
   nl_abs_tol = 1e-6 #1e-6
   l_abs_tol = 1e-6
 
-  dtmax = 0.2
-  dtmin = 1e-20
-  end_time = 100.0
-
-  [./TimeStepper]
-    # type = IterationAdaptiveDT
-    # optimal_iterations = 100
-    # linear_iteration_ratio = 25
-    # dt = 0.01
-
-    type = ConstantDT
-    dt = 0.1
-    growth_factor = 1.05
-  [../]
+  dtmax = 0.5
+  dtmin = 1e-24
+  end_time = 500.0
 []
 
 ## Real 2PK and Lagrangian strain

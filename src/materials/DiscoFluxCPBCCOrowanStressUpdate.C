@@ -502,10 +502,8 @@ DiscoFluxCPBCCOrowanStressUpdate::DiscoFluxCPBCCOrowanStressUpdate(const InputPa
         declareProperty<std::vector<Real>>        (_base_name + "back_stress")),
 
     // DDC related variables
-    _kappa(
-        declareProperty<std::vector<Real>>        (_base_name + "kappa")),
-    _kappa_screw(
-        declareProperty<std::vector<Real>>        (_base_name + "kappa_screw")),
+    _kappa(declareProperty<std::vector<Real>>        (_base_name + "kappa")),
+    _kappa_screw(declareProperty<std::vector<Real>>  (_base_name + "kappa_screw")),
     _DD_grad(                                     _number_slip_systems, 0.00),
     _DD_grad_screw(                               _number_slip_systems, 0.00),
     _tau_b_local(                                 _number_slip_systems, 0.00),
@@ -522,12 +520,12 @@ DiscoFluxCPBCCOrowanStressUpdate::DiscoFluxCPBCCOrowanStressUpdate(const InputPa
     _DD_ScrewNegative_Grad(                       _number_slip_systems, 0.00),
 
     // Other variables necessary for this model
-    _slip_direction_edge(
-        declareProperty<std::vector<RealVectorValue>> (_base_name + "slip_direction_edge")),
-    _slip_direction_screw(
-        declareProperty<std::vector<RealVectorValue>> (_base_name + "slip_direction_screw")),
-    _slip_plane_normalboth(
-        declareProperty<std::vector<RealVectorValue>> (_base_name + "slip_plane_normalboth")),
+    // _slip_direction_edge(
+    //     declareProperty<std::vector<RealVectorValue>> (_base_name + "slip_direction_edge")),
+    // _slip_direction_screw(
+    //     declareProperty<std::vector<RealVectorValue>> (_base_name + "slip_direction_screw")),
+    // _slip_plane_normalboth(
+    //     declareProperty<std::vector<RealVectorValue>> (_base_name + "slip_plane_normalboth")),
 
     //
     _crysrot(

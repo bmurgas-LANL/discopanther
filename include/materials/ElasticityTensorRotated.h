@@ -38,6 +38,10 @@ protected:
   RotationTensor _R;
   bool _user_provided_rotation_matrix;
 
+  RankFourTensor _Cijkl_t;
+  Real _temp;
+  Real _temp0;
+
   using ComputeRotatedElasticityTensorBaseTempl<false>::isParamValid;
   using ComputeRotatedElasticityTensorBaseTempl<false>::_elasticity_tensor_name;
   using ComputeRotatedElasticityTensorBaseTempl<false>::_Euler_angles;

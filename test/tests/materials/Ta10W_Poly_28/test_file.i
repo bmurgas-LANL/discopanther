@@ -6,7 +6,7 @@
 [Mesh]
   [./MeshFile]
    type = FileMeshGenerator
-   file = 'mesh_scaled.e'
+   file = 'mesh_scaled_coarse.e'
   [../]
   [./rename]
     type = RenameBlockGenerator
@@ -40,7 +40,7 @@
     prop_file_name = 'bx-cu-lagb.inp' 
     nprop = 3
     read_type = block
-    nblock = 31
+    nblock = 28
   [../]
 []
 
@@ -1366,14 +1366,14 @@
     type                      = DiscoFluxCPBCCOrowanStressUpdate
     number_slip_systems       = 24
     slip_sys_file_name        = input_slip_sys.inp
-    lattice_friction          = 655.0
+    lattice_friction          = 480.0
     lattice_friction_112      = 575.0
     lattice_friction_112_atw  = 1075.0
     Coeff_hardening           = 0.52
     Coeff_backstress          = 0.0
-    initial_athermal          = 27.0
+    initial_athermal          = 102.0
     dd_sat                    = 2.5950e+9
-    sat_A                     = 1.e-16
+    sat_A                     = 5.135e-18
     min_dd                    = 123750
     nrec                      = 4.0
     gamdot_ref                = 1.e9
@@ -1492,12 +1492,12 @@
   petsc_options_iname = '-pc_type -pc_hypre_type -ksp_gmres_restart'
   petsc_options_value = 'hypre    boomeramg          31'
   line_search = 'none'
-  l_max_its = 5000
+  l_max_its = 100
   nl_max_its = 50
   nl_abs_tol = 1e-6 #1e-6
   l_abs_tol = 1e-6
 
-  dtmax = 0.5
+  dtmax = 0.1
   dtmin = 1e-24
   end_time = 500.0
 []

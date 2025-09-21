@@ -6,7 +6,7 @@
 [Mesh]
   [./MeshFile]
    type = FileMeshGenerator
-   file = 'mesh_scaled.e'
+   file = 'mesh_scaled_coarse.e'
   [../]
   [./rename]
     type = RenameBlockGenerator

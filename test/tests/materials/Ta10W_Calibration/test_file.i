@@ -1348,10 +1348,12 @@
 
 [Materials]
   [./elasticity_tensor]
-    type = ComputeElasticityTensorCP
+    type = ElasticityTensorRotated # ComputeElasticityTensorCP
     C_ijkl = '2.8251e5 1.6124e5 1.61245 2.8251e5 1.61245 2.8251e5 0.8315e5 0.8315e5 0.8315e5'
     fill_method = symmetric9
     read_prop_user_object = prop_read
+    C_ijkl_t = '-1.93e1 -3.12e0 -3.12e0 -1.93e1 -3.12e0 -1.93e1 -1.47e1 -1.47e1 -1.47e1'
+    temp0 = 300
   [../]
   [stress_brass]
     type = ComputeMultipleCrystalPlasticityOrowanStress
@@ -1366,14 +1368,14 @@
     type                      = DiscoFluxCPBCCOrowanStressUpdate
     number_slip_systems       = 24
     slip_sys_file_name        = input_slip_sys.inp
-    lattice_friction          = 655.0
+    lattice_friction          = 480.0
     lattice_friction_112      = 575.0
     lattice_friction_112_atw  = 1075.0
     Coeff_hardening           = 0.52
     Coeff_backstress          = 0.0
     initial_athermal          = 27.0
     dd_sat                    = 2.5950e+9
-    sat_A                     = 1.e-16
+    sat_A                     = 5.135e-19
     min_dd                    = 123750
     nrec                      = 4.0
     gamdot_ref                = 1.e9
@@ -1381,7 +1383,7 @@
     q2                        = 1.666
     B0                        = 1.25e-10
     vs_edge                   = 2.e6
-    temp                      = 300
+    temp                      = 800
     omega0                    = 1e11
     g0                        = 0.2
     mu                        = 78.49e+3
@@ -1492,8 +1494,8 @@
   petsc_options_iname = '-pc_type -pc_hypre_type -ksp_gmres_restart'
   petsc_options_value = 'hypre    boomeramg          31'
   line_search = 'none'
-  l_max_its = 5000
-  nl_max_its = 30
+  l_max_its = 100
+  nl_max_its = 50
   nl_abs_tol = 1e-6 #1e-6
   l_abs_tol = 1e-6
 
