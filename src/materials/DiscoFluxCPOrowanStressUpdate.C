@@ -145,7 +145,6 @@ DiscoFluxCPOrowanStressUpdate::DiscoFluxCPOrowanStressUpdate(const InputParamete
   : CrystalPlasticityOrowanStressUpdateBase(parameters),
     _lattice_friction(getParam<Real>("lattice_friction")),
     _initial_athermal(getParam<Real>("initial_athermal")),
-    //
     _burgers_vector_mag(getParam<Real>("burgers_vector_mag")),
     _dislo_density_initial(getParam<Real>("dislo_density_initial")),
     _dislo_density_factor_CDT(getParam<Real>("dislo_density_factor_CDT")),
@@ -157,7 +156,6 @@ DiscoFluxCPOrowanStressUpdate::DiscoFluxCPOrowanStressUpdate(const InputParamete
     _Coeff_hardening(getParam<Real>("Coeff_hardening")),
     _Coeff_backstress(getParam<Real>("Coeff_backstress")),
     _Coeff_dislength(getParam<Real>("Coeff_dislength")),
-    //
     _q1(getParam<Real>("q1")),
     _q2(getParam<Real>("q2")),
     _B0(getParam<Real>("B0")),
@@ -172,7 +170,6 @@ DiscoFluxCPOrowanStressUpdate::DiscoFluxCPOrowanStressUpdate(const InputParamete
     _boltz(getParam<Real>("boltz")),
     _mean_free_path_init_flag(getParam<bool>("mean_free_path_init_flag")),
     _disloc_den_threshold_flag(getParam<bool>("disloc_den_threshold_flag")),
-    //
     _DD_EdgePositive_1(coupledValue("DD_EdgePositive_1")),
     _DD_EdgePositive_2(coupledValue("DD_EdgePositive_2")),
     _DD_EdgePositive_3(coupledValue("DD_EdgePositive_3")),
@@ -185,7 +182,6 @@ DiscoFluxCPOrowanStressUpdate::DiscoFluxCPOrowanStressUpdate(const InputParamete
     _DD_EdgePositive_10(coupledValue("DD_EdgePositive_10")),
     _DD_EdgePositive_11(coupledValue("DD_EdgePositive_11")),
     _DD_EdgePositive_12(coupledValue("DD_EdgePositive_12")),
-    //
     _DD_EdgeNegative_1(coupledValue("DD_EdgeNegative_1")),
     _DD_EdgeNegative_2(coupledValue("DD_EdgeNegative_2")),
     _DD_EdgeNegative_3(coupledValue("DD_EdgeNegative_3")),
@@ -198,7 +194,6 @@ DiscoFluxCPOrowanStressUpdate::DiscoFluxCPOrowanStressUpdate(const InputParamete
     _DD_EdgeNegative_10(coupledValue("DD_EdgeNegative_10")),
     _DD_EdgeNegative_11(coupledValue("DD_EdgeNegative_11")),
     _DD_EdgeNegative_12(coupledValue("DD_EdgeNegative_12")),
-    //
     _DD_ScrewPositive_1(coupledValue("DD_ScrewPositive_1")),
     _DD_ScrewPositive_2(coupledValue("DD_ScrewPositive_2")),
     _DD_ScrewPositive_3(coupledValue("DD_ScrewPositive_3")),
@@ -211,7 +206,6 @@ DiscoFluxCPOrowanStressUpdate::DiscoFluxCPOrowanStressUpdate(const InputParamete
     _DD_ScrewPositive_10(coupledValue("DD_ScrewPositive_10")),
     _DD_ScrewPositive_11(coupledValue("DD_ScrewPositive_11")),
     _DD_ScrewPositive_12(coupledValue("DD_ScrewPositive_12")),
-    //
     _DD_ScrewNegative_1(coupledValue("DD_ScrewNegative_1")),
     _DD_ScrewNegative_2(coupledValue("DD_ScrewNegative_2")),
     _DD_ScrewNegative_3(coupledValue("DD_ScrewNegative_3")),
@@ -224,7 +218,6 @@ DiscoFluxCPOrowanStressUpdate::DiscoFluxCPOrowanStressUpdate(const InputParamete
     _DD_ScrewNegative_10(coupledValue("DD_ScrewNegative_10")),
     _DD_ScrewNegative_11(coupledValue("DD_ScrewNegative_11")),
     _DD_ScrewNegative_12(coupledValue("DD_ScrewNegative_12")),
-    //
     _DD_EdgePositive_1_Grad(coupledGradient("DD_EdgePositive_1")),
     _DD_EdgePositive_2_Grad(coupledGradient("DD_EdgePositive_2")),
     _DD_EdgePositive_3_Grad(coupledGradient("DD_EdgePositive_3")),
@@ -237,7 +230,6 @@ DiscoFluxCPOrowanStressUpdate::DiscoFluxCPOrowanStressUpdate(const InputParamete
     _DD_EdgePositive_10_Grad(coupledGradient("DD_EdgePositive_10")),
     _DD_EdgePositive_11_Grad(coupledGradient("DD_EdgePositive_11")),
     _DD_EdgePositive_12_Grad(coupledGradient("DD_EdgePositive_12")),
-    //
     _DD_EdgeNegative_1_Grad(coupledGradient("DD_EdgeNegative_1")),
     _DD_EdgeNegative_2_Grad(coupledGradient("DD_EdgeNegative_2")),
     _DD_EdgeNegative_3_Grad(coupledGradient("DD_EdgeNegative_3")),
@@ -250,7 +242,6 @@ DiscoFluxCPOrowanStressUpdate::DiscoFluxCPOrowanStressUpdate(const InputParamete
     _DD_EdgeNegative_10_Grad(coupledGradient("DD_EdgeNegative_10")),
     _DD_EdgeNegative_11_Grad(coupledGradient("DD_EdgeNegative_11")),
     _DD_EdgeNegative_12_Grad(coupledGradient("DD_EdgeNegative_12")),
-    //
     _DD_ScrewPositive_1_Grad(coupledGradient("DD_ScrewPositive_1")),
     _DD_ScrewPositive_2_Grad(coupledGradient("DD_ScrewPositive_2")),
     _DD_ScrewPositive_3_Grad(coupledGradient("DD_ScrewPositive_3")),
@@ -263,7 +254,6 @@ DiscoFluxCPOrowanStressUpdate::DiscoFluxCPOrowanStressUpdate(const InputParamete
     _DD_ScrewPositive_10_Grad(coupledGradient("DD_ScrewPositive_10")),
     _DD_ScrewPositive_11_Grad(coupledGradient("DD_ScrewPositive_11")),
     _DD_ScrewPositive_12_Grad(coupledGradient("DD_ScrewPositive_12")),
-    //
     _DD_ScrewNegative_1_Grad(coupledGradient("DD_ScrewNegative_1")),
     _DD_ScrewNegative_2_Grad(coupledGradient("DD_ScrewNegative_2")),
     _DD_ScrewNegative_3_Grad(coupledGradient("DD_ScrewNegative_3")),
@@ -276,49 +266,10 @@ DiscoFluxCPOrowanStressUpdate::DiscoFluxCPOrowanStressUpdate(const InputParamete
     _DD_ScrewNegative_10_Grad(coupledGradient("DD_ScrewNegative_10")),
     _DD_ScrewNegative_11_Grad(coupledGradient("DD_ScrewNegative_11")),
     _DD_ScrewNegative_12_Grad(coupledGradient("DD_ScrewNegative_12")),
-    //
-    _dislocation_immobile(declareProperty<std::vector<Real>>(_base_name + "dislocation_immobile")),
-    _dislocation_immobile_old(
-        getMaterialPropertyOld<std::vector<Real>>(_base_name + "dislocation_immobile")),
-    _dislocation_immobile_edge_negative(
-        declareProperty<std::vector<Real>>(_base_name + "dislocation_immobile_edge_negative")),
-    _dislocation_immobile_edge_negative_old(getMaterialPropertyOld<std::vector<Real>>(
-        _base_name + "dislocation_immobile_edge_negative")),
-    _dislocation_immobile_screw_positive(
-        declareProperty<std::vector<Real>>(_base_name + "dislocation_immobile_screw_positive")),
-    _dislocation_immobile_screw_positive_old(getMaterialPropertyOld<std::vector<Real>>(
-        _base_name + "dislocation_immobile_edge_negative")),
-    _dislocation_immobile_screw_negative(
-        declareProperty<std::vector<Real>>(_base_name + "dislocation_immobile_screw_negative")),
-    _dislocation_immobile_screw_negative_old(getMaterialPropertyOld<std::vector<Real>>(
-        _base_name + "dislocation_immobile_edge_negative")),
-    _dislocation_mobile(declareProperty<std::vector<Real>>(_base_name + "dislocation_mobile")),
-    _dislocation_mobile_edge(
-        declareProperty<std::vector<Real>>(_base_name + "dislocation_mobile_edge")),
-    _dislocation_mobile_screw(
-        declareProperty<std::vector<Real>>(_base_name + "dislocation_mobile_screw")),
-    _dislocation_mobile_old(
-        getMaterialPropertyOld<std::vector<Real>>(_base_name + "dislocation_mobile")),
-    _dislocation_mobile_edge_old(
-        getMaterialPropertyOld<std::vector<Real>>(_base_name + "dislocation_mobile_edge")),
-    _dislocation_mobile_screw_old(
-        getMaterialPropertyOld<std::vector<Real>>(_base_name + "dislocation_mobile_screw")),
-    //
-    _dislo_velocity_edge(declareProperty<std::vector<Real>>(_base_name + "dislo_velocity_edge")),
-    _dislo_velocity_edge_old(getMaterialPropertyOld<std::vector<Real>>("dislo_velocity_edge")),
-    _dislo_velocity_screw(declareProperty<std::vector<Real>>(_base_name + "dislo_velocity_screw")),
-    _dislo_velocity_screw_old(getMaterialPropertyOld<std::vector<Real>>("dislo_velocity_screw")),
-    _tau_old(getMaterialPropertyOld<std::vector<Real>>("applied_shear_stress")),
-    _GND_density(declareProperty<std::vector<Real>>(_base_name + "GND_density")),
-    _tau_b(declareProperty<std::vector<Real>>(_base_name + "back_stress")),
-    // DDC related variables
-    _kappa(declareProperty<std::vector<Real>>(_base_name + "kappa")),
-    _kappa_screw(declareProperty<std::vector<Real>>(_base_name + "kappa_screw")),
     _DD_grad(_number_slip_systems, 0.00),
     _DD_grad_screw(_number_slip_systems, 0.00),
     _tau_b_local(_number_slip_systems, 0.00),
     _tau_b_local_screw(_number_slip_systems, 0.00),
-    // Dislocation densities arrays plus gradients
     _DD_EdgePositive(_number_slip_systems, 0.00),
     _DD_EdgeNegative(_number_slip_systems, 0.00),
     _DD_ScrewPositive(_number_slip_systems, 0.00),
@@ -327,40 +278,28 @@ DiscoFluxCPOrowanStressUpdate::DiscoFluxCPOrowanStressUpdate(const InputParamete
     _DD_EdgeNegative_Grad(_number_slip_systems, 0.00),
     _DD_ScrewPositive_Grad(_number_slip_systems, 0.00),
     _DD_ScrewNegative_Grad(_number_slip_systems, 0.00),
-    // Other variables necessary for this model
-    // _slip_direction_edge(
-    //     getMaterialProperty<std::vector<RealVectorValue>>(_base_name + "slip_direction_edge")),
-    // _slip_direction_screw(
-    //     getMaterialProperty<std::vector<RealVectorValue>>(_base_name + "slip_direction_screw")),
-    // _slip_plane_normalboth(
-    //     getMaterialProperty<std::vector<RealVectorValue>>(_base_name + "slip_plane_normalboth")),
-    //
-    _crysrot(getMaterialProperty<RankTwoTensor>(_base_name + "crysrot")),
-    // resize local caching vectors used for substepping
     _previous_substep_slip_resistance(_number_slip_systems, 0.00),
     _previous_substep_dislocation_mobile(_number_slip_systems, 0.00),
     _previous_substep_dislocation_mobile_edge(_number_slip_systems, 0.00),
     _previous_substep_dislocation_mobile_screw(_number_slip_systems, 0.00),
-    _previous_substep_dislocation_immobile(_number_slip_systems, 0.00),
+    _previous_substep_dislocation_immobile_edge_positive(_number_slip_systems, 0.00),
     _previous_substep_dislocation_immobile_edge_negative(_number_slip_systems, 0.00),
     _previous_substep_dislocation_immobile_screw_positive(_number_slip_systems, 0.00),
     _previous_substep_dislocation_immobile_screw_negative(_number_slip_systems, 0.00),
-    //
     _slip_resistance_before_update(_number_slip_systems, 0.00),
     _dislocation_mobile_before_update(_number_slip_systems, 0.00),
     _dislocation_mobile_edge_before_update(_number_slip_systems, 0.00),
     _dislocation_mobile_screw_before_update(_number_slip_systems, 0.00),
-    _dislocation_immobile_before_update(_number_slip_systems, 0.00),
+    _dislocation_immobile_before_update_edge_positive(_number_slip_systems, 0.00),
     _dislocation_immobile_before_update_edge_negative(_number_slip_systems, 0.00),
     _dislocation_immobile_before_update_screw_positive(_number_slip_systems, 0.00),
     _dislocation_immobile_before_update_screw_negative(_number_slip_systems, 0.00),
-    // resize vectors used in the consititutive slip hardening
     _hb(_number_slip_systems, 0.00),
     _slip_resistance_increment(_number_slip_systems, 0.00),
     _dislocation_mobile_increment(_number_slip_systems, 0.00),
     _dislocation_mobile_edge_increment(_number_slip_systems, 0.00),
     _dislocation_mobile_screw_increment(_number_slip_systems, 0.00),
-    _dislocation_immobile_increment(_number_slip_systems, 0.00),
+    _dislocation_immobile_increment_edge_positive(_number_slip_systems, 0.00),
     _dislocation_immobile_increment_edge_negative(_number_slip_systems, 0.00),
     _dislocation_immobile_increment_screw_positive(_number_slip_systems, 0.00),
     _dislocation_immobile_increment_screw_negative(_number_slip_systems, 0.00),
@@ -371,7 +310,6 @@ DiscoFluxCPOrowanStressUpdate::DiscoFluxCPOrowanStressUpdate(const InputParamete
     _L_bar_s(getParam<Real>("L_bar_s")),
     _min_dd(getParam<Real>("min_dd")),
     _max_dd(getParam<Real>("max_dd")),
-    // resize local variables realted to dislocation velocity
     t_wait(_number_slip_systems, 0.00),
     t_run(_number_slip_systems, 0.00),
     vel_run(_number_slip_systems, 0.00),
@@ -389,23 +327,6 @@ void
 DiscoFluxCPOrowanStressUpdate::initQpStatefulProperties()
 {
   CrystalPlasticityOrowanStressUpdateBase::initQpStatefulProperties();
-
-  _slip_direction_edge[_qp].resize(_number_slip_systems);
-  _slip_direction_screw[_qp].resize(_number_slip_systems);
-  _slip_plane_normalboth[_qp].resize(_number_slip_systems);
-  _dislocation_immobile[_qp].resize(_number_slip_systems);
-  _dislocation_immobile_edge_negative[_qp].resize(_number_slip_systems);
-  _dislocation_immobile_screw_negative[_qp].resize(_number_slip_systems);
-  _dislocation_immobile_screw_positive[_qp].resize(_number_slip_systems);
-  _dislocation_mobile[_qp].resize(_number_slip_systems);
-  _dislocation_mobile_edge[_qp].resize(_number_slip_systems);
-  _dislocation_mobile_screw[_qp].resize(_number_slip_systems);
-  _dislo_velocity_edge[_qp].resize(_number_slip_systems);
-  _dislo_velocity_screw[_qp].resize(_number_slip_systems);
-  _kappa[_qp].resize(_number_slip_systems);
-  _kappa_screw[_qp].resize(_number_slip_systems);
-  _tau_b[_qp].resize(_number_slip_systems);
-
   _DD_EdgeNegative[0] = _DD_EdgeNegative_1[_qp];
   _DD_EdgeNegative[1] = _DD_EdgeNegative_2[_qp];
   _DD_EdgeNegative[2] = _DD_EdgeNegative_3[_qp];
@@ -460,9 +381,6 @@ DiscoFluxCPOrowanStressUpdate::initQpStatefulProperties()
 
   for (unsigned int i = 0; i < _number_slip_systems; ++i)
   {
-    //   _slip_direction_edge[_qp][i].zero();
-    //   _slip_direction_screw[_qp][i].zero();
-    //   _slip_plane_normalboth[_qp][i].zero();
     _slip_direction_edge[_qp][i] = _slip_direction[i];
     _slip_direction_edge[_qp][i] /= _slip_direction_edge[_qp][i].norm();
 
@@ -476,9 +394,6 @@ DiscoFluxCPOrowanStressUpdate::initQpStatefulProperties()
     _slip_resistance[_qp][i] = _lattice_friction;
     _slip_increment[_qp][i] = 0.0;
 
-    // _dislocation_mobile[_qp][i] =
-    //     (_DD_EdgeNegative[i] + _DD_EdgePositive[i]) *
-    //     _dislo_density_factor_CDT;
     _dislocation_mobile[_qp][i] =
         (_DD_EdgeNegative[i] + _DD_EdgePositive[i] + _DD_ScrewPositive[i] + _DD_ScrewNegative[i]) *
         _dislo_density_factor_CDT;
@@ -487,7 +402,7 @@ DiscoFluxCPOrowanStressUpdate::initQpStatefulProperties()
     _dislocation_mobile_screw[_qp][i] =
         (_DD_ScrewPositive[i] + _DD_ScrewNegative[i]) * _dislo_density_factor_CDT;
 
-    _dislocation_immobile[_qp][i] = _dislo_density_initial * 0.25;
+    _dislocation_immobile_edge_positive[_qp][i] = _dislo_density_initial * 0.25;
     _dislocation_immobile_edge_negative[_qp][i] = _dislo_density_initial * 0.25;
     _dislocation_immobile_screw_positive[_qp][i] = _dislo_density_initial * 0.25;
     _dislocation_immobile_screw_negative[_qp][i] = _dislo_density_initial * 0.25;
@@ -495,12 +410,6 @@ DiscoFluxCPOrowanStressUpdate::initQpStatefulProperties()
     _dislo_velocity_screw[_qp][i] = 0.00;
     _kappa[_qp][i] = 0.0;
     _kappa_screw[_qp][i] = 0.0;
-    // _L_bar_e[i] = _Coeff_dislength * std::pow((_DD_EdgePositive[i] + _DD_EdgeNegative[i] +
-    //               _dislocation_immobile_edge_negative[_qp][i] +
-    //               _dislocation_immobile[_qp][i]),-0.5);
-    // _L_bar_s[i] = _Coeff_dislength * std::pow((_DD_ScrewPositive[i] + _DD_ScrewNegative[i] +
-    //               _dislocation_immobile_screw_negative[_qp][i] +
-    //               _dislocation_immobile_screw_positive[_qp][i]),-0.5);
   }
 }
 
@@ -565,10 +474,6 @@ DiscoFluxCPOrowanStressUpdate::setInitialConstitutiveVariableValues()
 
   for (unsigned int i = 0; i < _number_slip_systems; ++i)
   {
-    // _dislocation_mobile[_qp][i] = (_DD_EdgePositive[_qp][i] + _DD_EdgeNegative[_qp][i] +
-    // _DD_ScrewPositive[_qp][i] + _DD_ScrewNegative[_qp][i]) * _dislo_density_factor_CDT;
-    // _dislocation_mobile[_qp][i] =
-    //     (_DD_EdgePositive[i] + _DD_EdgeNegative[i]) * _dislo_density_factor_CDT;
     _dislocation_mobile[_qp][i] =
         (_DD_EdgePositive[i] + _DD_EdgeNegative[i] + _DD_ScrewPositive[i] + _DD_ScrewNegative[i]) *
         _dislo_density_factor_CDT;
@@ -581,11 +486,12 @@ DiscoFluxCPOrowanStressUpdate::setInitialConstitutiveVariableValues()
     _previous_substep_dislocation_mobile_edge[i] = _dislocation_mobile_edge[_qp][i];
     _previous_substep_dislocation_mobile_screw[i] = _dislocation_mobile_screw[_qp][i];
   }
-  _dislocation_immobile[_qp] = _dislocation_immobile_old[_qp];
+  _dislocation_immobile_edge_positive[_qp] = _dislocation_immobile_edge_positive_old[_qp];
   _dislocation_immobile_edge_negative[_qp] = _dislocation_immobile_edge_negative_old[_qp];
   _dislocation_immobile_screw_positive[_qp] = _dislocation_immobile_screw_positive_old[_qp];
   _dislocation_immobile_screw_negative[_qp] = _dislocation_immobile_screw_negative_old[_qp];
-  _previous_substep_dislocation_immobile = _dislocation_immobile_old[_qp];
+  _previous_substep_dislocation_immobile_edge_positive =
+      _dislocation_immobile_edge_positive_old[_qp];
   _previous_substep_dislocation_immobile_edge_negative =
       _dislocation_immobile_edge_negative_old[_qp];
   _previous_substep_dislocation_immobile_screw_positive =
@@ -597,7 +503,6 @@ DiscoFluxCPOrowanStressUpdate::setInitialConstitutiveVariableValues()
 void
 DiscoFluxCPOrowanStressUpdate::storeDislocationMobilityInformation()
 {
-  // CrystalPlasticityOrowanStressUpdateBase::storeDislocationMobilityInformation();
   for (const auto i : make_range(_number_slip_systems))
   {
     _slip_direction_edge[_qp][i] = _slip_direction[i];
@@ -614,7 +519,7 @@ void
 DiscoFluxCPOrowanStressUpdate::setSubstepConstitutiveVariableValues()
 {
   _slip_resistance[_qp] = _previous_substep_slip_resistance;
-  _dislocation_immobile[_qp] = _previous_substep_dislocation_immobile;
+  _dislocation_immobile_edge_positive[_qp] = _previous_substep_dislocation_immobile_edge_positive;
   _dislocation_immobile_edge_negative[_qp] = _previous_substep_dislocation_immobile_edge_negative;
   _dislocation_immobile_screw_positive[_qp] = _previous_substep_dislocation_immobile_screw_positive;
   _dislocation_immobile_screw_negative[_qp] = _previous_substep_dislocation_immobile_screw_negative;
@@ -735,15 +640,10 @@ DiscoFluxCPOrowanStressUpdate::calculateSlipRate()
 
   for (unsigned int i = 0; i < _number_slip_systems; ++i)
   {
-    // _slip_increment[_qp][i] = (_DD_EdgePositive[i] + _DD_EdgeNegative[i]) *
-    //                           _dislo_density_factor_CDT * _burgers_vector_mag *
-    //                           _dislo_velocity_edge[_qp][i];
     _slip_increment[_qp][i] =
         ((_DD_EdgePositive[i] + _DD_EdgeNegative[i]) * _dislo_velocity_edge[_qp][i] +
          (_DD_ScrewPositive[i] + _DD_ScrewNegative[i]) * _dislo_velocity_screw[_qp][i]) *
         _dislo_density_factor_CDT * _burgers_vector_mag;
-    // _slip_increment[_qp][i] = _dislocation_mobile[_qp][i] * _burgers_vector_mag *
-    // _dislo_velocity_edge[_qp][i];
 
     if (std::abs(_slip_increment[_qp][i]) * _substep_dt > _slip_incr_tol)
     {
@@ -784,7 +684,7 @@ void
 DiscoFluxCPOrowanStressUpdate::cacheStateVariablesBeforeUpdate()
 {
   _slip_resistance_before_update = _slip_resistance[_qp];
-  _dislocation_immobile_before_update = _dislocation_immobile[_qp];
+  _dislocation_immobile_before_update_edge_positive = _dislocation_immobile_edge_positive[_qp];
   _dislocation_immobile_before_update_edge_negative = _dislocation_immobile_edge_negative[_qp];
   _dislocation_immobile_before_update_screw_positive = _dislocation_immobile_screw_positive[_qp];
   _dislocation_immobile_before_update_screw_negative = _dislocation_immobile_screw_negative[_qp];
@@ -810,7 +710,7 @@ DiscoFluxCPOrowanStressUpdate::getDDIncrements()
   for (unsigned int i = 0; i < _number_slip_systems; ++i)
   {
     // _dislocation_mobile_increment[i] = 0.00;
-    _dislocation_immobile_increment[i] = 0.00;
+    _dislocation_immobile_increment_edge_positive[i] = 0.00;
     _dislocation_immobile_increment_edge_negative[i] = 0.00;
     _dislocation_immobile_increment_screw_positive[i] = 0.00;
     _dislocation_immobile_increment_screw_negative[i] = 0.00;
@@ -821,7 +721,7 @@ DiscoFluxCPOrowanStressUpdate::getDDIncrements()
       A_f_ij = 0.5 * std::abs(_slip_plane_normalboth[_qp][i] *
                               (_slip_plane_normalboth[_qp][j].cross(_slip_direction_edge[_qp][j])));
       dislocation_forest +=
-          A_f_ij * (_dislocation_mobile_edge[_qp][j] + _dislocation_immobile[_qp][j] +
+          A_f_ij * (_dislocation_mobile_edge[_qp][j] + _dislocation_immobile_edge_positive[_qp][j] +
                     _dislocation_immobile_edge_negative[_qp][j]);
       // Screw contribution
       A_f_ij = 0.5 * std::abs(_slip_plane_normalboth[_qp][i] * (_slip_direction_edge[_qp][j]));
@@ -832,11 +732,7 @@ DiscoFluxCPOrowanStressUpdate::getDDIncrements()
 
     if (std::abs(_slip_increment[_qp][i]) > small2)
     {
-      // _dislocation_immobile_increment[i] =
-      //     (_C_trap / _burgers_vector_mag) * std::pow(dislocation_forest, 0.5) *
-      //         std::abs(_slip_increment[_qp][i]) -
-      //     (_C_im_ann * _dislocation_immobile[_qp][i]) * std::abs(_slip_increment[_qp][i]);
-      _dislocation_immobile_increment[i] =
+      _dislocation_immobile_increment_edge_positive[i] =
           _C_trap * std::pow(dislocation_forest, 0.5) *
               std::abs(_DD_EdgePositive[i] * _dislo_velocity_edge[_qp][i]) -
           (0.25 * _C_im_ann * std::pow(dislocation_forest, 0.5) / _dd_sat) * _DD_EdgePositive[i] *
@@ -860,7 +756,7 @@ DiscoFluxCPOrowanStressUpdate::getDDIncrements()
     else
     {
       // _dislocation_mobile_increment[i] = 0.0;
-      _dislocation_immobile_increment[i] = 0.0;
+      _dislocation_immobile_increment_edge_positive[i] = 0.0;
       _dislocation_immobile_increment_edge_negative[i] = 0.0;
       _dislocation_immobile_increment_screw_positive[i] = 0.0;
       _dislocation_immobile_increment_screw_negative[i] = 0.0;
@@ -875,8 +771,9 @@ DiscoFluxCPOrowanStressUpdate::updateStateVariables()
 
   for (unsigned int i = 0; i < _number_slip_systems; ++i)
   {
-    _dislocation_immobile[_qp][i] = _previous_substep_dislocation_immobile[i] +
-                                    _dislocation_immobile_increment[i] * _substep_dt;
+    _dislocation_immobile_edge_positive[_qp][i] =
+        _previous_substep_dislocation_immobile_edge_positive[i] +
+        _dislocation_immobile_increment_edge_positive[i] * _substep_dt;
     _dislocation_immobile_edge_negative[_qp][i] =
         _previous_substep_dislocation_immobile_edge_negative[i] +
         _dislocation_immobile_increment_edge_negative[i] * _substep_dt;
@@ -904,7 +801,7 @@ DiscoFluxCPOrowanStressUpdate::updateStateVariables()
       if (i == j ? Hij = 1.0 : Hij = 0.1)
         // similar proportion of mobile and immobile dislocations:
         eff_dislocation_density +=
-            Hij * (_dislocation_mobile[_qp][j] + _dislocation_immobile[_qp][j] +
+            Hij * (_dislocation_mobile[_qp][j] + _dislocation_immobile_edge_positive[_qp][j] +
                    _dislocation_immobile_edge_negative[_qp][j] +
                    _dislocation_immobile_screw_positive[_qp][j] +
                    _dislocation_immobile_screw_negative[_qp][j]);
@@ -935,7 +832,7 @@ void
 DiscoFluxCPOrowanStressUpdate::updateSubstepConstitutiveVariableValues()
 {
   _previous_substep_slip_resistance = _slip_resistance[_qp];
-  _previous_substep_dislocation_immobile = _dislocation_immobile[_qp];
+  _previous_substep_dislocation_immobile_edge_positive = _dislocation_immobile_edge_positive[_qp];
   _previous_substep_dislocation_immobile_edge_negative = _dislocation_immobile_edge_negative[_qp];
   _previous_substep_dislocation_immobile_screw_positive = _dislocation_immobile_screw_positive[_qp];
   _previous_substep_dislocation_immobile_screw_negative = _dislocation_immobile_screw_negative[_qp];
@@ -983,12 +880,12 @@ DiscoFluxCPOrowanStressUpdate::DDCUpdate()
     }
     else
     {
-      _L_bar[i] =
-          _Coeff_dislength * std::pow((_dislocation_mobile[_qp][i] + _dislocation_immobile[_qp][i] +
-                                       _dislocation_immobile_edge_negative[_qp][i] +
-                                       _dislocation_immobile_screw_positive[_qp][i] +
-                                       _dislocation_immobile_screw_negative[_qp][i]),
-                                      -0.5);
+      _L_bar[i] = _Coeff_dislength * std::pow((_dislocation_mobile[_qp][i] +
+                                               _dislocation_immobile_edge_positive[_qp][i] +
+                                               _dislocation_immobile_edge_negative[_qp][i] +
+                                               _dislocation_immobile_screw_positive[_qp][i] +
+                                               _dislocation_immobile_screw_negative[_qp][i]),
+                                              -0.5);
       // Compute local internal stress
       _tau_b_local[i] = _Coeff_backstress *
                         ((_mu * std::pow(_L_bar[i], 1)) / (2 * 3.141 * (1 - _nu))) *

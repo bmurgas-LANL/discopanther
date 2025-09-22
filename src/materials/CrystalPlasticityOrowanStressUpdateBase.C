@@ -165,11 +165,32 @@ CrystalPlasticityOrowanStressUpdateBase::CrystalPlasticityOrowanStressUpdateBase
     _slip_plane_normalboth(declareProperty<std::vector<RealVectorValue>>("slip_plane_normalboth")),
     _crysrot(getMaterialProperty<RankTwoTensor>(_base_name + "crysrot")),
     _dislocation_mobile(declareProperty<std::vector<Real>>("dislocation_mobile")),
-    _dislocation_immobile(declareProperty<std::vector<Real>>("dislocation_immobile")),
-    _dislocation_immobile_old(getMaterialPropertyOld<std::vector<Real>>("dislocation_immobile")),
+    _dislocation_mobile_edge(
+        declareProperty<std::vector<Real>>(_base_name + "dislocation_mobile_edge")),
+    _dislocation_mobile_screw(
+        declareProperty<std::vector<Real>>(_base_name + "dislocation_mobile_screw")),
+    _dislocation_immobile_edge_positive(declareProperty<std::vector<Real>>("dislocation_immobile")),
+    _dislocation_immobile_edge_negative(
+        declareProperty<std::vector<Real>>(_base_name + "dislocation_immobile_edge_negative")),
+    _dislocation_immobile_screw_positive(
+        declareProperty<std::vector<Real>>(_base_name + "dislocation_immobile_screw_positive")),
+    _dislocation_immobile_screw_negative(
+        declareProperty<std::vector<Real>>(_base_name + "dislocation_immobile_screw_negative")),
+    _dislocation_immobile_edge_positive_old(
+        getMaterialPropertyOld<std::vector<Real>>(_base_name + "dislocation_immobile")),
+    _dislocation_immobile_edge_negative_old(getMaterialPropertyOld<std::vector<Real>>(
+        _base_name + "dislocation_immobile_edge_negative")),
+    _dislocation_immobile_screw_positive_old(getMaterialPropertyOld<std::vector<Real>>(
+        _base_name + "dislocation_immobile_edge_negative")),
+    _dislocation_immobile_screw_negative_old(getMaterialPropertyOld<std::vector<Real>>(
+        _base_name + "dislocation_immobile_edge_negative")),
     _tau_b(declareProperty<std::vector<Real>>("back_stress")),
     _kappa(declareProperty<std::vector<Real>>(_base_name + "kappa")),
-    _kappa_screw(declareProperty<std::vector<Real>>(_base_name + "kappa_screw"))
+    _kappa_screw(declareProperty<std::vector<Real>>(_base_name + "kappa_screw")),
+    _dislo_velocity_edge(declareProperty<std::vector<Real>>(_base_name + "dislo_velocity_edge")),
+    _dislo_velocity_edge_old(getMaterialPropertyOld<std::vector<Real>>("dislo_velocity_edge")),
+    _dislo_velocity_screw(declareProperty<std::vector<Real>>(_base_name + "dislo_velocity_screw")),
+    _dislo_velocity_screw_old(getMaterialPropertyOld<std::vector<Real>>("dislo_velocity_screw"))
 {
   getSlipSystems();
   sortCrossSlipFamilies();
@@ -197,6 +218,15 @@ CrystalPlasticityOrowanStressUpdateBase::setMaterialVectorSize()
   _slip_direction_edge[_qp].resize(_number_slip_systems);
   _slip_direction_screw[_qp].resize(_number_slip_systems);
   _slip_plane_normalboth[_qp].resize(_number_slip_systems);
+  _dislocation_immobile_edge_positive[_qp].resize(_number_slip_systems);
+  _dislocation_immobile_edge_negative[_qp].resize(_number_slip_systems);
+  _dislocation_immobile_screw_negative[_qp].resize(_number_slip_systems);
+  _dislocation_immobile_screw_positive[_qp].resize(_number_slip_systems);
+  _dislocation_mobile[_qp].resize(_number_slip_systems);
+  _dislocation_mobile_edge[_qp].resize(_number_slip_systems);
+  _dislocation_mobile_screw[_qp].resize(_number_slip_systems);
+  _dislo_velocity_edge[_qp].resize(_number_slip_systems);
+  _dislo_velocity_screw[_qp].resize(_number_slip_systems);
   for (const auto i : make_range(_number_slip_systems))
   {
     _flow_direction[_qp][i].zero();

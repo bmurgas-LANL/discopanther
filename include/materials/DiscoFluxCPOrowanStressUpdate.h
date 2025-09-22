@@ -94,15 +94,6 @@ protected:
 
   bool _disloc_den_threshold_flag;
 
-  // Discoflux related material parameters that are constant
-  // const Real mu = 76e+03; // MPa
-  // const Real nu = 0.3;
-  // const Real rho_m = 8960; // kg m-3
-  // const Real B0 = 3.0e-11; // MPa s
-  // const Real g0 = 0.87;
-  // const Real boltz = 1.38e-23; // Boltzman constant in Jule/Kelvin
-  // const Real omega0 = 2.0e+2; // 8.0e+11;
-
   const VariableValue & _DD_EdgePositive_1;
   const VariableValue & _DD_EdgePositive_2;
   const VariableValue & _DD_EdgePositive_3;
@@ -207,30 +198,6 @@ protected:
   const VariableGradient & _DD_ScrewNegative_11_Grad;
   const VariableGradient & _DD_ScrewNegative_12_Grad;
 
-  MaterialProperty<std::vector<Real>> & _dislocation_immobile;
-  const MaterialProperty<std::vector<Real>> & _dislocation_immobile_old;
-  MaterialProperty<std::vector<Real>> & _dislocation_immobile_edge_negative;
-  const MaterialProperty<std::vector<Real>> & _dislocation_immobile_edge_negative_old;
-  MaterialProperty<std::vector<Real>> & _dislocation_immobile_screw_positive;
-  const MaterialProperty<std::vector<Real>> & _dislocation_immobile_screw_positive_old;
-  MaterialProperty<std::vector<Real>> & _dislocation_immobile_screw_negative;
-  const MaterialProperty<std::vector<Real>> & _dislocation_immobile_screw_negative_old;
-  MaterialProperty<std::vector<Real>> & _dislocation_mobile;
-  MaterialProperty<std::vector<Real>> & _dislocation_mobile_edge;
-  MaterialProperty<std::vector<Real>> & _dislocation_mobile_screw;
-  const MaterialProperty<std::vector<Real>> & _dislocation_mobile_old;
-  const MaterialProperty<std::vector<Real>> & _dislocation_mobile_edge_old;
-  const MaterialProperty<std::vector<Real>> & _dislocation_mobile_screw_old;
-  MaterialProperty<std::vector<Real>> & _dislo_velocity_edge;
-  const MaterialProperty<std::vector<Real>> & _dislo_velocity_edge_old;
-  MaterialProperty<std::vector<Real>> & _dislo_velocity_screw;
-  const MaterialProperty<std::vector<Real>> & _dislo_velocity_screw_old;
-  const MaterialProperty<std::vector<Real>> & _tau_old;
-  const MaterialProperty<std::vector<Real>> & _GND_density;
-  MaterialProperty<std::vector<Real>> & _tau_b;
-  MaterialProperty<std::vector<Real>> & _kappa;
-  MaterialProperty<std::vector<Real>> & _kappa_screw;
-
   // DDC related variables
   std::vector<RealVectorValue> _DD_grad;
   std::vector<RealVectorValue> _DD_grad_screw;
@@ -246,18 +213,12 @@ protected:
   std::vector<RealVectorValue> _DD_ScrewPositive_Grad;
   std::vector<RealVectorValue> _DD_ScrewNegative_Grad;
 
-  // MaterialProperty<std::vector<RealVectorValue>> & _slip_direction_edge;
-  // MaterialProperty<std::vector<RealVectorValue>> & _slip_direction_screw;
-  // MaterialProperty<std::vector<RealVectorValue>> & _slip_plane_normalboth;
-
-  const MaterialProperty<RankTwoTensor> & _crysrot;
-
   // Stores the values of the slip system resistance
   std::vector<Real> _previous_substep_slip_resistance;
   std::vector<Real> _previous_substep_dislocation_mobile;
   std::vector<Real> _previous_substep_dislocation_mobile_edge;
   std::vector<Real> _previous_substep_dislocation_mobile_screw;
-  std::vector<Real> _previous_substep_dislocation_immobile;
+  std::vector<Real> _previous_substep_dislocation_immobile_edge_positive;
   std::vector<Real> _previous_substep_dislocation_immobile_edge_negative;
   std::vector<Real> _previous_substep_dislocation_immobile_screw_positive;
   std::vector<Real> _previous_substep_dislocation_immobile_screw_negative;
@@ -268,7 +229,7 @@ protected:
   std::vector<Real> _dislocation_mobile_before_update;
   std::vector<Real> _dislocation_mobile_edge_before_update;
   std::vector<Real> _dislocation_mobile_screw_before_update;
-  std::vector<Real> _dislocation_immobile_before_update;
+  std::vector<Real> _dislocation_immobile_before_update_edge_positive;
   std::vector<Real> _dislocation_immobile_before_update_edge_negative;
   std::vector<Real> _dislocation_immobile_before_update_screw_positive;
   std::vector<Real> _dislocation_immobile_before_update_screw_negative;
@@ -278,7 +239,7 @@ protected:
   std::vector<Real> _dislocation_mobile_increment;
   std::vector<Real> _dislocation_mobile_edge_increment;
   std::vector<Real> _dislocation_mobile_screw_increment;
-  std::vector<Real> _dislocation_immobile_increment;
+  std::vector<Real> _dislocation_immobile_increment_edge_positive;
   std::vector<Real> _dislocation_immobile_increment_edge_negative;
   std::vector<Real> _dislocation_immobile_increment_screw_positive;
   std::vector<Real> _dislocation_immobile_increment_screw_negative;
@@ -286,7 +247,6 @@ protected:
   std::vector<Real> _dv_dtau_screw;
   std::vector<Real> _L_bar;
 
-  // std::vector<Real> _L_bar_e, _L_bar_s;
   Real _L_bar_e, _L_bar_s;
 
   Real _min_dd, _max_dd;
@@ -295,7 +255,6 @@ protected:
   Real small2 = 1.0e-10, exp_limit = 2.0e+2;
   std::vector<Real> t_wait, t_run, vel_run, dislocation_density, tau_b, xi0, tau_eff, tau_effAbs,
       tau_effSign, slip_r;
-  // Real vcrit = std::sqrt(mu * 1.0e+06 / rho_m) * 1000; // mm s-1
   Real deltaG0, inner, deltaG, exp_arg, dtw_dtau, dtr_dtau;
 
   // For DDCUpdate

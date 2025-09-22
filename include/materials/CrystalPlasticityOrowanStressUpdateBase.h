@@ -239,11 +239,23 @@ protected:
   MaterialProperty<std::vector<RealVectorValue>> & _slip_plane_normalboth;
   const MaterialProperty<RankTwoTensor> & _crysrot;
   MaterialProperty<std::vector<Real>> & _dislocation_mobile;
-  MaterialProperty<std::vector<Real>> & _dislocation_immobile;
-  const MaterialProperty<std::vector<Real>> & _dislocation_immobile_old;
+  MaterialProperty<std::vector<Real>> & _dislocation_mobile_edge;
+  MaterialProperty<std::vector<Real>> & _dislocation_mobile_screw;
+  MaterialProperty<std::vector<Real>> & _dislocation_immobile_edge_positive;
+  MaterialProperty<std::vector<Real>> & _dislocation_immobile_edge_negative;
+  MaterialProperty<std::vector<Real>> & _dislocation_immobile_screw_positive;
+  MaterialProperty<std::vector<Real>> & _dislocation_immobile_screw_negative;
+  const MaterialProperty<std::vector<Real>> & _dislocation_immobile_edge_positive_old;
+  const MaterialProperty<std::vector<Real>> & _dislocation_immobile_edge_negative_old;
+  const MaterialProperty<std::vector<Real>> & _dislocation_immobile_screw_positive_old;
+  const MaterialProperty<std::vector<Real>> & _dislocation_immobile_screw_negative_old;
   MaterialProperty<std::vector<Real>> & _tau_b;
   MaterialProperty<std::vector<Real>> & _kappa;
   MaterialProperty<std::vector<Real>> & _kappa_screw;
+  MaterialProperty<std::vector<Real>> & _dislo_velocity_edge;
+  const MaterialProperty<std::vector<Real>> & _dislo_velocity_edge_old;
+  MaterialProperty<std::vector<Real>> & _dislo_velocity_screw;
+  const MaterialProperty<std::vector<Real>> & _dislo_velocity_screw_old;
 
   /// Substepping time step value used within the inheriting constitutive models
   Real _substep_dt;
