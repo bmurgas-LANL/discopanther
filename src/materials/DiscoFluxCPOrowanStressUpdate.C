@@ -28,6 +28,8 @@ permit others to do so.
 #include "libmesh/quadrature_gauss.h"
 #include "libmesh/remote_elem.h"
 
+#include <cfenv>
+
 registerMooseObject("discopanterApp", DiscoFluxCPOrowanStressUpdate);
 
 InputParameters
