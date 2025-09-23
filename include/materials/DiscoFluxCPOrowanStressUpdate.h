@@ -249,7 +249,7 @@ protected:
 
   Real _L_bar_e, _L_bar_s;
 
-  Real _min_dd, _max_dd;
+  Real _min_dd, _max_dd, _sat_coef_imm;
 
   // For dislocation velocity computation
   Real small2 = 1.0e-10, exp_limit = 2.0e+2;

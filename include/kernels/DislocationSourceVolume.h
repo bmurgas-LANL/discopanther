@@ -44,12 +44,11 @@ protected:
 
   const MaterialProperty<std::vector<Real>> & _dislocation_mobile_edge;
   const MaterialProperty<std::vector<Real>> & _dislocation_mobile_screw;
-  const MaterialProperty<std::vector<Real>> & _dislocation_immobile;
+  const MaterialProperty<std::vector<Real>> & _dislocation_immobile_edge_positive;
   const MaterialProperty<std::vector<Real>> & _dislocation_immobile_edge_negative;
   const MaterialProperty<std::vector<Real>> & _dislocation_immobile_screw_positive;
   const MaterialProperty<std::vector<Real>> & _dislocation_immobile_screw_negative;
   // const MaterialProperty<std::vector<Real>> & _slip_rate;
 
   const unsigned int _slip_system_index;
-  Real _dt;
 };

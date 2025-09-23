@@ -238,9 +238,11 @@ protected:
   MaterialProperty<std::vector<RealVectorValue>> & _slip_direction_screw;
   MaterialProperty<std::vector<RealVectorValue>> & _slip_plane_normalboth;
   const MaterialProperty<RankTwoTensor> & _crysrot;
+  MaterialProperty<std::vector<Real>> & _dislocation_forest;
   MaterialProperty<std::vector<Real>> & _dislocation_mobile;
   MaterialProperty<std::vector<Real>> & _dislocation_mobile_edge;
   MaterialProperty<std::vector<Real>> & _dislocation_mobile_screw;
+  MaterialProperty<std::vector<Real>> & _dislocation_immobile;
   MaterialProperty<std::vector<Real>> & _dislocation_immobile_edge_positive;
   MaterialProperty<std::vector<Real>> & _dislocation_immobile_edge_negative;
   MaterialProperty<std::vector<Real>> & _dislocation_immobile_screw_positive;

@@ -32,7 +32,7 @@ DislocationSourceVolume::validParams()
   params.addParam<Real>("C_trap", 0.36, "parameter for dislocation trapping");
   params.addParam<Real>("C_m_ann", 0.16, "parameter for dislocation mobile annihilation");
   params.addParam<Real>("C_im_ann", 0.16, "parameter for dislocation immobile annihilation");
-  params.addParam<Real>("dd_sat", 10e10, "dislocation density saturation value");
+  params.addParam<Real>("dd_sat", 10e9, "dislocation density saturation value");
   params.addParam<Real>("burgers_vector_mag", 1.0e-7, "magnitude of the Burger Vector in mm");
 
   MooseEnum dislocation_character("edge screw");
@@ -71,15 +71,15 @@ DislocationSourceVolume::DislocationSourceVolume(const InputParameters & paramet
 
     _dislocation_mobile_edge(getMaterialProperty<std::vector<Real>>("dislocation_mobile_edge")),
     _dislocation_mobile_screw(getMaterialProperty<std::vector<Real>>("dislocation_mobile_screw")),
-    _dislocation_immobile(getMaterialProperty<std::vector<Real>>("dislocation_immobile")),
+    _dislocation_immobile_edge_positive(
+        getMaterialProperty<std::vector<Real>>("dislocation_immobile_edge_positive")),
     _dislocation_immobile_edge_negative(
         getMaterialProperty<std::vector<Real>>("dislocation_immobile_edge_negative")),
     _dislocation_immobile_screw_positive(
         getMaterialProperty<std::vector<Real>>("dislocation_immobile_screw_positive")),
     _dislocation_immobile_screw_negative(
         getMaterialProperty<std::vector<Real>>("dislocation_immobile_screw_negative")),
-    _slip_system_index(getParam<int>("slip_system_index")),
-    _dt(_fe_problem.dt())
+    _slip_system_index(getParam<int>("slip_system_index"))
 {
 }
 
@@ -105,7 +105,7 @@ DislocationSourceVolume::computeQpResidual()
     A_f_ij = 0.5 * std::abs(_slip_plane_normalboth[_qp][i] *
                             (_slip_plane_normalboth[_qp][j].cross(_slip_direction_edge[_qp][j])));
     dislocation_forest +=
-        A_f_ij * (_dislocation_mobile_edge[_qp][j] + _dislocation_immobile[_qp][j] +
+        A_f_ij * (_dislocation_mobile_edge[_qp][j] + _dislocation_immobile_edge_positive[_qp][j] +
                   _dislocation_immobile_edge_negative[_qp][j]);
     // Screw contribution
     A_f_ij = 0.5 * std::abs(_slip_plane_normalboth[_qp][i] * (_slip_direction_edge[_qp][j]));
@@ -167,7 +167,7 @@ DislocationSourceVolume::computeQpJacobian()
     A_f_ij = 0.5 * std::abs(_slip_plane_normalboth[_qp][i] *
                             (_slip_plane_normalboth[_qp][j].cross(_slip_direction_edge[_qp][j])));
     dislocation_forest +=
-        A_f_ij * (_dislocation_mobile_edge[_qp][j] + _dislocation_immobile[_qp][j] +
+        A_f_ij * (_dislocation_mobile_edge[_qp][j] + _dislocation_immobile_edge_positive[_qp][j] +
                   _dislocation_immobile_edge_negative[_qp][j]);
     // Screw contribution
     A_f_ij = 0.5 * std::abs(_slip_plane_normalboth[_qp][i] * (_slip_direction_edge[_qp][j]));
