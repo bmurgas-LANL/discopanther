@@ -252,7 +252,7 @@ protected:
   Real _min_dd, _max_dd, _sat_coef_imm;
 
   // For dislocation velocity computation
-  Real small2 = 1.0e-10, exp_limit = 2.0e+2;
+  Real small2 = 1.0e-5, exp_limit = 2.0e+2;
   std::vector<Real> t_wait, t_run, vel_run, dislocation_density, tau_b, xi0, tau_eff, tau_effAbs,
       tau_effSign, slip_r;
   Real deltaG0, inner, deltaG, exp_arg, dtw_dtau, dtr_dtau;
