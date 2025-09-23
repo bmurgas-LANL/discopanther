@@ -42,6 +42,7 @@ protected:
   // Dislocation sign
   const enum class DislocationSign { positive, negative } _dislocationsign;
 
+  const MaterialProperty<std::vector<Real>> & _dislocation_forest;
   const MaterialProperty<std::vector<Real>> & _dislocation_mobile_edge;
   const MaterialProperty<std::vector<Real>> & _dislocation_mobile_screw;
   const MaterialProperty<std::vector<Real>> & _dislocation_immobile_edge_positive;

@@ -938,6 +938,9 @@ DiscoFluxCPOrowanStressUpdate::getDisloVelocity()
     _dv_dtau_screw[i] = 0.00;
   }
 
+  // Clear exceptions
+  std::feclearexcept(FE_ALL_EXCEPT);
+
   // Don't compute velocity for boundary element
   if (isBoundaryMaterial())
     return;
@@ -1027,6 +1030,18 @@ DiscoFluxCPOrowanStressUpdate::getDisloVelocity()
             (_dislo_velocity_edge[_qp][i] / (t_wait[i] + t_run[i])) * (dtr_dtau + dtw_dtau);
 
         // This is just for test and debug
+        if (std::fetestexcept(FE_DIVBYZERO))
+        {
+          mooseWarning("Edge disl. vel. divided by zero error in component ", i);
+        }
+        if (std::fetestexcept(FE_INEXACT))
+        {
+          mooseWarning("Edge disl. vel. inexact error in component ", i);
+        }
+        if (std::fetestexcept(FE_INVALID))
+        {
+          mooseWarning("Edge disl. vel. invalid error in component ", i);
+        }
         if (_dislo_velocity_edge[_qp][i] > 1000)
         {
           mooseWarning("Edge dislocation velocity ", _dislo_velocity_edge[_qp][i]);
@@ -1112,6 +1127,18 @@ DiscoFluxCPOrowanStressUpdate::getDisloVelocity()
             (_dislo_velocity_screw[_qp][i] / (t_wait[i] + t_run[i])) * (dtr_dtau + dtw_dtau);
 
         // This is just for test and debug
+        if (std::fetestexcept(FE_DIVBYZERO))
+        {
+          mooseWarning("Screw disl. vel. divided by zero error in component ", i);
+        }
+        if (std::fetestexcept(FE_INEXACT))
+        {
+          mooseWarning("Screw disl. vel. inexact error in component ", i);
+        }
+        if (std::fetestexcept(FE_INVALID))
+        {
+          mooseWarning("Screw disl. vel. invalid error in component ", i);
+        }
         if (_dislo_velocity_screw[_qp][i] > 1000)
         {
           mooseWarning("Screw dislocation velocity ", _dislo_velocity_screw[_qp][i]);
@@ -1124,4 +1151,5 @@ DiscoFluxCPOrowanStressUpdate::getDisloVelocity()
       }
     }
   }
+  std::feclearexcept(FE_ALL_EXCEPT);
 }
