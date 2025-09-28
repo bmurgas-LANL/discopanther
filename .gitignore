@@ -15,6 +15,7 @@
 *-profiling
 *-devel
 *.e
+*.cub
 *.nav
 *.log
 *.aux

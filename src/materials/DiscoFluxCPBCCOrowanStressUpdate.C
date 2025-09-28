@@ -1168,8 +1168,9 @@ DiscoFluxCPBCCOrowanStressUpdate::calculateSlipRate()
     
     // _slip_increment[_qp][i] = _dislocation_mobile[_qp][i] * _burgers_vector_mag *
     // _dislo_velocity_edge[_qp][i];
+    Real _current_disloc_den = _DD_EdgePositive[i] + _DD_EdgeNegative[i] + _DD_ScrewPositive[i] + _DD_ScrewNegative[i];
 
-    if (std::abs(_slip_increment[_qp][i]) * _substep_dt > _slip_incr_tol)
+    if (std::abs(_slip_increment[_qp][i]) * _substep_dt / _current_disloc_den > _slip_incr_tol)
     {
       // if (_print_convergence_message)
       mooseWarning("Maximum allowable slip increment exceeded ",
@@ -1523,19 +1524,27 @@ DiscoFluxCPBCCOrowanStressUpdate::getDisloVelocity()
 
         if (_mean_free_path_init_flag)
         {
-          t_run[i] = _L_bar_e / vel_run[i];
-          _dislo_velocity_edge[_qp][i] = tau_effSign[i] * _L_bar_e / (t_wait[i] + t_run[i]);
+          if (vel_run[i] < small2) _dislo_velocity_edge[_qp][i] = 0;
+          else 
+          {
+            t_run[i] = _L_bar_e / vel_run[i];
+            _dislo_velocity_edge[_qp][i] = tau_effSign[i] * _L_bar_e / (t_wait[i] + t_run[i]);
+          }
         }
         else
         {
-          t_run[i] = _L_bar[i] / vel_run[i];
-          _dislo_velocity_edge[_qp][i] = tau_effSign[i] * _L_bar[i] / (t_wait[i] + t_run[i]);
+          if (vel_run[i] < small2) _dislo_velocity_edge[_qp][i] = 0;
+          else
+          {
+            t_run[i] = _L_bar[i] / vel_run[i];
+            _dislo_velocity_edge[_qp][i] = tau_effSign[i] * _L_bar[i] / (t_wait[i] + t_run[i]);
+          }
         }
 
         dtr_dtau = t_run[i] * xi0[i] * tau_effSign[i] /
                    (std::pow((xi0[i] * xi0[i] + 1), 0.5) * tau_effAbs[i]);
 
-        _dv_dtau[i] =
+        _dv_dtau[i] = (vel_run[i] < small2) ? 0.0 : 
             (_dislo_velocity_edge[_qp][i] / (t_wait[i] + t_run[i])) * (dtr_dtau + dtw_dtau);
 
         // This is just for test and debug
@@ -1604,19 +1613,27 @@ DiscoFluxCPBCCOrowanStressUpdate::getDisloVelocity()
         // compute running time
         if (_mean_free_path_init_flag)
         {
-          t_run[i] = _L_bar_s / vel_run[i];
-          _dislo_velocity_screw[_qp][i] = tau_effSign[i] * _L_bar_s / (t_wait[i] + t_run[i]);
+          if (vel_run[i] < small2) _dislo_velocity_screw[_qp][i] = 0;
+          else
+          {
+            t_run[i] = _L_bar_s / vel_run[i];
+            _dislo_velocity_screw[_qp][i] = tau_effSign[i] * _L_bar_s / (t_wait[i] + t_run[i]);
+          }
         }
         else
         {
-          t_run[i] = _L_bar[i] / vel_run[i];
-          _dislo_velocity_screw[_qp][i] = tau_effSign[i] * _L_bar[i] / (t_wait[i] + t_run[i]);
+          if (vel_run[i] < small2) _dislo_velocity_screw[_qp][i] = 0;
+          else 
+          {
+            t_run[i] = _L_bar[i] / vel_run[i];
+            _dislo_velocity_screw[_qp][i] = tau_effSign[i] * _L_bar[i] / (t_wait[i] + t_run[i]);
+          }
         }
 
         dtr_dtau = t_run[i] * xi0[i] * tau_effSign[i] /
                    (std::pow((xi0[i] * xi0[i] + 1), 0.5) * tau_effAbs[i]);
 
-        _dv_dtau_screw[i] =
+        _dv_dtau_screw[i] = (vel_run[i] < small2) ? 0.0 : 
             (_dislo_velocity_screw[_qp][i] / (t_wait[i] + t_run[i])) * (dtr_dtau + dtw_dtau);
 
         // This is just for test and debug
