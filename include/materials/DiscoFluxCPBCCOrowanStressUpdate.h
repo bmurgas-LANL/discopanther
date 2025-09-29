@@ -82,7 +82,9 @@ protected:
 
   const Real _lattice_friction;
   const Real _lattice_friction_112, _lattice_friction_112_atw;
+  const Real _lattice_friction_screw;
   const Real _initial_athermal;
+  const Real _initial_athermal_screw;
   const Real _burgers_vector_mag;
   const Real _dislo_density_initial;
   const Real _dislo_density_factor_CDT;
@@ -345,6 +347,8 @@ protected:
   MaterialProperty<std::vector<Real>>           & _tau_b;
   MaterialProperty<std::vector<Real>>           & _kappa;
   MaterialProperty<std::vector<Real>>           & _kappa_screw;
+  MaterialProperty<std::vector<Real>>           & _slip_resistance_screw;
+  const MaterialProperty<std::vector<Real>>     & _slip_resistance_screw_old;
 
   // DDC related variables
   std::vector<RealVectorValue>                  _DD_grad;
@@ -369,6 +373,7 @@ protected:
 
   // Stores the values of the slip system resistance
   std::vector<Real> _previous_substep_slip_resistance;
+  std::vector<Real> _previous_substep_slip_resistance_screw;
   std::vector<Real> _previous_substep_dislocation_mobile;
   std::vector<Real> _previous_substep_dislocation_mobile_edge;
   std::vector<Real> _previous_substep_dislocation_mobile_screw;
@@ -380,6 +385,7 @@ protected:
 
   // Caches the value of the current slip system resistance
   std::vector<Real> _slip_resistance_before_update;
+  std::vector<Real> _slip_resistance_before_update_screw;
   std::vector<Real> _dislocation_mobile_before_update;
   std::vector<Real> _dislocation_mobile_edge_before_update;
   std::vector<Real> _dislocation_mobile_screw_before_update;
@@ -390,6 +396,7 @@ protected:
 
   std::vector<Real> _hb;
   std::vector<Real> _slip_resistance_increment;
+  std::vector<Real> _slip_resistance_increment_screw;
   std::vector<Real> _dislocation_mobile_increment;
   std::vector<Real> _dislocation_mobile_edge_increment;
   std::vector<Real> _dislocation_mobile_screw_increment;
@@ -408,7 +415,7 @@ protected:
   // For dislocation velocity computation
   Real small2 = 1.0e-10, exp_limit = 2.0e+2;
   std::vector<Real> t_wait, t_run, vel_run, dislocation_density, tau_b, xi0, tau_eff, tau_effAbs,
-      tau_effSign, slip_r;
+      tau_effSign, slip_r, slip_r_screw;
   // Real vcrit = std::sqrt(mu * 1.0e+06 / rho_m) * 1000; // mm s-1
   Real deltaG0, inner, deltaG, exp_arg, dtw_dtau, dtr_dtau;
 
