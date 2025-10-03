@@ -167,6 +167,19 @@ DislocationSourceVolume::computeQpJacobian()
     dislocation_forest += A_f_ij * (_dislocation_mobile_screw[_qp][j] + _dislocation_immobile_screw_positive[_qp][j] + _dislocation_immobile_screw_negative[_qp][j]);
   }
 
+  Real saturation_density = _zeta_sat;
+  if (_dislocationcharacter == DislocationCharacter::edge && _dislocationsign == DislocationSign::positive) 
+    saturation_density *= _dislocation_immobile_sat_edgepos[_qp][i];
+
+  else if (_dislocationcharacter == DislocationCharacter::edge && _dislocationsign == DislocationSign::negative) 
+    saturation_density *= _dislocation_immobile_sat_edgeneg[_qp][i];
+
+  else if (_dislocationcharacter == DislocationCharacter::screw && _dislocationsign == DislocationSign::positive) 
+    saturation_density *= _dislocation_immobile_sat_screwpos[_qp][i];
+
+  else if (_dislocationcharacter == DislocationCharacter::screw && _dislocationsign == DislocationSign::negative) 
+    saturation_density *= _dislocation_immobile_sat_screwneg[_qp][i];
+
   switch (_dislocationcharacter)
   {
     case DislocationCharacter::edge:
@@ -183,7 +196,7 @@ DislocationSourceVolume::computeQpJacobian()
   // TODO: get the trial functions phi of the other variables
   _dislocation_mobile_increment_mult = (_C_multi * std::pow(dislocation_forest, 0.5)) * std::abs(slip_rate);
   _dislocation_mobile_increment_trap = (_C_trap * std::pow(dislocation_forest, 0.5)) * std::abs(slip_rate);
-  _dislocation_mobile_increment_ann = (0.25 * _C_m_ann * std::pow(dislocation_forest, 0.5) / _dd_sat) * 2.0 * _u[_qp] * std::abs(slip_rate);
+  _dislocation_mobile_increment_ann = (0.25 * _C_m_ann * std::pow(dislocation_forest, 0.5) / saturation_density) * 2.0 * _u[_qp] * std::abs(slip_rate);
 
   dislocation_mobile_increment = (_dislocation_mobile_increment_mult - _dislocation_mobile_increment_trap -  _dislocation_mobile_increment_ann);
   dislocation_mobile_increment *= 1.0 / _dislo_density_factor_CDT;
