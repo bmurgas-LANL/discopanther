@@ -26,12 +26,12 @@
     exodus = false
     # console = true
     # interval = 25
-    #[out]
-    #  type = Checkpoint
-    #  time_step_interval = 10
-    #  num_files = 2
+    [out]
+      type = Checkpoint
+      time_step_interval = 10
+      num_files = 2
       # wall_time_interval = 3600 # seconds
-    #[]
+    []
 []
 
 [UserObjects]
@@ -2563,6 +2563,56 @@
     DD_EdgeNegative_23  = DD_EdgeNegative_23
     DD_EdgeNegative_24  = DD_EdgeNegative_24
 
+    DD_ScrewPositive_1   = DD_ScrewPositive_1
+    DD_ScrewPositive_2   = DD_ScrewPositive_2
+    DD_ScrewPositive_3   = DD_ScrewPositive_3
+    DD_ScrewPositive_4   = DD_ScrewPositive_4
+    DD_ScrewPositive_5   = DD_ScrewPositive_5
+    DD_ScrewPositive_6   = DD_ScrewPositive_6
+    DD_ScrewPositive_7   = DD_ScrewPositive_7
+    DD_ScrewPositive_8   = DD_ScrewPositive_8
+    DD_ScrewPositive_9   = DD_ScrewPositive_9
+    DD_ScrewPositive_10  = DD_ScrewPositive_10
+    DD_ScrewPositive_11  = DD_ScrewPositive_11
+    DD_ScrewPositive_12  = DD_ScrewPositive_12
+    DD_ScrewPositive_13  = DD_ScrewPositive_13
+    DD_ScrewPositive_14  = DD_ScrewPositive_14
+    DD_ScrewPositive_15  = DD_ScrewPositive_15
+    DD_ScrewPositive_16  = DD_ScrewPositive_16
+    DD_ScrewPositive_17  = DD_ScrewPositive_17
+    DD_ScrewPositive_18  = DD_ScrewPositive_18
+    DD_ScrewPositive_19  = DD_ScrewPositive_19
+    DD_ScrewPositive_20  = DD_ScrewPositive_20
+    DD_ScrewPositive_21  = DD_ScrewPositive_21
+    DD_ScrewPositive_22  = DD_ScrewPositive_22
+    DD_ScrewPositive_23  = DD_ScrewPositive_23
+    DD_ScrewPositive_24  = DD_ScrewPositive_24
+
+    DD_ScrewNegative_1   = DD_ScrewNegative_1
+    DD_ScrewNegative_2   = DD_ScrewNegative_2
+    DD_ScrewNegative_3   = DD_ScrewNegative_3
+    DD_ScrewNegative_4   = DD_ScrewNegative_4
+    DD_ScrewNegative_5   = DD_ScrewNegative_5
+    DD_ScrewNegative_6   = DD_ScrewNegative_6
+    DD_ScrewNegative_7   = DD_ScrewNegative_7
+    DD_ScrewNegative_8   = DD_ScrewNegative_8
+    DD_ScrewNegative_9   = DD_ScrewNegative_9
+    DD_ScrewNegative_10  = DD_ScrewNegative_10
+    DD_ScrewNegative_11  = DD_ScrewNegative_11
+    DD_ScrewNegative_12  = DD_ScrewNegative_12
+    DD_ScrewNegative_13  = DD_ScrewNegative_13
+    DD_ScrewNegative_14  = DD_ScrewNegative_14
+    DD_ScrewNegative_15  = DD_ScrewNegative_15
+    DD_ScrewNegative_16  = DD_ScrewNegative_16
+    DD_ScrewNegative_17  = DD_ScrewNegative_17
+    DD_ScrewNegative_18  = DD_ScrewNegative_18
+    DD_ScrewNegative_19  = DD_ScrewNegative_19
+    DD_ScrewNegative_20  = DD_ScrewNegative_20
+    DD_ScrewNegative_21  = DD_ScrewNegative_21
+    DD_ScrewNegative_22  = DD_ScrewNegative_22
+    DD_ScrewNegative_23  = DD_ScrewNegative_23
+    DD_ScrewNegative_24  = DD_ScrewNegative_24
+
     print_state_variable_convergence_error_messages = true
   [../]
   [updated_euler_angle]
@@ -2588,7 +2638,7 @@
 
 [GlobalParams]
   number_slip_systems     = 24
-  dislo_density_initial   = 61875
+  dislo_density_initial   = 247500
   C_multi                 = 0.35 
   C_trap                  = 0.315 
   C_m_ann                 = 0.0 

@@ -320,36 +320,6 @@ protected:
   const VariableGradient & _DD_ScrewNegative_23_Grad;
   const VariableGradient & _DD_ScrewNegative_24_Grad;
 
-  MaterialProperty<std::vector<Real>>           & _dislocation_immobile_sat_edgepos;
-  MaterialProperty<std::vector<Real>>           & _dislocation_immobile_sat_edgeneg;
-  MaterialProperty<std::vector<Real>>           & _dislocation_immobile_sat_screwpos;
-  MaterialProperty<std::vector<Real>>           & _dislocation_immobile_sat_screwneg;
-  MaterialProperty<std::vector<Real>>           & _dislocation_immobile;
-  const MaterialProperty<std::vector<Real>>     & _dislocation_immobile_old;
-  MaterialProperty<std::vector<Real>>           & _dislocation_immobile_edge_negative;
-  const MaterialProperty<std::vector<Real>>     & _dislocation_immobile_edge_negative_old;
-  MaterialProperty<std::vector<Real>>           & _dislocation_immobile_screw_positive;
-  const MaterialProperty<std::vector<Real>>     & _dislocation_immobile_screw_positive_old;
-  MaterialProperty<std::vector<Real>>           & _dislocation_immobile_screw_negative;
-  const MaterialProperty<std::vector<Real>>     & _dislocation_immobile_screw_negative_old;
-  MaterialProperty<std::vector<Real>>           & _dislocation_mobile;
-  MaterialProperty<std::vector<Real>>           & _dislocation_mobile_edge;
-  MaterialProperty<std::vector<Real>>           & _dislocation_mobile_screw;
-  const MaterialProperty<std::vector<Real>>     & _dislocation_mobile_old;
-  const MaterialProperty<std::vector<Real>>     & _dislocation_mobile_edge_old;
-  const MaterialProperty<std::vector<Real>>     & _dislocation_mobile_screw_old;
-  MaterialProperty<std::vector<Real>>           & _dislo_velocity_edge;
-  const MaterialProperty<std::vector<Real>>     & _dislo_velocity_edge_old;
-  MaterialProperty<std::vector<Real>>           & _dislo_velocity_screw;
-  const MaterialProperty<std::vector<Real>>     & _dislo_velocity_screw_old;
-  const MaterialProperty<std::vector<Real>>     & _tau_old;
-  const MaterialProperty<std::vector<Real>>     & _GND_density;
-  MaterialProperty<std::vector<Real>>           & _tau_b;
-  MaterialProperty<std::vector<Real>>           & _kappa;
-  MaterialProperty<std::vector<Real>>           & _kappa_screw;
-  MaterialProperty<std::vector<Real>>           & _slip_resistance_screw;
-  const MaterialProperty<std::vector<Real>>     & _slip_resistance_screw_old;
-
   // DDC related variables
   std::vector<RealVectorValue>                  _DD_grad;
   std::vector<RealVectorValue>                  _DD_grad_screw;
@@ -377,7 +347,7 @@ protected:
   std::vector<Real> _previous_substep_dislocation_mobile;
   std::vector<Real> _previous_substep_dislocation_mobile_edge;
   std::vector<Real> _previous_substep_dislocation_mobile_screw;
-  std::vector<Real> _previous_substep_dislocation_immobile;
+  std::vector<Real> _previous_substep_dislocation_immobile_edge_positive;
   std::vector<Real> _previous_substep_dislocation_immobile_edge_negative;
   std::vector<Real> _previous_substep_dislocation_immobile_screw_positive;
   std::vector<Real> _previous_substep_dislocation_immobile_screw_negative;
@@ -389,7 +359,7 @@ protected:
   std::vector<Real> _dislocation_mobile_before_update;
   std::vector<Real> _dislocation_mobile_edge_before_update;
   std::vector<Real> _dislocation_mobile_screw_before_update;
-  std::vector<Real> _dislocation_immobile_before_update;
+  std::vector<Real> _dislocation_immobile_before_update_edge_positive;
   std::vector<Real> _dislocation_immobile_before_update_edge_negative;
   std::vector<Real> _dislocation_immobile_before_update_screw_positive;
   std::vector<Real> _dislocation_immobile_before_update_screw_negative;
@@ -400,7 +370,7 @@ protected:
   std::vector<Real> _dislocation_mobile_increment;
   std::vector<Real> _dislocation_mobile_edge_increment;
   std::vector<Real> _dislocation_mobile_screw_increment;
-  std::vector<Real> _dislocation_immobile_increment;
+  std::vector<Real> _dislocation_immobile_increment_edge_positive;
   std::vector<Real> _dislocation_immobile_increment_edge_negative;
   std::vector<Real> _dislocation_immobile_increment_screw_positive;
   std::vector<Real> _dislocation_immobile_increment_screw_negative;

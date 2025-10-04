@@ -184,8 +184,7 @@ CrystalPlasticityOrowanStressUpdateBase::CrystalPlasticityOrowanStressUpdateBase
     const InputParameters & parameters)
   : Material(parameters),
     _base_name(isParamValid("base_name") ? getParam<std::string>("base_name") + "_" : ""),
-    _crystal_lattice_type(
-        getParam<MooseEnum>("crystal_lattice_type").getEnum<CrystalLatticeType>()),
+    _crystal_lattice_type(getParam<MooseEnum>("crystal_lattice_type").getEnum<CrystalLatticeType>()),
     _unit_cell_dimension(getParam<std::vector<Real>>("unit_cell_dimension")),
     _number_slip_systems(getParam<unsigned int>("number_slip_systems")),
     _slip_sys_file_name(getParam<FileName>("slip_sys_file_name")),
@@ -199,6 +198,8 @@ CrystalPlasticityOrowanStressUpdateBase::CrystalPlasticityOrowanStressUpdateBase
 
     _slip_resistance(declareProperty<std::vector<Real>>(_base_name + "slip_resistance")),
     _slip_resistance_old(getMaterialPropertyOld<std::vector<Real>>(_base_name + "slip_resistance")),
+    _slip_resistance_screw(declareProperty<std::vector<Real>>(_base_name + "slip_resistance_screw")),
+    _slip_resistance_screw_old(getMaterialPropertyOld<std::vector<Real>>(_base_name + "slip_resistance_screw")),
     _slip_increment(declareProperty<std::vector<Real>>(_base_name + "slip_increment")),
 
     _slip_direction(_number_slip_systems),
@@ -207,17 +208,34 @@ CrystalPlasticityOrowanStressUpdateBase::CrystalPlasticityOrowanStressUpdateBase
     _tau(declareProperty<std::vector<Real>>(_base_name + "applied_shear_stress")),
     _print_convergence_message(getParam<bool>("print_state_variable_convergence_error_messages")),
     // Additional Material properties for disco flux model
-    _slip_direction_edge(
-        declareProperty<std::vector<RealVectorValue>>(_base_name + "slip_direction_edge")),
-    _slip_direction_screw(declareProperty<std::vector<RealVectorValue>>("slip_direction_screw")),
-    _slip_plane_normalboth(declareProperty<std::vector<RealVectorValue>>("slip_plane_normalboth")),
-    _crysrot(getMaterialProperty<RankTwoTensor>(_base_name + "crysrot")),
-    _dislocation_mobile(declareProperty<std::vector<Real>>("dislocation_mobile")),
-    _dislocation_immobile(declareProperty<std::vector<Real>>("dislocation_immobile")),
-    _dislocation_immobile_old(getMaterialPropertyOld<std::vector<Real>>("dislocation_immobile")),
-    _tau_b(declareProperty<std::vector<Real>>("back_stress")),
-    _kappa(declareProperty<std::vector<Real>>(_base_name + "kappa")),
-    _kappa_screw(declareProperty<std::vector<Real>>(_base_name + "kappa_screw"))
+    _slip_direction_edge(                       declareProperty<std::vector<RealVectorValue>>(_base_name + "slip_direction_edge")),
+    _slip_direction_screw(                      declareProperty<std::vector<RealVectorValue>>(_base_name + "slip_direction_screw")),
+    _slip_plane_normalboth(                     declareProperty<std::vector<RealVectorValue>>(_base_name + "slip_plane_normalboth")),
+    _crysrot(                                   getMaterialProperty<RankTwoTensor>(_base_name + "crysrot")),
+    _dislocation_forest(                        declareProperty<std::vector<Real>>(_base_name + "dislocation_forest")),
+    _dislocation_mobile(                        declareProperty<std::vector<Real>>(_base_name + "dislocation_mobile")),
+    _dislocation_mobile_edge(                   declareProperty<std::vector<Real>>(_base_name + "dislocation_mobile_edge")),
+    _dislocation_mobile_screw(                  declareProperty<std::vector<Real>>(_base_name + "dislocation_mobile_screw")),
+    _dislocation_immobile(                      declareProperty<std::vector<Real>>(_base_name + "dislocation_immobile")),
+    _dislocation_immobile_edge_positive(        declareProperty<std::vector<Real>>(_base_name + "dislocation_immobile_edge_positive")),
+    _dislocation_immobile_edge_negative(        declareProperty<std::vector<Real>>(_base_name + "dislocation_immobile_edge_negative")),
+    _dislocation_immobile_screw_positive(       declareProperty<std::vector<Real>>(_base_name + "dislocation_immobile_screw_positive")),
+    _dislocation_immobile_screw_negative(       declareProperty<std::vector<Real>>(_base_name + "dislocation_immobile_screw_negative")),
+    _dislocation_immobile_edge_positive_old(    getMaterialPropertyOld<std::vector<Real>>(_base_name + "dislocation_immobile")),
+    _dislocation_immobile_edge_negative_old(    getMaterialPropertyOld<std::vector<Real>>(_base_name + "dislocation_immobile_edge_negative")),
+    _dislocation_immobile_screw_positive_old(   getMaterialPropertyOld<std::vector<Real>>(_base_name + "dislocation_immobile_edge_negative")),
+    _dislocation_immobile_screw_negative_old(   getMaterialPropertyOld<std::vector<Real>>(_base_name + "dislocation_immobile_edge_negative")),
+    _tau_b(                                     declareProperty<std::vector<Real>>(_base_name + "back_stress")),
+    _kappa(                                     declareProperty<std::vector<Real>>(_base_name + "kappa")),
+    _kappa_screw(                               declareProperty<std::vector<Real>>(_base_name + "kappa_screw")),
+    _dislo_velocity_edge(                       declareProperty<std::vector<Real>>(_base_name + "dislo_velocity_edge")),
+    _dislo_velocity_edge_old(                   getMaterialPropertyOld<std::vector<Real>>("dislo_velocity_edge")),
+    _dislo_velocity_screw(                      declareProperty<std::vector<Real>>(_base_name + "dislo_velocity_screw")),
+    _dislo_velocity_screw_old(                  getMaterialPropertyOld<std::vector<Real>>("dislo_velocity_screw")),
+    _dislocation_immobile_sat_edgepos(          declareProperty<std::vector<Real>>(_base_name + "saturation_immobile_density_edgepos")),
+    _dislocation_immobile_sat_edgeneg(          declareProperty<std::vector<Real>>(_base_name + "saturation_immobile_density_edgeneg")),
+    _dislocation_immobile_sat_screwpos(         declareProperty<std::vector<Real>>(_base_name + "saturation_immobile_density_screwpos")),
+    _dislocation_immobile_sat_screwneg(         declareProperty<std::vector<Real>>(_base_name + "saturation_immobile_density_screwneg"))
 {
   getSlipSystems();
   sortCrossSlipFamilies();
@@ -237,14 +255,29 @@ CrystalPlasticityOrowanStressUpdateBase::initQpStatefulProperties()
 void
 CrystalPlasticityOrowanStressUpdateBase::setMaterialVectorSize()
 {
-  _tau[_qp].resize(_number_slip_systems);
-  _tau_b[_qp].resize(_number_slip_systems);
-  _kappa[_qp].resize(_number_slip_systems);
-  _kappa_screw[_qp].resize(_number_slip_systems);
-  _flow_direction[_qp].resize(_number_slip_systems);
-  _slip_direction_edge[_qp].resize(_number_slip_systems);
-  _slip_direction_screw[_qp].resize(_number_slip_systems);
-  _slip_plane_normalboth[_qp].resize(_number_slip_systems);
+  _tau[_qp].                                resize(_number_slip_systems);
+  _tau_b[_qp].                              resize(_number_slip_systems);
+  _kappa[_qp].                              resize(_number_slip_systems);
+  _kappa_screw[_qp].                        resize(_number_slip_systems);
+  _flow_direction[_qp].                     resize(_number_slip_systems);
+  _slip_direction_edge[_qp].                resize(_number_slip_systems);
+  _slip_direction_screw[_qp].               resize(_number_slip_systems);
+  _slip_plane_normalboth[_qp].              resize(_number_slip_systems);
+  _dislocation_immobile[_qp].               resize(_number_slip_systems);
+  _dislocation_immobile_edge_positive[_qp]. resize(_number_slip_systems);
+  _dislocation_immobile_edge_negative[_qp]. resize(_number_slip_systems);
+  _dislocation_immobile_screw_negative[_qp].resize(_number_slip_systems);
+  _dislocation_immobile_screw_positive[_qp].resize(_number_slip_systems);
+  _dislocation_forest[_qp].                 resize(_number_slip_systems);
+  _dislocation_mobile[_qp].                 resize(_number_slip_systems);
+  _dislocation_mobile_edge[_qp].            resize(_number_slip_systems);
+  _dislocation_mobile_screw[_qp].           resize(_number_slip_systems);
+  _dislo_velocity_edge[_qp].                resize(_number_slip_systems);
+  _dislo_velocity_screw[_qp].               resize(_number_slip_systems);
+  _dislocation_immobile_sat_edgepos[_qp].   resize(_number_slip_systems);
+  _dislocation_immobile_sat_edgeneg[_qp].   resize(_number_slip_systems);
+  _dislocation_immobile_sat_screwpos[_qp].  resize(_number_slip_systems);
+  _dislocation_immobile_sat_screwneg[_qp].  resize(_number_slip_systems);
   for (const auto i : make_range(_number_slip_systems))
   {
     _flow_direction[_qp][i].zero();

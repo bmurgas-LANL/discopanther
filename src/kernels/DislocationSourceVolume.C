@@ -40,7 +40,7 @@ DislocationSourceVolume::validParams()
   params.addRequiredParam<MooseEnum>    ("dislocation_sign",          dislocation_sign,       "Sign of dislocation");
   params.addRequiredParam<int>          ("slip_system_index",         "Slip system index to get slip direction FCC: 1 to 12.");
 
-  params.addClassDescription            ("SThis calss handles the ource term in the advection equation");
+  params.addClassDescription            ("This class handles the source term in the advection equation");
   return params;
 }
 
@@ -65,16 +65,17 @@ DislocationSourceVolume::DislocationSourceVolume(const InputParameters & paramet
     _dislocationcharacter(                  getParam<MooseEnum>("dislocation_character").getEnum<DislocationCharacter>()),
     _dislocationsign(                       getParam<MooseEnum>("dislocation_sign").getEnum<DislocationSign>()),
 
+    _dislocation_forest(                    getMaterialProperty<std::vector<Real>>("dislocation_forest")),
     _dislocation_immobile_sat_edgepos(      getMaterialProperty<std::vector<Real>>("saturation_immobile_density_edgepos")),
     _dislocation_immobile_sat_edgeneg(      getMaterialProperty<std::vector<Real>>("saturation_immobile_density_edgeneg")),
     _dislocation_immobile_sat_screwpos(     getMaterialProperty<std::vector<Real>>("saturation_immobile_density_screwpos")),
     _dislocation_immobile_sat_screwneg(     getMaterialProperty<std::vector<Real>>("saturation_immobile_density_screwneg")),
-    _dislocation_mobile_edge(               getMaterialProperty<std::vector<Real>>("dislocation_mobile_edge")),
-    _dislocation_mobile_screw(              getMaterialProperty<std::vector<Real>>("dislocation_mobile_screw")),
-    _dislocation_immobile(                  getMaterialProperty<std::vector<Real>>("dislocation_immobile")),
-    _dislocation_immobile_edge_negative(    getMaterialProperty<std::vector<Real>>("dislocation_immobile_edge_negative")),
-    _dislocation_immobile_screw_positive(   getMaterialProperty<std::vector<Real>>("dislocation_immobile_screw_positive")),
-    _dislocation_immobile_screw_negative(   getMaterialProperty<std::vector<Real>>("dislocation_immobile_screw_negative")),
+    // _dislocation_mobile_edge(               getMaterialProperty<std::vector<Real>>("dislocation_mobile_edge")),
+    // _dislocation_mobile_screw(              getMaterialProperty<std::vector<Real>>("dislocation_mobile_screw")),
+    // _dislocation_immobile(                  getMaterialProperty<std::vector<Real>>("dislocation_immobile")),
+    // _dislocation_immobile_edge_negative(    getMaterialProperty<std::vector<Real>>("dislocation_immobile_edge_negative")),
+    // _dislocation_immobile_screw_positive(   getMaterialProperty<std::vector<Real>>("dislocation_immobile_screw_positive")),
+    // _dislocation_immobile_screw_negative(   getMaterialProperty<std::vector<Real>>("dislocation_immobile_screw_negative")),
     _slip_system_index(                     getParam<int>("slip_system_index")),
     _dt(                                    _fe_problem.dt())
 {
@@ -85,7 +86,7 @@ DislocationSourceVolume::computeQpResidual()
 {
 //   int _count = 12; // todo hard coded for now
 //   unsigned int _number_slip_systems = _count;
-  Real A_f_ij, dislocation_forest;
+  // Real A_f_ij, dislocation_forest;
   int i = _slip_system_index - 1;
 
   Real _dislocation_mobile_increment_mult = 0.00;
@@ -95,17 +96,17 @@ DislocationSourceVolume::computeQpResidual()
   Real slip_rate, dislocation_mobile_increment;
   dislocation_mobile_increment = 0.00;
 
-  dislocation_forest = 0.00;
-  for (unsigned int j = 0; j < _number_slip_systems; ++j)
-  {
-    // Edge contribution
-    A_f_ij              = 0.5 * std::abs(_slip_plane_normalboth[_qp][i] * (_slip_plane_normalboth[_qp][j].cross(_slip_direction_edge[_qp][j])));
-    dislocation_forest  += A_f_ij * (_dislocation_mobile_edge[_qp][j] + _dislocation_immobile[_qp][j] + _dislocation_immobile_edge_negative[_qp][j]);
+  // dislocation_forest = 0.00;
+  // for (unsigned int j = 0; j < _number_slip_systems; ++j)
+  // {
+  //   // Edge contribution
+  //   A_f_ij              = 0.5 * std::abs(_slip_plane_normalboth[_qp][i] * (_slip_plane_normalboth[_qp][j].cross(_slip_direction_edge[_qp][j])));
+  //   dislocation_forest  += A_f_ij * (_dislocation_mobile_edge[_qp][j] + _dislocation_immobile[_qp][j] + _dislocation_immobile_edge_negative[_qp][j]);
     
-    // Screw contribution
-    A_f_ij              = 0.5 * std::abs(_slip_plane_normalboth[_qp][i] * (_slip_direction_edge[_qp][j]));
-    dislocation_forest  += A_f_ij * (_dislocation_mobile_screw[_qp][j] + _dislocation_immobile_screw_positive[_qp][j] + _dislocation_immobile_screw_negative[_qp][j]);
-  }
+  //   // Screw contribution
+  //   A_f_ij              = 0.5 * std::abs(_slip_plane_normalboth[_qp][i] * (_slip_direction_edge[_qp][j]));
+  //   dislocation_forest  += A_f_ij * (_dislocation_mobile_screw[_qp][j] + _dislocation_immobile_screw_positive[_qp][j] + _dislocation_immobile_screw_negative[_qp][j]);
+  // }
 
   Real saturation_density = _zeta_sat;
   if (_dislocationcharacter == DislocationCharacter::edge && _dislocationsign == DislocationSign::positive) 
@@ -130,9 +131,9 @@ DislocationSourceVolume::computeQpResidual()
       break;
   }
 
-  _dislocation_mobile_increment_mult =  (_C_multi * std::pow(dislocation_forest, 0.5)) * std::abs(slip_rate);
-  _dislocation_mobile_increment_trap =  (_C_trap * std::pow(dislocation_forest, 0.5)) * std::abs(slip_rate);
-  _dislocation_mobile_increment_ann =   (0.25 * _C_m_ann * std::pow(dislocation_forest, 0.5) / (saturation_density)) * _u[_qp] * std::abs(slip_rate);
+  _dislocation_mobile_increment_mult =  (_C_multi * std::pow(_dislocation_forest[_qp][i], 0.5)) * std::abs(slip_rate);
+  _dislocation_mobile_increment_trap =  (_C_trap * std::pow(_dislocation_forest[_qp][i], 0.5)) * std::abs(slip_rate);
+  _dislocation_mobile_increment_ann =   (0.25 * _C_m_ann * std::pow(_dislocation_forest[_qp][i], 0.5) / (saturation_density)) * _u[_qp] * std::abs(slip_rate);
 
   dislocation_mobile_increment = (_dislocation_mobile_increment_mult - _dislocation_mobile_increment_trap - _dislocation_mobile_increment_ann);
   dislocation_mobile_increment *= 1.0 / _dislo_density_factor_CDT;
@@ -145,7 +146,7 @@ DislocationSourceVolume::computeQpJacobian()
 {
 //   int _count = 12; // todo hard coded for now
 //   unsigned int _number_slip_systems = _count;
-  Real A_f_ij, dislocation_forest;
+  // Real A_f_ij, dislocation_forest;
   int i = _slip_system_index - 1;
 
   Real _dislocation_mobile_increment_mult = 0.00;
@@ -155,17 +156,17 @@ DislocationSourceVolume::computeQpJacobian()
   Real slip_rate, dislocation_mobile_increment;
   dislocation_mobile_increment = 0.00;
 
-  dislocation_forest = 0.00;
-  for (unsigned int j = 0; j < _number_slip_systems; ++j)
-  {
-    // Edge contribution
-    A_f_ij = 0.5 * std::abs(_slip_plane_normalboth[_qp][i] * (_slip_plane_normalboth[_qp][j].cross(_slip_direction_edge[_qp][j])));
-    dislocation_forest += A_f_ij * (_dislocation_mobile_edge[_qp][j] + _dislocation_immobile[_qp][j] + _dislocation_immobile_edge_negative[_qp][j]);
+  // dislocation_forest = 0.00;
+  // for (unsigned int j = 0; j < _number_slip_systems; ++j)
+  // {
+  //   // Edge contribution
+  //   A_f_ij = 0.5 * std::abs(_slip_plane_normalboth[_qp][i] * (_slip_plane_normalboth[_qp][j].cross(_slip_direction_edge[_qp][j])));
+  //   dislocation_forest += A_f_ij * (_dislocation_mobile_edge[_qp][j] + _dislocation_immobile[_qp][j] + _dislocation_immobile_edge_negative[_qp][j]);
     
-    // Screw contribution
-    A_f_ij = 0.5 * std::abs(_slip_plane_normalboth[_qp][i] * (_slip_direction_edge[_qp][j]));
-    dislocation_forest += A_f_ij * (_dislocation_mobile_screw[_qp][j] + _dislocation_immobile_screw_positive[_qp][j] + _dislocation_immobile_screw_negative[_qp][j]);
-  }
+  //   // Screw contribution
+  //   A_f_ij = 0.5 * std::abs(_slip_plane_normalboth[_qp][i] * (_slip_direction_edge[_qp][j]));
+  //   dislocation_forest += A_f_ij * (_dislocation_mobile_screw[_qp][j] + _dislocation_immobile_screw_positive[_qp][j] + _dislocation_immobile_screw_negative[_qp][j]);
+  // }
 
   Real saturation_density = _zeta_sat;
   if (_dislocationcharacter == DislocationCharacter::edge && _dislocationsign == DislocationSign::positive) 
@@ -194,9 +195,9 @@ DislocationSourceVolume::computeQpJacobian()
 
   // The derivative is incomplete, the derivative of the forest dislocation density is missing
   // TODO: get the trial functions phi of the other variables
-  _dislocation_mobile_increment_mult = (_C_multi * std::pow(dislocation_forest, 0.5)) * std::abs(slip_rate);
-  _dislocation_mobile_increment_trap = (_C_trap * std::pow(dislocation_forest, 0.5)) * std::abs(slip_rate);
-  _dislocation_mobile_increment_ann = (0.25 * _C_m_ann * std::pow(dislocation_forest, 0.5) / saturation_density) * 2.0 * _u[_qp] * std::abs(slip_rate);
+  _dislocation_mobile_increment_mult = (_C_multi * std::pow(_dislocation_forest[_qp][i], 0.5)) * std::abs(slip_rate);
+  _dislocation_mobile_increment_trap = (_C_trap * std::pow(_dislocation_forest[_qp][i], 0.5)) * std::abs(slip_rate);
+  _dislocation_mobile_increment_ann = (0.25 * _C_m_ann * std::pow(_dislocation_forest[_qp][i], 0.5) / saturation_density) * 2.0 * _u[_qp] * std::abs(slip_rate);
 
   dislocation_mobile_increment = (_dislocation_mobile_increment_mult - _dislocation_mobile_increment_trap -  _dislocation_mobile_increment_ann);
   dislocation_mobile_increment *= 1.0 / _dislo_density_factor_CDT;
