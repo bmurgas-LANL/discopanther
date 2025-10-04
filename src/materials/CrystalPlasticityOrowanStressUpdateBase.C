@@ -285,6 +285,7 @@ CrystalPlasticityOrowanStressUpdateBase::setMaterialVectorSize()
   }
 
   _slip_resistance[_qp].resize(_number_slip_systems);
+  _slip_resistance_screw[_qp].resize(_number_slip_systems);
   _slip_increment[_qp].resize(_number_slip_systems);
 }
 
