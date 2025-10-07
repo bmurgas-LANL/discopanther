@@ -1216,7 +1216,7 @@ DiscoFluxCPBCCOrowanStressUpdate::getDDIncrements()
       Real frec_edgepos   = 1.0 - std::pow((_dislocation_immobile_edge_positive[_qp][i]   / _dislocation_immobile_sat_edgepos[_qp][i]), 1.0/_nrec);
       Real frec_edgeneg   = 1.0 - std::pow((_dislocation_immobile_edge_negative[_qp][i]   / _dislocation_immobile_sat_edgeneg[_qp][i]), 1.0/_nrec);
       Real frec_screwpos  = 1.0 - std::pow((_dislocation_immobile_screw_positive[_qp][i]  / _dislocation_immobile_sat_screwpos[_qp][i]), 1.0/_nrec);
-      Real frec_screwneg  = 1.0 - std::pow((_dislocation_immobile_screw_negative[_qp][i]  / _dislocation_immobile_sat_screwpos[_qp][i]), 1.0/_nrec);
+      Real frec_screwneg  = 1.0 - std::pow((_dislocation_immobile_screw_negative[_qp][i]  / _dislocation_immobile_sat_screwneg[_qp][i]), 1.0/_nrec);
 
       _dislocation_immobile_increment_edge_positive[i]  =  frec_edgepos   * _C_trap * std::pow(_dislocation_forest[_qp][i], 0.5) * std::abs(_DD_EdgePositive[i] * _dislo_velocity_edge[_qp][i]);
       _dislocation_immobile_increment_edge_negative[i]  =  frec_edgeneg   * _C_trap * std::pow(_dislocation_forest[_qp][i], 0.5) * std::abs(_DD_EdgeNegative[i] * _dislo_velocity_edge[_qp][i]);

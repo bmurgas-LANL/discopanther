@@ -2476,7 +2476,7 @@
     type = ComputeMultipleCrystalPlasticityOrowanStress
     crystal_plasticity_models = 'CP_DiscoFlux'
     tan_mod_type = exact
-    print_state_variable_convergence_error_messages = true
+    print_state_variable_convergence_error_messages = false
   []
   [./CP_DiscoFlux]
     type                      = DiscoFluxCPBCCOrowanStressUpdate
@@ -2493,7 +2493,7 @@
     sat_A                     = 5.135e-18
     min_dd                    = 62500
     nrec                      = 4.0
-    gamdot_ref                = 1.e9
+    gamdot_ref                = 1.e3
     q1                        = 0.376
     q2                        = 1.666
     B0                        = 1.25e-10
@@ -2639,8 +2639,8 @@
 [GlobalParams]
   number_slip_systems     = 24
   dislo_density_initial   = 247500
-  C_multi                 = 0.35 
-  C_trap                  = 0.315 
+  C_multi                 = 0.45 
+  C_trap                  = 0.405 
   C_m_ann                 = 0.0 
   C_im_ann                = 0.0 
   burgers_vector_mag      = 2.8579e-7
