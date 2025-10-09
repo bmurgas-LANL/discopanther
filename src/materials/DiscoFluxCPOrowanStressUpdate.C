@@ -655,10 +655,11 @@ DiscoFluxCPOrowanStressUpdate::calculateSlipRate()
 
     if (std::abs(_slip_increment[_qp][i]) * _substep_dt > _slip_incr_tol)
     {
-      // if (_print_convergence_message)
-      mooseWarning("Maximum allowable slip increment exceeded ",
-                   std::abs(_slip_increment[_qp][i]) * _substep_dt);
-
+      if (_print_convergence_message)
+      {
+        mooseWarning("Maximum allowable slip increment exceeded ",
+                     std::abs(_slip_increment[_qp][i]) * _substep_dt);
+      }
       return false;
     }
   }
@@ -888,9 +889,11 @@ DiscoFluxCPOrowanStressUpdate::DDCUpdate()
                               (_DD_grad_screw[i] * slip_direction_rotated_screw);
       if (_L_bar_e <= 0.0 || _L_bar_s <= 0.0)
       {
-        // if (_print_convergence_message)
-        mooseWarning("Mean edge free path is not correct ", _L_bar_e);
-        mooseWarning("or mean screw free path is not correct ", _L_bar_s);
+        if (_print_convergence_message)
+        {
+          mooseWarning("Mean edge free path is not correct ", _L_bar_e);
+          mooseWarning("or mean screw free path is not correct ", _L_bar_s);
+        }
       }
     }
     else
@@ -1067,26 +1070,29 @@ DiscoFluxCPOrowanStressUpdate::getDisloVelocity()
         //     (_dislo_velocity_edge[_qp][i] / (t_wait[i] + t_run[i])) * (dtr_dtau + dtw_dtau);
 
         // This is just for test and debug
-        if (std::fetestexcept(FE_DIVBYZERO))
+        if (_print_convergence_message)
         {
-          mooseWarning("Edge disl. vel. divided by zero error in component ", i);
-        }
-        if (std::fetestexcept(FE_INEXACT))
-        {
-          mooseWarning("Edge disl. vel. inexact error in component ", i);
-        }
-        if (std::fetestexcept(FE_INVALID))
-        {
-          mooseWarning("Edge disl. vel. invalid error in component ", i);
-        }
-        if (_dislo_velocity_edge[_qp][i] > 1000)
-        {
-          mooseWarning("Edge dislocation velocity ", _dislo_velocity_edge[_qp][i]);
-          mooseWarning("Edge run time", t_run[i]);
-          mooseWarning("Edge wait time", t_wait[i]);
-          mooseWarning("Shear stress", _tau[_qp][i]);
-          mooseWarning("Backstress", _tau_b_local[i]);
-          mooseWarning("Shear resistance", slip_r[i]);
+          if (std::fetestexcept(FE_DIVBYZERO))
+          {
+            mooseWarning("Edge disl. vel. divided by zero error in component ", i);
+          }
+          if (std::fetestexcept(FE_INEXACT))
+          {
+            mooseWarning("Edge disl. vel. inexact error in component ", i);
+          }
+          if (std::fetestexcept(FE_INVALID))
+          {
+            mooseWarning("Edge disl. vel. invalid error in component ", i);
+          }
+          if (_dislo_velocity_edge[_qp][i] > 1000)
+          {
+            mooseWarning("Edge dislocation velocity ", _dislo_velocity_edge[_qp][i]);
+            mooseWarning("Edge run time", t_run[i]);
+            mooseWarning("Edge wait time", t_wait[i]);
+            mooseWarning("Shear stress", _tau[_qp][i]);
+            mooseWarning("Backstress", _tau_b_local[i]);
+            mooseWarning("Shear resistance", slip_r[i]);
+          }
         }
       }
 
@@ -1199,26 +1205,29 @@ DiscoFluxCPOrowanStressUpdate::getDisloVelocity()
         //     (_dislo_velocity_screw[_qp][i] / (t_wait[i] + t_run[i])) * (dtr_dtau + dtw_dtau);
 
         // This is just for test and debug
-        if (std::fetestexcept(FE_DIVBYZERO))
+        if (_print_convergence_message)
         {
-          mooseWarning("Screw disl. vel. divided by zero error in component ", i);
-        }
-        if (std::fetestexcept(FE_INEXACT))
-        {
-          mooseWarning("Screw disl. vel. inexact error in component ", i);
-        }
-        if (std::fetestexcept(FE_INVALID))
-        {
-          mooseWarning("Screw disl. vel. invalid error in component ", i);
-        }
-        if (_dislo_velocity_screw[_qp][i] > 1000)
-        {
-          mooseWarning("Screw dislocation velocity ", _dislo_velocity_screw[_qp][i]);
-          mooseWarning("Screw run time", t_run[i]);
-          mooseWarning("Screw wait time", t_wait[i]);
-          mooseWarning("Shear stress", _tau[_qp][i]);
-          mooseWarning("Backstress", _tau_b_local[i]);
-          mooseWarning("Shear resistance", slip_r[i]);
+          if (std::fetestexcept(FE_DIVBYZERO))
+          {
+            mooseWarning("Screw disl. vel. divided by zero error in component ", i);
+          }
+          if (std::fetestexcept(FE_INEXACT))
+          {
+            mooseWarning("Screw disl. vel. inexact error in component ", i);
+          }
+          if (std::fetestexcept(FE_INVALID))
+          {
+            mooseWarning("Screw disl. vel. invalid error in component ", i);
+          }
+          if (_dislo_velocity_screw[_qp][i] > 1000)
+          {
+            mooseWarning("Screw dislocation velocity ", _dislo_velocity_screw[_qp][i]);
+            mooseWarning("Screw run time", t_run[i]);
+            mooseWarning("Screw wait time", t_wait[i]);
+            mooseWarning("Shear stress", _tau[_qp][i]);
+            mooseWarning("Backstress", _tau_b_local[i]);
+            mooseWarning("Shear resistance", slip_r[i]);
+          }
         }
       }
     }
