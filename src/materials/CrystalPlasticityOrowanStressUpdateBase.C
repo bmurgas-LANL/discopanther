@@ -195,7 +195,11 @@ CrystalPlasticityOrowanStressUpdateBase::CrystalPlasticityOrowanStressUpdateBase
     _dislo_velocity_edge(declareProperty<std::vector<Real>>(_base_name + "dislo_velocity_edge")),
     _dislo_velocity_edge_old(getMaterialPropertyOld<std::vector<Real>>("dislo_velocity_edge")),
     _dislo_velocity_screw(declareProperty<std::vector<Real>>(_base_name + "dislo_velocity_screw")),
-    _dislo_velocity_screw_old(getMaterialPropertyOld<std::vector<Real>>("dislo_velocity_screw"))
+    _dislo_velocity_screw_old(getMaterialPropertyOld<std::vector<Real>>("dislo_velocity_screw")),
+    _d_dislo_velocity_edge_d_rho(
+        declareProperty<std::vector<Real>>(_base_name + "d_dislo_velocity_edge_d_rho")),
+    _d_dislo_velocity_screw_d_rho(
+        declareProperty<std::vector<Real>>(_base_name + "d_dislo_velocity_screw_d_rho"))
 {
   getSlipSystems();
   sortCrossSlipFamilies();
@@ -234,6 +238,8 @@ CrystalPlasticityOrowanStressUpdateBase::setMaterialVectorSize()
   _dislocation_mobile_screw[_qp].resize(_number_slip_systems);
   _dislo_velocity_edge[_qp].resize(_number_slip_systems);
   _dislo_velocity_screw[_qp].resize(_number_slip_systems);
+  _d_dislo_velocity_edge_d_rho[_qp].resize(_number_slip_systems);
+  _d_dislo_velocity_screw_d_rho[_qp].resize(_number_slip_systems);
   for (const auto i : make_range(_number_slip_systems))
   {
     _flow_direction[_qp][i].zero();

@@ -258,6 +258,8 @@ protected:
   const MaterialProperty<std::vector<Real>> & _dislo_velocity_edge_old;
   MaterialProperty<std::vector<Real>> & _dislo_velocity_screw;
   const MaterialProperty<std::vector<Real>> & _dislo_velocity_screw_old;
+  MaterialProperty<std::vector<Real>> & _d_dislo_velocity_edge_d_rho;
+  MaterialProperty<std::vector<Real>> & _d_dislo_velocity_screw_d_rho;
 
   /// Substepping time step value used within the inheriting constitutive models
   Real _substep_dt;

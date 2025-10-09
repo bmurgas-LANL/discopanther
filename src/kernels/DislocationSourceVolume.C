@@ -80,6 +80,10 @@ DislocationSourceVolume::DislocationSourceVolume(const InputParameters & paramet
         getMaterialProperty<std::vector<Real>>("dislocation_immobile_screw_positive")),
     _dislocation_immobile_screw_negative(
         getMaterialProperty<std::vector<Real>>("dislocation_immobile_screw_negative")),
+    _d_dislo_velocity_edge_d_rho(
+        getMaterialProperty<std::vector<Real>>("d_dislo_velocity_edge_d_rho")),
+    _d_dislo_velocity_screw_d_rho(
+        getMaterialProperty<std::vector<Real>>("d_dislo_velocity_screw_d_rho")),
     _slip_system_index(getParam<int>("slip_system_index"))
 {
 }
@@ -171,6 +175,7 @@ DislocationSourceVolume::computeQpJacobian()
   Real slip_rate = 0.0;
   Real slip_rate_phi = 0.0;
   Real dislocation_mobile_increment = 0.0;
+  Real dv_drho = 0.0;
 
   //   dislocation_forest = 0.00;
   //   for (unsigned int j = 0; j < _number_slip_systems; ++j)
@@ -209,12 +214,14 @@ DislocationSourceVolume::computeQpJacobian()
                   A_f_edge_ij;
       slip_rate_phi =
           _phi[_j][_qp] * _dislo_density_factor_CDT * std::abs(_dislo_velocity_CP_edge[_qp][i]);
+      dv_drho = _d_dislo_velocity_edge_d_rho[_qp][i];
       break;
     case DislocationCharacter::screw:
       slip_rate = _u[_qp] * _dislo_density_factor_CDT * std::abs(_dislo_velocity_CP_screw[_qp][i]) *
                   A_f_screw_ij;
       slip_rate_phi =
           _phi[_j][_qp] * _dislo_density_factor_CDT * std::abs(_dislo_velocity_CP_screw[_qp][i]);
+      dv_drho = _d_dislo_velocity_screw_d_rho[_qp][i];
       break;
   }
 
@@ -231,14 +238,17 @@ DislocationSourceVolume::computeQpJacobian()
   // TODO: Missing the derivative of the velocity term
   _dislocation_mobile_increment_mult =
       _C_multi * (std::pow(_dislocation_forest[_qp][i], 0.5) * slip_rate_phi +
-                  0.5 * std::pow(_dislocation_forest[_qp][i], -0.5) * _phi[_j][_qp] * slip_rate);
+                  0.5 * std::pow(_dislocation_forest[_qp][i], -0.5) * _phi[_j][_qp] * slip_rate +
+                  std::pow(_dislocation_forest[_qp][i], 0.5) * _u[_qp] * dv_drho);
   _dislocation_mobile_increment_trap =
       _C_trap * (std::pow(_dislocation_forest[_qp][i], 0.5) * slip_rate_phi +
-                 0.5 * std::pow(_dislocation_forest[_qp][i], -0.5) * _phi[_j][_qp] * slip_rate);
+                 0.5 * std::pow(_dislocation_forest[_qp][i], -0.5) * _phi[_j][_qp] * slip_rate +
+                 std::pow(_dislocation_forest[_qp][i], 0.5) * _u[_qp] * dv_drho);
   _dislocation_mobile_increment_ann =
       (0.25 * _C_m_ann * _u[_qp] / _dd_sat) *
       (2.0 * std::pow(_dislocation_forest[_qp][i], 0.5) * slip_rate_phi +
-       0.5 * std::pow(_dislocation_forest[_qp][i], -0.5) * _phi[_j][_qp] * slip_rate);
+       0.5 * std::pow(_dislocation_forest[_qp][i], -0.5) * _phi[_j][_qp] * slip_rate +
+       std::pow(_dislocation_forest[_qp][i], 0.5) * _u[_qp] * dv_drho);
 
   dislocation_mobile_increment =
       (_dislocation_mobile_increment_mult - _dislocation_mobile_increment_trap -

@@ -256,6 +256,8 @@ protected:
   std::vector<Real> t_wait, t_run, vel_run, dislocation_density, tau_b, xi0, tau_eff, tau_effAbs,
       tau_effSign, slip_r;
   Real deltaG0, inner, deltaG, exp_arg, dtw_dtau, dtr_dtau;
+  Real dtw_drho;
+  std::vector<Real> dslip_r_drho;
 
   // For DDCUpdate
   RealVectorValue slip_direction_rotated, slip_plane_normal_rotated, slip_direction_rotated_screw;

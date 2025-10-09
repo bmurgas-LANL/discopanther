@@ -323,7 +323,8 @@ DiscoFluxCPOrowanStressUpdate::DiscoFluxCPOrowanStressUpdate(const InputParamete
     tau_eff(_number_slip_systems, 0.00),
     tau_effAbs(_number_slip_systems, 0.00),
     tau_effSign(_number_slip_systems, 0.00),
-    slip_r(_number_slip_systems, 0.00)
+    slip_r(_number_slip_systems, 0.00),
+    dslip_r_drho(_number_slip_systems, 0.00)
 {
 }
 
@@ -415,6 +416,8 @@ DiscoFluxCPOrowanStressUpdate::initQpStatefulProperties()
     _dislocation_immobile_screw_negative[_qp][i] = _dislo_density_initial * 0.25;
     _dislo_velocity_edge[_qp][i] = 0.00;
     _dislo_velocity_screw[_qp][i] = 0.00;
+    _d_dislo_velocity_edge_d_rho[_qp][i] = 0.0;
+    _d_dislo_velocity_screw_d_rho[_qp][i] = 0.0;
     _kappa[_qp][i] = 0.0;
     _kappa_screw[_qp][i] = 0.0;
   }
@@ -824,6 +827,8 @@ DiscoFluxCPOrowanStressUpdate::updateStateVariables()
     }
     _slip_resistance[_qp][i] = _lattice_friction + _Coeff_hardening * _mu * _burgers_vector_mag *
                                                        std::sqrt(eff_dislocation_density);
+    dslip_r_drho[i] =
+        _Coeff_hardening * _mu * _burgers_vector_mag * std::pow(eff_dislocation_density, -0.5);
   }
 
   return true;
@@ -941,6 +946,8 @@ DiscoFluxCPOrowanStressUpdate::getDisloVelocity()
     _dv_dtau[i] = 0.00;
     _dislo_velocity_screw[_qp][i] = 0.00;
     _dv_dtau_screw[i] = 0.00;
+    _d_dislo_velocity_edge_d_rho[_qp][i] = 0.0;
+    _d_dislo_velocity_screw_d_rho[_qp][i] = 0.0;
   }
 
   // Clear exceptions
@@ -979,6 +986,7 @@ DiscoFluxCPOrowanStressUpdate::getDisloVelocity()
       {
         // compute wait time
         dtw_dtau = 0.0;
+        dtw_drho = 0.0;
         inner = 1.0;
         tau_eff[i] = 0.0;
 
@@ -1002,6 +1010,9 @@ DiscoFluxCPOrowanStressUpdate::getDisloVelocity()
           dtw_dtau = (exp(exp_arg) / _omega0) * _q1 * _q2 * deltaG0 / (_boltz * _temp * slip_r[i]) *
                      std::pow(inner, _q2 - 1.0) * std::pow((tau_eff[i] / slip_r[i]), _q1 - 1.0) *
                      tau_effSign[i];
+          dtw_drho = (exp(exp_arg) / _omega0) * _q1 * _q2 * deltaG0 / (_boltz * _temp) *
+                     std::pow(inner, _q2 - 1.0) * std::pow((tau_eff[i] / slip_r[i]), _q1 - 1.0) *
+                     (tau_eff[i] / (slip_r[i] * slip_r[i])) * dslip_r_drho[i];
         }
         else
         {
@@ -1034,6 +1045,7 @@ DiscoFluxCPOrowanStressUpdate::getDisloVelocity()
           {
             _dislo_velocity_edge[_qp][i] = 0.0;
             _dv_dtau[i] = 0.0;
+            _d_dislo_velocity_edge_d_rho[_qp][i] = 0.0;
           }
           else
           {
@@ -1043,6 +1055,9 @@ DiscoFluxCPOrowanStressUpdate::getDisloVelocity()
                        (std::pow((xi0[i] * xi0[i] + 1), 0.5) * tau_effAbs[i]);
             _dv_dtau[i] =
                 (_dislo_velocity_edge[_qp][i] / (t_wait[i] + t_run[i])) * (dtr_dtau + dtw_dtau);
+
+            _d_dislo_velocity_edge_d_rho[_qp][i] =
+                -(std::abs(_dislo_velocity_edge[_qp][i]) / (t_wait[i] + t_run[i])) * dtw_drho;
           }
         }
         else
@@ -1051,6 +1066,7 @@ DiscoFluxCPOrowanStressUpdate::getDisloVelocity()
           {
             _dislo_velocity_edge[_qp][i] = 0.0;
             _dv_dtau[i] = 0.0;
+            _d_dislo_velocity_edge_d_rho[_qp][i] = 0.0;
           }
           else
           {
@@ -1060,6 +1076,9 @@ DiscoFluxCPOrowanStressUpdate::getDisloVelocity()
                        (std::pow((xi0[i] * xi0[i] + 1), 0.5) * tau_effAbs[i]);
             _dv_dtau[i] =
                 (_dislo_velocity_edge[_qp][i] / (t_wait[i] + t_run[i])) * (dtr_dtau + dtw_dtau);
+
+            _d_dislo_velocity_edge_d_rho[_qp][i] =
+                -(std::abs(_dislo_velocity_edge[_qp][i]) / (t_wait[i] + t_run[i])) * dtw_drho;
           }
         }
 
@@ -1113,6 +1132,7 @@ DiscoFluxCPOrowanStressUpdate::getDisloVelocity()
       {
         // compute wait time
         dtw_dtau = 0.0;
+        dtw_drho = 0.0;
         inner = 1.0;
         tau_eff[i] = 0.0;
 
@@ -1136,6 +1156,10 @@ DiscoFluxCPOrowanStressUpdate::getDisloVelocity()
           dtw_dtau = (exp(exp_arg) / _omega0) * _q1 * _q2 * deltaG0 / (_boltz * _temp * slip_r[i]) *
                      std::pow(inner, _q2 - 1.0) * std::pow((tau_eff[i] / slip_r[i]), _q1 - 1.0) *
                      tau_effSign[i];
+
+          dtw_drho = (exp(exp_arg) / _omega0) * _q1 * _q2 * deltaG0 / (_boltz * _temp) *
+                     std::pow(inner, _q2 - 1.0) * std::pow((tau_eff[i] / slip_r[i]), _q1 - 1.0) *
+                     (tau_eff[i] / (slip_r[i] * slip_r[i])) * dslip_r_drho[i];
         }
         else
         {
@@ -1169,6 +1193,7 @@ DiscoFluxCPOrowanStressUpdate::getDisloVelocity()
           {
             _dislo_velocity_screw[_qp][i] = 0.0;
             _dv_dtau_screw[i] = 0.0;
+            _d_dislo_velocity_screw_d_rho[_qp][i] = 0.0;
           }
           else
           {
@@ -1178,6 +1203,9 @@ DiscoFluxCPOrowanStressUpdate::getDisloVelocity()
                        (std::pow((xi0[i] * xi0[i] + 1), 0.5) * tau_effAbs[i]);
             _dv_dtau_screw[i] =
                 (_dislo_velocity_screw[_qp][i] / (t_wait[i] + t_run[i])) * (dtr_dtau + dtw_dtau);
+
+            _d_dislo_velocity_screw_d_rho[_qp][i] =
+                -(std::abs(_dislo_velocity_screw[_qp][i]) / (t_wait[i] + t_run[i])) * dtw_drho;
           }
         }
         else
@@ -1186,6 +1214,7 @@ DiscoFluxCPOrowanStressUpdate::getDisloVelocity()
           {
             _dislo_velocity_screw[_qp][i] = 0.0;
             _dv_dtau_screw[i] = 0.0;
+            _d_dislo_velocity_screw_d_rho[_qp][i] = 0.0;
           }
           else
           {
@@ -1195,6 +1224,9 @@ DiscoFluxCPOrowanStressUpdate::getDisloVelocity()
                        (std::pow((xi0[i] * xi0[i] + 1), 0.5) * tau_effAbs[i]);
             _dv_dtau_screw[i] =
                 (_dislo_velocity_screw[_qp][i] / (t_wait[i] + t_run[i])) * (dtr_dtau + dtw_dtau);
+
+            _d_dislo_velocity_screw_d_rho[_qp][i] =
+                -(std::abs(_dislo_velocity_screw[_qp][i]) / (t_wait[i] + t_run[i])) * dtw_drho;
           }
         }
 
