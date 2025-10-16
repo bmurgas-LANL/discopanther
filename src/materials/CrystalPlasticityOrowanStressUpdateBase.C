@@ -181,8 +181,8 @@ CrystalPlasticityOrowanStressUpdateBase::CrystalPlasticityOrowanStressUpdateBase
         declareProperty<std::vector<Real>>(_base_name + "dislocation_immobile_screw_positive")),
     _dislocation_immobile_screw_negative(
         declareProperty<std::vector<Real>>(_base_name + "dislocation_immobile_screw_negative")),
-    _dislocation_immobile_edge_positive_old(
-        getMaterialPropertyOld<std::vector<Real>>(_base_name + "dislocation_immobile")),
+    _dislocation_immobile_edge_positive_old(getMaterialPropertyOld<std::vector<Real>>(
+        _base_name + "dislocation_immobile_edge_positive")),
     _dislocation_immobile_edge_negative_old(getMaterialPropertyOld<std::vector<Real>>(
         _base_name + "dislocation_immobile_edge_negative")),
     _dislocation_immobile_screw_positive_old(getMaterialPropertyOld<std::vector<Real>>(
