@@ -85,7 +85,7 @@ DiscoFluxCPOrowanStressUpdate::validParams()
       "disloc_den_threshold_flag",
       false,
       "Flag to determine whether to use min and max dislocation density threshold");
-  params.addParam<Real>("min_dd", 1.0, "Minimum dislocation density");
+  params.addParam<Real>("min_dd", 1e03, "Minimum dislocation density");
   params.addParam<Real>("max_dd", 1e07, "Maximum dislocation density: _dd_sat/48*2");
   params.addParam<Real>("sat_coef_imm", 10.0, "Immobile saturation coefficient");
 
@@ -954,8 +954,8 @@ DiscoFluxCPOrowanStressUpdate::getDisloVelocity()
   std::feclearexcept(FE_ALL_EXCEPT);
 
   // Don't compute velocity for boundary element
-  if (isBoundaryMaterial())
-    return;
+  // if (isBoundaryMaterial())
+  //   return;
 
   for (unsigned int i = 0; i < _number_slip_systems; ++i)
   {
@@ -977,7 +977,8 @@ DiscoFluxCPOrowanStressUpdate::getDisloVelocity()
       ////////////////////////////////////////////////////////////
       // Dislocation density threshold
       if (_disloc_den_threshold_flag &&
-          (_DD_EdgeNegative[i] > _max_dd || _DD_EdgePositive[i] > _max_dd))
+          (_DD_EdgeNegative[i] > _max_dd || _DD_EdgePositive[i] > _max_dd ||
+           _DD_EdgeNegative[i] < _min_dd || _DD_EdgePositive[i] < _min_dd))
       {
         _dislo_velocity_edge[_qp][i] = 0.0;
         _dv_dtau[i] = 0.0;
@@ -1103,7 +1104,7 @@ DiscoFluxCPOrowanStressUpdate::getDisloVelocity()
           {
             mooseWarning("Edge disl. vel. invalid error in component ", i);
           }
-          if (_dislo_velocity_edge[_qp][i] > 1000)
+          if (std::abs(_dislo_velocity_edge[_qp][i]) > 0.001)
           {
             mooseWarning("Edge dislocation velocity ", _dislo_velocity_edge[_qp][i]);
             mooseWarning("Edge run time", t_run[i]);
@@ -1123,7 +1124,8 @@ DiscoFluxCPOrowanStressUpdate::getDisloVelocity()
       t_run[i] = 0.00;
 
       if (_disloc_den_threshold_flag &&
-          (_DD_ScrewNegative[i] > _max_dd || _DD_ScrewPositive[i] > _max_dd))
+          (_DD_ScrewNegative[i] > _max_dd || _DD_ScrewPositive[i] > _max_dd ||
+           _DD_ScrewNegative[i] < _min_dd || _DD_ScrewPositive[i] < _min_dd))
       {
         _dislo_velocity_screw[_qp][i] = 0.0;
         _dv_dtau_screw[i] = 0.0;
@@ -1251,7 +1253,7 @@ DiscoFluxCPOrowanStressUpdate::getDisloVelocity()
           {
             mooseWarning("Screw disl. vel. invalid error in component ", i);
           }
-          if (_dislo_velocity_screw[_qp][i] > 1000)
+          if (std::abs(_dislo_velocity_screw[_qp][i]) > 0.001)
           {
             mooseWarning("Screw dislocation velocity ", _dislo_velocity_screw[_qp][i]);
             mooseWarning("Screw run time", t_run[i]);

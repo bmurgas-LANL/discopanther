@@ -116,12 +116,10 @@ ConservativeAdvectionDislocation::computeQpResidual()
   // if it went below zero, it should not be further decreased
   if (_u[_qp] <= 0.0)
   {
-
     return 0.0;
   }
   else
   {
-
     return negSpeedQp() * _u[_qp];
   }
 }
@@ -131,7 +129,15 @@ ConservativeAdvectionDislocation::computeQpJacobian()
 {
   // This is the no-upwinded version
   // It gets called via Kernel::computeJacobian()
-  return negSpeedQp() * _phi[_j][_qp];
+  // return negSpeedQp() * _phi[_j][_qp];
+  if (_u[_qp] <= 0.0)
+  {
+    return 0.0;
+  }
+  else
+  {
+    return negSpeedQp() * _phi[_j][_qp];
+  }
 }
 
 void

@@ -10,6 +10,9 @@
 #include "OutflowDislocationBC.h"
 #include "Function.h"
 
+#include "CrystalPlasticityOrowanStressUpdateBase.h"
+#include "CrystalPlasticityOrowanStressUpdateBase.h"
+
 registerMooseObject("discopanterApp", OutflowDislocationBC);
 
 InputParameters
@@ -26,6 +29,7 @@ OutflowDislocationBC::validParams()
   params.addRequiredParam<int>("slip_system_index",
                                "Slip system index to get slip direction"
                                "FCC: 1 to 12.");
+  params.addParam<Real>("alpha", 0.01, "Diffusion coefficient.");
   return params;
 }
 
@@ -39,7 +43,9 @@ OutflowDislocationBC::OutflowDislocationBC(const InputParameters & parameters)
     _dislo_velocity_CP_edge(getMaterialProperty<std::vector<Real>>("dislo_velocity_edge")),
     _dislo_velocity_CP_screw(getMaterialProperty<std::vector<Real>>("dislo_velocity_screw")),
     _slip_direction_edge(getMaterialProperty<std::vector<RealVectorValue>>("slip_direction_edge")),
-    _slip_direction_screw(getMaterialProperty<std::vector<RealVectorValue>>("slip_direction_screw"))
+    _slip_direction_screw(
+        getMaterialProperty<std::vector<RealVectorValue>>("slip_direction_screw")),
+    _alpha(getParam<Real>("alpha"))
 {
 }
 
@@ -79,8 +85,10 @@ OutflowDislocationBC::computeQpResidual()
       break;
   }
 
-  if (disvelocity * _normals[_qp] > 0)
-    return _test[_i][_qp] * _u[_qp] * disvelocity * _normals[_qp];
+  if ((disvelocity * _normals[_qp] > 1e-4) && (_u[_qp] > 0.0))
+    return _test[_i][_qp] * _alpha * _u[_qp] * disvelocity * _normals[_qp];
+  if (_u[_qp] < 0.0)
+    return 0;
   return 0;
 }
 
@@ -120,7 +128,7 @@ OutflowDislocationBC::computeQpJacobian()
       break;
   }
 
-  if (disvelocity * _normals[_qp] > 0)
-    return _test[_i][_qp] * _phi[_j][_qp] * disvelocity * _normals[_qp];
+  if ((disvelocity * _normals[_qp] > 1e-4) && (_u[_qp] > 0.0))
+    return _test[_i][_qp] * _alpha * _phi[_j][_qp] * disvelocity * _normals[_qp];
   return 0;
 }

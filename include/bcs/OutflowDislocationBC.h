@@ -11,6 +11,8 @@
 
 #include "IntegratedBC.h"
 
+#include "Material.h"
+
 class OutflowDislocationBC : public IntegratedBC
 {
 public:
@@ -34,4 +36,6 @@ protected:
   // slip direction and normal element
   const MaterialProperty<std::vector<RealVectorValue>> & _slip_direction_edge;
   const MaterialProperty<std::vector<RealVectorValue>> & _slip_direction_screw;
+
+  Real _alpha;
 };
