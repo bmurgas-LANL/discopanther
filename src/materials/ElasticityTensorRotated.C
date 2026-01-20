@@ -36,6 +36,8 @@ ElasticityTensorRotated::ElasticityTensorRotated(const InputParameters & paramet
   // rotate elasticity tensor
   _Cijkl_t.rotate(R);
   _Cijkl.rotate(R);
+
+  // std::cout << "Temp0 = " << _temp0 << ", temp = " << _temp << std::endl;
 }
 
 void
@@ -66,5 +68,7 @@ ElasticityTensorRotated::computeQpElasticityTensor()
 
   // cmpute the rotated elasticity tensor.
   _elasticity_tensor[_qp] = _Cijkl + (_temp - _temp0)*_Cijkl_t;
+
+  // std::cout << "elasticity tensor " << _elasticity_tensor[_qp] << std::endl;
   _elasticity_tensor[_qp].rotate(_crysrot[_qp]);
 }

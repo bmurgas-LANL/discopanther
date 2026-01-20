@@ -79,6 +79,7 @@ DislocationSourceVolume::DislocationSourceVolume(const InputParameters & paramet
     _slip_system_index(                     getParam<int>("slip_system_index")),
     _dt(                                    _fe_problem.dt())
 {
+  // std::cout << "Dislocation source volume dd_sat = " << _dd_sat << std::endl;
 }
 
 Real
@@ -120,6 +121,8 @@ DislocationSourceVolume::computeQpResidual()
 
   else if (_dislocationcharacter == DislocationCharacter::screw && _dislocationsign == DislocationSign::negative) 
     saturation_density *= _dislocation_immobile_sat_screwneg[_qp][i];
+
+  // std::cout << "slip system index = " << i+1 << ", saturation density = " << saturation_density << std::endl;
 
   switch (_dislocationcharacter)
   {
