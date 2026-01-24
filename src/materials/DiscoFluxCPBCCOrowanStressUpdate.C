@@ -83,6 +83,11 @@ DiscoFluxCPBCCOrowanStressUpdate::validParams()
 
   params.addParam<bool>("disloc_den_threshold_flag",  false,      "Flag to determine whether to use min and max dislocation density threshold");
   params.addParam<Real>("max_dd",                     7e06,       "Maximum dislocation density");
+  params.addParam<bool>(
+      "print_state_variable_convergence_error_messages",
+      false,
+      "Whether or not to print warning messages from the crystal plasticity specific convergence "
+      "checks on both the constiutive model internal state variables.");
 
   params.addCoupledVar("DD_EdgePositive_1",           1.0,        "Coupled dislocation density, EdgePositive");
   params.addCoupledVar("DD_EdgePositive_2",           1.0,        "Coupled dislocation density, EdgePositive");
@@ -234,6 +239,8 @@ DiscoFluxCPBCCOrowanStressUpdate::DiscoFluxCPBCCOrowanStressUpdate(const InputPa
     _omega0(                    getParam<Real>("omega0")),
     _mean_free_path_init_flag(  getParam<bool>("mean_free_path_init_flag")),
     _disloc_den_threshold_flag( getParam<bool>("disloc_den_threshold_flag")),
+
+    _print_convergence_message(getParam<bool>("print_state_variable_convergence_error_messages")),
     
     //
     _DD_EdgePositive_1(         coupledValue("DD_EdgePositive_1")),
@@ -1528,7 +1535,7 @@ DiscoFluxCPBCCOrowanStressUpdate::getDisloVelocity()
             (_dislo_velocity_edge[_qp][i] / (t_wait[i] + t_run[i])) * (dtr_dtau + dtw_dtau);
 
         // This is just for test and debug
-        if (_dislo_velocity_edge[_qp][i] > 1000)
+        if (_print_convergence_message && _dislo_velocity_edge[_qp][i] > 1000)
         {
           mooseWarning("Edge dislocation velocity ", _dislo_velocity_edge[_qp][i]);
           mooseWarning("Edge run time", t_run[i]);
@@ -1624,7 +1631,7 @@ DiscoFluxCPBCCOrowanStressUpdate::getDisloVelocity()
             (_dislo_velocity_screw[_qp][i] / (t_wait[i] + t_run[i])) * (dtr_dtau + dtw_dtau);
 
         // This is just for test and debug
-        if (_dislo_velocity_screw[_qp][i] > 1000)
+        if (_print_convergence_message && _dislo_velocity_screw[_qp][i] > 1000)
         {
           mooseWarning("Screw dislocation velocity ", _dislo_velocity_screw[_qp][i]);
           mooseWarning("Screw run time", t_run[i]);

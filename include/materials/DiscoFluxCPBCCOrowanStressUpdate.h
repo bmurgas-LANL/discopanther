@@ -102,6 +102,7 @@ protected:
   bool _mean_free_path_init_flag;
 
   bool _disloc_den_threshold_flag;
+  bool _print_convergence_message;
 
   // Discoflux related material parameters that are constant
   // const Real mu = 76e+03; // MPa
