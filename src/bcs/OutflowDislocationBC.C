@@ -29,7 +29,7 @@ OutflowDislocationBC::validParams()
   params.addRequiredParam<int>("slip_system_index",
                                "Slip system index to get slip direction"
                                "FCC: 1 to 12.");
-  params.addParam<Real>("alpha", 0.01, "Diffusion coefficient.");
+  params.addParam<Real>("alpha", 1.0, "Diffusion coefficient.");
   return params;
 }
 
