@@ -215,6 +215,7 @@ protected:
 
   ///@{Slip system resistance
   MaterialProperty<std::vector<Real>> & _slip_resistance;
+  MaterialProperty<std::vector<Real>> & _slip_thermal;
   const MaterialProperty<std::vector<Real>> & _slip_resistance_old;
   ///@}
 
@@ -239,6 +240,7 @@ protected:
   MaterialProperty<std::vector<RealVectorValue>> & _slip_plane_normalboth;
   const MaterialProperty<RankTwoTensor> & _crysrot;
   MaterialProperty<std::vector<Real>> & _dislocation_forest;
+  MaterialProperty<std::vector<Real>> & _dislocation_coplanar;
   MaterialProperty<std::vector<Real>> & _dislocation_mobile;
   MaterialProperty<std::vector<Real>> & _dislocation_mobile_edge;
   MaterialProperty<std::vector<Real>> & _dislocation_mobile_screw;

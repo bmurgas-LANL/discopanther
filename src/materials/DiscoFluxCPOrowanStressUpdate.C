@@ -57,6 +57,7 @@ DiscoFluxCPOrowanStressUpdate::validParams()
   params.addParam<Real>("dd_sat", 10e9, "dislocation density saturation value");
   params.addParam<Real>("Coeff_hardening", 0.5, "parameter to control the material hardening");
   params.addParam<Real>("Coeff_backstress", 1.0, "parameter to control the backstress");
+  params.addParam<Real>("Coeff_thermal", 0.5, "parameter to control the thermal stress");
   params.addParam<Real>("Coeff_dislength",
                         1.0,
                         "parameter to correlate the avg dislocation segment length with the mean "
@@ -158,6 +159,7 @@ DiscoFluxCPOrowanStressUpdate::DiscoFluxCPOrowanStressUpdate(const InputParamete
     _dd_sat(getParam<Real>("dd_sat")),
     _Coeff_hardening(getParam<Real>("Coeff_hardening")),
     _Coeff_backstress(getParam<Real>("Coeff_backstress")),
+    _Coeff_thermal(getParam<Real>("Coeff_thermal")),
     _Coeff_dislength(getParam<Real>("Coeff_dislength")),
     _q1(getParam<Real>("q1")),
     _q2(getParam<Real>("q2")),
@@ -397,9 +399,11 @@ DiscoFluxCPOrowanStressUpdate::initQpStatefulProperties()
     _slip_direction_screw[_qp][i] /= _slip_direction_screw[_qp][i].norm();
 
     _slip_resistance[_qp][i] = _lattice_friction;
+    _slip_thermal[_qp][i] = 0.0;
     _slip_increment[_qp][i] = 0.0;
 
     _dislocation_forest[_qp][i] = 0.0;
+    _dislocation_coplanar[_qp][i] = 0.0;
 
     _dislocation_mobile[_qp][i] =
         (_DD_EdgeNegative[i] + _DD_EdgePositive[i] + _DD_ScrewPositive[i] + _DD_ScrewNegative[i]) *
@@ -485,6 +489,7 @@ DiscoFluxCPOrowanStressUpdate::setInitialConstitutiveVariableValues()
   for (unsigned int i = 0; i < _number_slip_systems; ++i)
   {
     _dislocation_forest[_qp][i] = 0.0;
+    _dislocation_coplanar[_qp][i] = 0.0;
     _dislocation_mobile[_qp][i] =
         (_DD_EdgePositive[i] + _DD_EdgeNegative[i] + _DD_ScrewPositive[i] + _DD_ScrewNegative[i]) *
         _dislo_density_factor_CDT;
@@ -782,7 +787,7 @@ DiscoFluxCPOrowanStressUpdate::getDDIncrements()
 bool
 DiscoFluxCPOrowanStressUpdate::updateStateVariables()
 {
-  Real Hij, eff_dislocation_density = 0.00;
+  // Real Hij, eff_dislocation_density = 0.00;
 
   for (unsigned int i = 0; i < _number_slip_systems; ++i)
   {
@@ -811,25 +816,25 @@ DiscoFluxCPOrowanStressUpdate::updateStateVariables()
         (_DD_EdgePositive[i] + _DD_EdgeNegative[i]) * _dislo_density_factor_CDT;
   }
 
-  for (unsigned int i = 0; i < _number_slip_systems; ++i)
-  {
-    _slip_resistance[_qp][i] = 0.0;
-    eff_dislocation_density = 0.00;
-    for (unsigned int j = 0; j < _number_slip_systems; ++j)
-    {
-      if (i == j ? Hij = 1.0 : Hij = 0.1)
-        // similar proportion of mobile and immobile dislocations:
-        eff_dislocation_density +=
-            Hij * (_dislocation_mobile[_qp][j] + _dislocation_immobile_edge_positive[_qp][j] +
-                   _dislocation_immobile_edge_negative[_qp][j] +
-                   _dislocation_immobile_screw_positive[_qp][j] +
-                   _dislocation_immobile_screw_negative[_qp][j]);
-    }
-    _slip_resistance[_qp][i] = _lattice_friction + _Coeff_hardening * _mu * _burgers_vector_mag *
-                                                       std::sqrt(eff_dislocation_density);
-    dslip_r_drho[i] =
-        _Coeff_hardening * _mu * _burgers_vector_mag * std::pow(eff_dislocation_density, -0.5);
-  }
+  // for (unsigned int i = 0; i < _number_slip_systems; ++i)
+  // {
+  //   _slip_resistance[_qp][i] = 0.0;
+  //   eff_dislocation_density = 0.00;
+  //   for (unsigned int j = 0; j < _number_slip_systems; ++j)
+  //   {
+  //     if (i == j ? Hij = 1.0 : Hij = 0.1)
+  //       // similar proportion of mobile and immobile dislocations:
+  //       eff_dislocation_density +=
+  //           Hij * (_dislocation_mobile[_qp][j] + _dislocation_immobile_edge_positive[_qp][j] +
+  //                  _dislocation_immobile_edge_negative[_qp][j] +
+  //                  _dislocation_immobile_screw_positive[_qp][j] +
+  //                  _dislocation_immobile_screw_negative[_qp][j]);
+  //   }
+  //   _slip_resistance[_qp][i] = _lattice_friction + _Coeff_hardening * _mu * _burgers_vector_mag *
+  //                                                      std::sqrt(eff_dislocation_density);
+  //   dslip_r_drho[i] =
+  //       _Coeff_hardening * _mu * _burgers_vector_mag * std::pow(eff_dislocation_density, -0.5);
+  // }
 
   return true;
 }
@@ -864,6 +869,8 @@ void
 DiscoFluxCPOrowanStressUpdate::DDCUpdate()
 {
   Stress_internal.zero();
+  Real A_c_ij = 0.0;
+  Real Hij, eff_dislocation_density = 0.00;
 
   for (unsigned int i = 0; i < _number_slip_systems; ++i)
   {
@@ -921,6 +928,47 @@ DiscoFluxCPOrowanStressUpdate::DDCUpdate()
     Stress_internal += (_tau_b_local[i] + _tau_b_local_screw[i]) *
                        (libMesh::outer_product(slip_direction_rotated, slip_plane_normal_rotated) +
                         libMesh::outer_product(slip_plane_normal_rotated, slip_direction_rotated));
+
+    // ======================================= //
+    // Compute thermal shear stress resistance
+    _dislocation_coplanar[_qp][i] = 0.0;
+    // for (unsigned int j = 0; j < _number_slip_systems; ++j)
+    // {
+    //   // Edge contribution
+    //   A_c_ij = 0.5 * std::abs(_slip_plane_normalboth[_qp][i].cross(
+    //                           _slip_plane_normalboth[_qp][j].cross(_slip_direction_edge[_qp][j])));
+    //   _dislocation_coplanar[_qp][i] +=
+    //       A_c_ij * (_dislocation_mobile_edge[_qp][j] +
+    //       _dislocation_immobile_edge_positive[_qp][j] +
+    //                 _dislocation_immobile_edge_negative[_qp][j]);
+    //   // Screw contribution
+    //   A_c_ij = 0.5 *
+    //   std::abs(_slip_plane_normalboth[_qp][i].cross(_slip_direction_edge[_qp][j]));
+    //   _dislocation_coplanar[_qp][i] += A_c_ij * (_dislocation_mobile_screw[_qp][j] +
+    //                                            _dislocation_immobile_screw_positive[_qp][j] +
+    //                                            _dislocation_immobile_screw_negative[_qp][j]);
+    // }
+    _slip_thermal[_qp][i] =
+        _Coeff_thermal * _mu * _burgers_vector_mag * std::sqrt(_dislocation_coplanar[_qp][i]);
+
+    // ======================================= //
+    // Compute athermal shear stress resistance
+    _slip_resistance[_qp][i] = 0.0;
+    eff_dislocation_density = 0.00;
+    for (unsigned int j = 0; j < _number_slip_systems; ++j)
+    {
+      if (i == j ? Hij = 1.0 : Hij = 0.1)
+        // similar proportion of mobile and immobile dislocations:
+        eff_dislocation_density +=
+            Hij * (_dislocation_mobile[_qp][j] + _dislocation_immobile_edge_positive[_qp][j] +
+                   _dislocation_immobile_edge_negative[_qp][j] +
+                   _dislocation_immobile_screw_positive[_qp][j] +
+                   _dislocation_immobile_screw_negative[_qp][j]);
+    }
+    _slip_resistance[_qp][i] = _lattice_friction + _Coeff_hardening * _mu * _burgers_vector_mag *
+                                                       std::sqrt(eff_dislocation_density);
+    dslip_r_drho[i] =
+        _Coeff_hardening * _mu * _burgers_vector_mag * std::pow(eff_dislocation_density, -0.5);
   }
 
   for (unsigned int i = 0; i < _number_slip_systems; ++i)
@@ -972,6 +1020,14 @@ DiscoFluxCPOrowanStressUpdate::getDisloVelocity()
     // Compute velocity only if tau>tau_b
     if (tau_effAbs[i] > small2)
     {
+      if (std::abs(_DD_grad[i](0)) > small2 || std::abs(_DD_grad[i](1)) > small2 ||
+          std::abs(_DD_grad[i](2)) > small2)
+      {
+        if (_print_convergence_message)
+        {
+          mooseWarning("_DD_grad[i] is positive", i);
+        }
+      }
       ////////////////////////////////////////////////////////////
       // Compute velocity and derivative for edge dislocations //
       ////////////////////////////////////////////////////////////

@@ -150,6 +150,7 @@ CrystalPlasticityOrowanStressUpdateBase::CrystalPlasticityOrowanStressUpdateBase
     _zero_tol(getParam<Real>("zero_tol")),
 
     _slip_resistance(declareProperty<std::vector<Real>>(_base_name + "slip_resistance")),
+    _slip_thermal(declareProperty<std::vector<Real>>(_base_name + "slip_thermal")),
     _slip_resistance_old(getMaterialPropertyOld<std::vector<Real>>(_base_name + "slip_resistance")),
     _slip_increment(declareProperty<std::vector<Real>>(_base_name + "slip_increment")),
 
@@ -167,6 +168,7 @@ CrystalPlasticityOrowanStressUpdateBase::CrystalPlasticityOrowanStressUpdateBase
         declareProperty<std::vector<RealVectorValue>>(_base_name + "slip_plane_normalboth")),
     _crysrot(getMaterialProperty<RankTwoTensor>(_base_name + "crysrot")),
     _dislocation_forest(declareProperty<std::vector<Real>>(_base_name + "dislocation_forest")),
+    _dislocation_coplanar(declareProperty<std::vector<Real>>(_base_name + "dislocation_coplanar")),
     _dislocation_mobile(declareProperty<std::vector<Real>>(_base_name + "dislocation_mobile")),
     _dislocation_mobile_edge(
         declareProperty<std::vector<Real>>(_base_name + "dislocation_mobile_edge")),
@@ -233,6 +235,7 @@ CrystalPlasticityOrowanStressUpdateBase::setMaterialVectorSize()
   _dislocation_immobile_screw_negative[_qp].resize(_number_slip_systems);
   _dislocation_immobile_screw_positive[_qp].resize(_number_slip_systems);
   _dislocation_forest[_qp].resize(_number_slip_systems);
+  _dislocation_coplanar[_qp].resize(_number_slip_systems);
   _dislocation_mobile[_qp].resize(_number_slip_systems);
   _dislocation_mobile_edge[_qp].resize(_number_slip_systems);
   _dislocation_mobile_screw[_qp].resize(_number_slip_systems);
@@ -247,6 +250,7 @@ CrystalPlasticityOrowanStressUpdateBase::setMaterialVectorSize()
   }
 
   _slip_resistance[_qp].resize(_number_slip_systems);
+  _slip_thermal[_qp].resize(_number_slip_systems);
   _slip_increment[_qp].resize(_number_slip_systems);
 }
 
