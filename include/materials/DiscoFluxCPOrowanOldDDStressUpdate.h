@@ -22,14 +22,14 @@ permit others to do so.
 #include "MooseVariableScalar.h"
 #include "MooseVariableInterface.h" // for *mooseVariable() in _phi, _grad_phi
 
-class DiscoFluxCPOrowanStressUpdate;
+class DiscoFluxCPOrowanOldDDStressUpdate;
 
-class DiscoFluxCPOrowanStressUpdate : public CrystalPlasticityOrowanStressUpdateBase
+class DiscoFluxCPOrowanOldDDStressUpdate : public CrystalPlasticityOrowanStressUpdateBase
 {
 public:
   static InputParameters validParams();
 
-  DiscoFluxCPOrowanStressUpdate(const InputParameters & parameters);
+  DiscoFluxCPOrowanOldDDStressUpdate(const InputParameters & parameters);
 
 protected:
   // initializes the stateful properties

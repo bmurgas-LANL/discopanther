@@ -38,6 +38,8 @@ DislocationFluxEdgeVec::validParams()
                                "Slip system index to get slip direction"
                                "FCC: 1 to 12.");
 
+  params.addParam<Real>("burgers_vector_mag", 2.52e-07, "Magnitude of the Burgers vector in mm");
+
   return params;
 }
 
@@ -54,7 +56,8 @@ DislocationFluxEdgeVec::DislocationFluxEdgeVec(const InputParameters & parameter
     _slip_system_index(getParam<int>("slip_system_index")),
     _dislocationcharacter(
         getParam<MooseEnum>("dislocation_character").getEnum<DislocationCharacter>()),
-    _dislocationsign(getParam<MooseEnum>("dislocation_sign").getEnum<DislocationSign>())
+    _dislocationsign(getParam<MooseEnum>("dislocation_sign").getEnum<DislocationSign>()),
+    _burgers_vector_mag(getParam<Real>("burgers_vector_mag"))
 {
 }
 

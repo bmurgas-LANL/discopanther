@@ -49,4 +49,5 @@ protected:
   const enum class DislocationCharacter { edge, screw } _dislocationcharacter;
   /// Dislocation sign
   const enum class DislocationSign { positive, negative } _dislocationsign;
+  const Real _burgers_vector_mag;
 };

@@ -13,7 +13,7 @@ irrevocable worldwide license in this material to reproduce, prepare. derivative
 distribute copies to the public, perform publicly and display publicly, and to
 permit others to do so.
 ------------*/
-#include "DiscoFluxCPOrowanStressUpdate.h"
+#include "DiscoFluxCPOrowanOldDDStressUpdate.h"
 #include "RankTwoTensor.h"
 
 #include "SystemBase.h"
@@ -30,10 +30,10 @@ permit others to do so.
 
 #include <cfenv>
 
-registerMooseObject("discopanterApp", DiscoFluxCPOrowanStressUpdate);
+registerMooseObject("discopanterApp", DiscoFluxCPOrowanOldDDStressUpdate);
 
 InputParameters
-DiscoFluxCPOrowanStressUpdate::validParams()
+DiscoFluxCPOrowanOldDDStressUpdate::validParams()
 {
   InputParameters params = CrystalPlasticityOrowanStressUpdateBase::validParams();
 
@@ -145,7 +145,8 @@ DiscoFluxCPOrowanStressUpdate::validParams()
   return params;
 }
 
-DiscoFluxCPOrowanStressUpdate::DiscoFluxCPOrowanStressUpdate(const InputParameters & parameters)
+DiscoFluxCPOrowanOldDDStressUpdate::DiscoFluxCPOrowanOldDDStressUpdate(
+    const InputParameters & parameters)
   : CrystalPlasticityOrowanStressUpdateBase(parameters),
     _lattice_friction(getParam<Real>("lattice_friction")),
     _initial_thermal(getParam<Real>("initial_thermal")),
@@ -175,102 +176,102 @@ DiscoFluxCPOrowanStressUpdate::DiscoFluxCPOrowanStressUpdate(const InputParamete
     _boltz(getParam<Real>("boltz")),
     _mean_free_path_init_flag(getParam<bool>("mean_free_path_init_flag")),
     _disloc_den_threshold_flag(getParam<bool>("disloc_den_threshold_flag")),
-    _DD_EdgePositive_1(coupledValue("DD_EdgePositive_1")),
-    _DD_EdgePositive_2(coupledValue("DD_EdgePositive_2")),
-    _DD_EdgePositive_3(coupledValue("DD_EdgePositive_3")),
-    _DD_EdgePositive_4(coupledValue("DD_EdgePositive_4")),
-    _DD_EdgePositive_5(coupledValue("DD_EdgePositive_5")),
-    _DD_EdgePositive_6(coupledValue("DD_EdgePositive_6")),
-    _DD_EdgePositive_7(coupledValue("DD_EdgePositive_7")),
-    _DD_EdgePositive_8(coupledValue("DD_EdgePositive_8")),
-    _DD_EdgePositive_9(coupledValue("DD_EdgePositive_9")),
-    _DD_EdgePositive_10(coupledValue("DD_EdgePositive_10")),
-    _DD_EdgePositive_11(coupledValue("DD_EdgePositive_11")),
-    _DD_EdgePositive_12(coupledValue("DD_EdgePositive_12")),
-    _DD_EdgeNegative_1(coupledValue("DD_EdgeNegative_1")),
-    _DD_EdgeNegative_2(coupledValue("DD_EdgeNegative_2")),
-    _DD_EdgeNegative_3(coupledValue("DD_EdgeNegative_3")),
-    _DD_EdgeNegative_4(coupledValue("DD_EdgeNegative_4")),
-    _DD_EdgeNegative_5(coupledValue("DD_EdgeNegative_5")),
-    _DD_EdgeNegative_6(coupledValue("DD_EdgeNegative_6")),
-    _DD_EdgeNegative_7(coupledValue("DD_EdgeNegative_7")),
-    _DD_EdgeNegative_8(coupledValue("DD_EdgeNegative_8")),
-    _DD_EdgeNegative_9(coupledValue("DD_EdgeNegative_9")),
-    _DD_EdgeNegative_10(coupledValue("DD_EdgeNegative_10")),
-    _DD_EdgeNegative_11(coupledValue("DD_EdgeNegative_11")),
-    _DD_EdgeNegative_12(coupledValue("DD_EdgeNegative_12")),
-    _DD_ScrewPositive_1(coupledValue("DD_ScrewPositive_1")),
-    _DD_ScrewPositive_2(coupledValue("DD_ScrewPositive_2")),
-    _DD_ScrewPositive_3(coupledValue("DD_ScrewPositive_3")),
-    _DD_ScrewPositive_4(coupledValue("DD_ScrewPositive_4")),
-    _DD_ScrewPositive_5(coupledValue("DD_ScrewPositive_5")),
-    _DD_ScrewPositive_6(coupledValue("DD_ScrewPositive_6")),
-    _DD_ScrewPositive_7(coupledValue("DD_ScrewPositive_7")),
-    _DD_ScrewPositive_8(coupledValue("DD_ScrewPositive_8")),
-    _DD_ScrewPositive_9(coupledValue("DD_ScrewPositive_9")),
-    _DD_ScrewPositive_10(coupledValue("DD_ScrewPositive_10")),
-    _DD_ScrewPositive_11(coupledValue("DD_ScrewPositive_11")),
-    _DD_ScrewPositive_12(coupledValue("DD_ScrewPositive_12")),
-    _DD_ScrewNegative_1(coupledValue("DD_ScrewNegative_1")),
-    _DD_ScrewNegative_2(coupledValue("DD_ScrewNegative_2")),
-    _DD_ScrewNegative_3(coupledValue("DD_ScrewNegative_3")),
-    _DD_ScrewNegative_4(coupledValue("DD_ScrewNegative_4")),
-    _DD_ScrewNegative_5(coupledValue("DD_ScrewNegative_5")),
-    _DD_ScrewNegative_6(coupledValue("DD_ScrewNegative_6")),
-    _DD_ScrewNegative_7(coupledValue("DD_ScrewNegative_7")),
-    _DD_ScrewNegative_8(coupledValue("DD_ScrewNegative_8")),
-    _DD_ScrewNegative_9(coupledValue("DD_ScrewNegative_9")),
-    _DD_ScrewNegative_10(coupledValue("DD_ScrewNegative_10")),
-    _DD_ScrewNegative_11(coupledValue("DD_ScrewNegative_11")),
-    _DD_ScrewNegative_12(coupledValue("DD_ScrewNegative_12")),
-    _DD_EdgePositive_1_Grad(coupledGradient("DD_EdgePositive_1")),
-    _DD_EdgePositive_2_Grad(coupledGradient("DD_EdgePositive_2")),
-    _DD_EdgePositive_3_Grad(coupledGradient("DD_EdgePositive_3")),
-    _DD_EdgePositive_4_Grad(coupledGradient("DD_EdgePositive_4")),
-    _DD_EdgePositive_5_Grad(coupledGradient("DD_EdgePositive_5")),
-    _DD_EdgePositive_6_Grad(coupledGradient("DD_EdgePositive_6")),
-    _DD_EdgePositive_7_Grad(coupledGradient("DD_EdgePositive_7")),
-    _DD_EdgePositive_8_Grad(coupledGradient("DD_EdgePositive_8")),
-    _DD_EdgePositive_9_Grad(coupledGradient("DD_EdgePositive_9")),
-    _DD_EdgePositive_10_Grad(coupledGradient("DD_EdgePositive_10")),
-    _DD_EdgePositive_11_Grad(coupledGradient("DD_EdgePositive_11")),
-    _DD_EdgePositive_12_Grad(coupledGradient("DD_EdgePositive_12")),
-    _DD_EdgeNegative_1_Grad(coupledGradient("DD_EdgeNegative_1")),
-    _DD_EdgeNegative_2_Grad(coupledGradient("DD_EdgeNegative_2")),
-    _DD_EdgeNegative_3_Grad(coupledGradient("DD_EdgeNegative_3")),
-    _DD_EdgeNegative_4_Grad(coupledGradient("DD_EdgeNegative_4")),
-    _DD_EdgeNegative_5_Grad(coupledGradient("DD_EdgeNegative_5")),
-    _DD_EdgeNegative_6_Grad(coupledGradient("DD_EdgeNegative_6")),
-    _DD_EdgeNegative_7_Grad(coupledGradient("DD_EdgeNegative_7")),
-    _DD_EdgeNegative_8_Grad(coupledGradient("DD_EdgeNegative_8")),
-    _DD_EdgeNegative_9_Grad(coupledGradient("DD_EdgeNegative_9")),
-    _DD_EdgeNegative_10_Grad(coupledGradient("DD_EdgeNegative_10")),
-    _DD_EdgeNegative_11_Grad(coupledGradient("DD_EdgeNegative_11")),
-    _DD_EdgeNegative_12_Grad(coupledGradient("DD_EdgeNegative_12")),
-    _DD_ScrewPositive_1_Grad(coupledGradient("DD_ScrewPositive_1")),
-    _DD_ScrewPositive_2_Grad(coupledGradient("DD_ScrewPositive_2")),
-    _DD_ScrewPositive_3_Grad(coupledGradient("DD_ScrewPositive_3")),
-    _DD_ScrewPositive_4_Grad(coupledGradient("DD_ScrewPositive_4")),
-    _DD_ScrewPositive_5_Grad(coupledGradient("DD_ScrewPositive_5")),
-    _DD_ScrewPositive_6_Grad(coupledGradient("DD_ScrewPositive_6")),
-    _DD_ScrewPositive_7_Grad(coupledGradient("DD_ScrewPositive_7")),
-    _DD_ScrewPositive_8_Grad(coupledGradient("DD_ScrewPositive_8")),
-    _DD_ScrewPositive_9_Grad(coupledGradient("DD_ScrewPositive_9")),
-    _DD_ScrewPositive_10_Grad(coupledGradient("DD_ScrewPositive_10")),
-    _DD_ScrewPositive_11_Grad(coupledGradient("DD_ScrewPositive_11")),
-    _DD_ScrewPositive_12_Grad(coupledGradient("DD_ScrewPositive_12")),
-    _DD_ScrewNegative_1_Grad(coupledGradient("DD_ScrewNegative_1")),
-    _DD_ScrewNegative_2_Grad(coupledGradient("DD_ScrewNegative_2")),
-    _DD_ScrewNegative_3_Grad(coupledGradient("DD_ScrewNegative_3")),
-    _DD_ScrewNegative_4_Grad(coupledGradient("DD_ScrewNegative_4")),
-    _DD_ScrewNegative_5_Grad(coupledGradient("DD_ScrewNegative_5")),
-    _DD_ScrewNegative_6_Grad(coupledGradient("DD_ScrewNegative_6")),
-    _DD_ScrewNegative_7_Grad(coupledGradient("DD_ScrewNegative_7")),
-    _DD_ScrewNegative_8_Grad(coupledGradient("DD_ScrewNegative_8")),
-    _DD_ScrewNegative_9_Grad(coupledGradient("DD_ScrewNegative_9")),
-    _DD_ScrewNegative_10_Grad(coupledGradient("DD_ScrewNegative_10")),
-    _DD_ScrewNegative_11_Grad(coupledGradient("DD_ScrewNegative_11")),
-    _DD_ScrewNegative_12_Grad(coupledGradient("DD_ScrewNegative_12")),
+    _DD_EdgePositive_1(coupledValueOld("DD_EdgePositive_1")),
+    _DD_EdgePositive_2(coupledValueOld("DD_EdgePositive_2")),
+    _DD_EdgePositive_3(coupledValueOld("DD_EdgePositive_3")),
+    _DD_EdgePositive_4(coupledValueOld("DD_EdgePositive_4")),
+    _DD_EdgePositive_5(coupledValueOld("DD_EdgePositive_5")),
+    _DD_EdgePositive_6(coupledValueOld("DD_EdgePositive_6")),
+    _DD_EdgePositive_7(coupledValueOld("DD_EdgePositive_7")),
+    _DD_EdgePositive_8(coupledValueOld("DD_EdgePositive_8")),
+    _DD_EdgePositive_9(coupledValueOld("DD_EdgePositive_9")),
+    _DD_EdgePositive_10(coupledValueOld("DD_EdgePositive_10")),
+    _DD_EdgePositive_11(coupledValueOld("DD_EdgePositive_11")),
+    _DD_EdgePositive_12(coupledValueOld("DD_EdgePositive_12")),
+    _DD_EdgeNegative_1(coupledValueOld("DD_EdgeNegative_1")),
+    _DD_EdgeNegative_2(coupledValueOld("DD_EdgeNegative_2")),
+    _DD_EdgeNegative_3(coupledValueOld("DD_EdgeNegative_3")),
+    _DD_EdgeNegative_4(coupledValueOld("DD_EdgeNegative_4")),
+    _DD_EdgeNegative_5(coupledValueOld("DD_EdgeNegative_5")),
+    _DD_EdgeNegative_6(coupledValueOld("DD_EdgeNegative_6")),
+    _DD_EdgeNegative_7(coupledValueOld("DD_EdgeNegative_7")),
+    _DD_EdgeNegative_8(coupledValueOld("DD_EdgeNegative_8")),
+    _DD_EdgeNegative_9(coupledValueOld("DD_EdgeNegative_9")),
+    _DD_EdgeNegative_10(coupledValueOld("DD_EdgeNegative_10")),
+    _DD_EdgeNegative_11(coupledValueOld("DD_EdgeNegative_11")),
+    _DD_EdgeNegative_12(coupledValueOld("DD_EdgeNegative_12")),
+    _DD_ScrewPositive_1(coupledValueOld("DD_ScrewPositive_1")),
+    _DD_ScrewPositive_2(coupledValueOld("DD_ScrewPositive_2")),
+    _DD_ScrewPositive_3(coupledValueOld("DD_ScrewPositive_3")),
+    _DD_ScrewPositive_4(coupledValueOld("DD_ScrewPositive_4")),
+    _DD_ScrewPositive_5(coupledValueOld("DD_ScrewPositive_5")),
+    _DD_ScrewPositive_6(coupledValueOld("DD_ScrewPositive_6")),
+    _DD_ScrewPositive_7(coupledValueOld("DD_ScrewPositive_7")),
+    _DD_ScrewPositive_8(coupledValueOld("DD_ScrewPositive_8")),
+    _DD_ScrewPositive_9(coupledValueOld("DD_ScrewPositive_9")),
+    _DD_ScrewPositive_10(coupledValueOld("DD_ScrewPositive_10")),
+    _DD_ScrewPositive_11(coupledValueOld("DD_ScrewPositive_11")),
+    _DD_ScrewPositive_12(coupledValueOld("DD_ScrewPositive_12")),
+    _DD_ScrewNegative_1(coupledValueOld("DD_ScrewNegative_1")),
+    _DD_ScrewNegative_2(coupledValueOld("DD_ScrewNegative_2")),
+    _DD_ScrewNegative_3(coupledValueOld("DD_ScrewNegative_3")),
+    _DD_ScrewNegative_4(coupledValueOld("DD_ScrewNegative_4")),
+    _DD_ScrewNegative_5(coupledValueOld("DD_ScrewNegative_5")),
+    _DD_ScrewNegative_6(coupledValueOld("DD_ScrewNegative_6")),
+    _DD_ScrewNegative_7(coupledValueOld("DD_ScrewNegative_7")),
+    _DD_ScrewNegative_8(coupledValueOld("DD_ScrewNegative_8")),
+    _DD_ScrewNegative_9(coupledValueOld("DD_ScrewNegative_9")),
+    _DD_ScrewNegative_10(coupledValueOld("DD_ScrewNegative_10")),
+    _DD_ScrewNegative_11(coupledValueOld("DD_ScrewNegative_11")),
+    _DD_ScrewNegative_12(coupledValueOld("DD_ScrewNegative_12")),
+    _DD_EdgePositive_1_Grad(coupledGradientOld("DD_EdgePositive_1")),
+    _DD_EdgePositive_2_Grad(coupledGradientOld("DD_EdgePositive_2")),
+    _DD_EdgePositive_3_Grad(coupledGradientOld("DD_EdgePositive_3")),
+    _DD_EdgePositive_4_Grad(coupledGradientOld("DD_EdgePositive_4")),
+    _DD_EdgePositive_5_Grad(coupledGradientOld("DD_EdgePositive_5")),
+    _DD_EdgePositive_6_Grad(coupledGradientOld("DD_EdgePositive_6")),
+    _DD_EdgePositive_7_Grad(coupledGradientOld("DD_EdgePositive_7")),
+    _DD_EdgePositive_8_Grad(coupledGradientOld("DD_EdgePositive_8")),
+    _DD_EdgePositive_9_Grad(coupledGradientOld("DD_EdgePositive_9")),
+    _DD_EdgePositive_10_Grad(coupledGradientOld("DD_EdgePositive_10")),
+    _DD_EdgePositive_11_Grad(coupledGradientOld("DD_EdgePositive_11")),
+    _DD_EdgePositive_12_Grad(coupledGradientOld("DD_EdgePositive_12")),
+    _DD_EdgeNegative_1_Grad(coupledGradientOld("DD_EdgeNegative_1")),
+    _DD_EdgeNegative_2_Grad(coupledGradientOld("DD_EdgeNegative_2")),
+    _DD_EdgeNegative_3_Grad(coupledGradientOld("DD_EdgeNegative_3")),
+    _DD_EdgeNegative_4_Grad(coupledGradientOld("DD_EdgeNegative_4")),
+    _DD_EdgeNegative_5_Grad(coupledGradientOld("DD_EdgeNegative_5")),
+    _DD_EdgeNegative_6_Grad(coupledGradientOld("DD_EdgeNegative_6")),
+    _DD_EdgeNegative_7_Grad(coupledGradientOld("DD_EdgeNegative_7")),
+    _DD_EdgeNegative_8_Grad(coupledGradientOld("DD_EdgeNegative_8")),
+    _DD_EdgeNegative_9_Grad(coupledGradientOld("DD_EdgeNegative_9")),
+    _DD_EdgeNegative_10_Grad(coupledGradientOld("DD_EdgeNegative_10")),
+    _DD_EdgeNegative_11_Grad(coupledGradientOld("DD_EdgeNegative_11")),
+    _DD_EdgeNegative_12_Grad(coupledGradientOld("DD_EdgeNegative_12")),
+    _DD_ScrewPositive_1_Grad(coupledGradientOld("DD_ScrewPositive_1")),
+    _DD_ScrewPositive_2_Grad(coupledGradientOld("DD_ScrewPositive_2")),
+    _DD_ScrewPositive_3_Grad(coupledGradientOld("DD_ScrewPositive_3")),
+    _DD_ScrewPositive_4_Grad(coupledGradientOld("DD_ScrewPositive_4")),
+    _DD_ScrewPositive_5_Grad(coupledGradientOld("DD_ScrewPositive_5")),
+    _DD_ScrewPositive_6_Grad(coupledGradientOld("DD_ScrewPositive_6")),
+    _DD_ScrewPositive_7_Grad(coupledGradientOld("DD_ScrewPositive_7")),
+    _DD_ScrewPositive_8_Grad(coupledGradientOld("DD_ScrewPositive_8")),
+    _DD_ScrewPositive_9_Grad(coupledGradientOld("DD_ScrewPositive_9")),
+    _DD_ScrewPositive_10_Grad(coupledGradientOld("DD_ScrewPositive_10")),
+    _DD_ScrewPositive_11_Grad(coupledGradientOld("DD_ScrewPositive_11")),
+    _DD_ScrewPositive_12_Grad(coupledGradientOld("DD_ScrewPositive_12")),
+    _DD_ScrewNegative_1_Grad(coupledGradientOld("DD_ScrewNegative_1")),
+    _DD_ScrewNegative_2_Grad(coupledGradientOld("DD_ScrewNegative_2")),
+    _DD_ScrewNegative_3_Grad(coupledGradientOld("DD_ScrewNegative_3")),
+    _DD_ScrewNegative_4_Grad(coupledGradientOld("DD_ScrewNegative_4")),
+    _DD_ScrewNegative_5_Grad(coupledGradientOld("DD_ScrewNegative_5")),
+    _DD_ScrewNegative_6_Grad(coupledGradientOld("DD_ScrewNegative_6")),
+    _DD_ScrewNegative_7_Grad(coupledGradientOld("DD_ScrewNegative_7")),
+    _DD_ScrewNegative_8_Grad(coupledGradientOld("DD_ScrewNegative_8")),
+    _DD_ScrewNegative_9_Grad(coupledGradientOld("DD_ScrewNegative_9")),
+    _DD_ScrewNegative_10_Grad(coupledGradientOld("DD_ScrewNegative_10")),
+    _DD_ScrewNegative_11_Grad(coupledGradientOld("DD_ScrewNegative_11")),
+    _DD_ScrewNegative_12_Grad(coupledGradientOld("DD_ScrewNegative_12")),
     _DD_grad(_number_slip_systems, 0.00),
     _DD_grad_screw(_number_slip_systems, 0.00),
     _tau_b_local(_number_slip_systems, 0.00),
@@ -331,7 +332,7 @@ DiscoFluxCPOrowanStressUpdate::DiscoFluxCPOrowanStressUpdate(const InputParamete
 }
 
 void
-DiscoFluxCPOrowanStressUpdate::initQpStatefulProperties()
+DiscoFluxCPOrowanOldDDStressUpdate::initQpStatefulProperties()
 {
   CrystalPlasticityOrowanStressUpdateBase::initQpStatefulProperties();
   _DD_EdgeNegative[0] = _DD_EdgeNegative_1[_qp];
@@ -428,7 +429,7 @@ DiscoFluxCPOrowanStressUpdate::initQpStatefulProperties()
 }
 
 void
-DiscoFluxCPOrowanStressUpdate::setInitialConstitutiveVariableValues()
+DiscoFluxCPOrowanOldDDStressUpdate::setInitialConstitutiveVariableValues()
 {
   storeDislocationMobilityInformation();
   _slip_resistance[_qp] = _slip_resistance_old[_qp];
@@ -517,7 +518,7 @@ DiscoFluxCPOrowanStressUpdate::setInitialConstitutiveVariableValues()
 }
 
 void
-DiscoFluxCPOrowanStressUpdate::storeDislocationMobilityInformation()
+DiscoFluxCPOrowanOldDDStressUpdate::storeDislocationMobilityInformation()
 {
   for (const auto i : make_range(_number_slip_systems))
   {
@@ -532,7 +533,7 @@ DiscoFluxCPOrowanStressUpdate::storeDislocationMobilityInformation()
 }
 
 void
-DiscoFluxCPOrowanStressUpdate::setSubstepConstitutiveVariableValues()
+DiscoFluxCPOrowanOldDDStressUpdate::setSubstepConstitutiveVariableValues()
 {
   _slip_resistance[_qp] = _previous_substep_slip_resistance;
   _dislocation_immobile_edge_positive[_qp] = _previous_substep_dislocation_immobile_edge_positive;
@@ -545,7 +546,7 @@ DiscoFluxCPOrowanStressUpdate::setSubstepConstitutiveVariableValues()
 }
 
 bool
-DiscoFluxCPOrowanStressUpdate::calculateSlipRate()
+DiscoFluxCPOrowanOldDDStressUpdate::calculateSlipRate()
 {
   _DD_EdgeNegative[0] = _DD_EdgeNegative_1[_qp];
   _DD_EdgeNegative[1] = _DD_EdgeNegative_2[_qp];
@@ -682,7 +683,8 @@ DiscoFluxCPOrowanStressUpdate::calculateSlipRate()
 }
 
 void
-DiscoFluxCPOrowanStressUpdate::calculateConstitutiveSlipDerivative(std::vector<Real> & dslip_dtau)
+DiscoFluxCPOrowanOldDDStressUpdate::calculateConstitutiveSlipDerivative(
+    std::vector<Real> & dslip_dtau)
 {
   for (unsigned int i = 0; i < _number_slip_systems; ++i)
   {
@@ -698,7 +700,7 @@ DiscoFluxCPOrowanStressUpdate::calculateConstitutiveSlipDerivative(std::vector<R
 }
 
 void
-DiscoFluxCPOrowanStressUpdate::cacheStateVariablesBeforeUpdate()
+DiscoFluxCPOrowanOldDDStressUpdate::cacheStateVariablesBeforeUpdate()
 {
   _slip_resistance_before_update = _slip_resistance[_qp];
   _dislocation_immobile_before_update_edge_positive = _dislocation_immobile_edge_positive[_qp];
@@ -711,7 +713,7 @@ DiscoFluxCPOrowanStressUpdate::cacheStateVariablesBeforeUpdate()
 }
 
 void
-DiscoFluxCPOrowanStressUpdate::calculateStateVariableEvolutionRateComponent()
+DiscoFluxCPOrowanOldDDStressUpdate::calculateStateVariableEvolutionRateComponent()
 {
   // calculate dislocation density increment
   getDDIncrements();
@@ -719,7 +721,7 @@ DiscoFluxCPOrowanStressUpdate::calculateStateVariableEvolutionRateComponent()
 
 // Calculate Dislocation Density increment
 void
-DiscoFluxCPOrowanStressUpdate::getDDIncrements()
+DiscoFluxCPOrowanOldDDStressUpdate::getDDIncrements()
 {
   // Real small2 = 1.0e-5;
   Real A_f_ij;
@@ -785,7 +787,7 @@ DiscoFluxCPOrowanStressUpdate::getDDIncrements()
 }
 
 bool
-DiscoFluxCPOrowanStressUpdate::updateStateVariables()
+DiscoFluxCPOrowanOldDDStressUpdate::updateStateVariables()
 {
   // Real Hij, eff_dislocation_density = 0.00;
 
@@ -840,7 +842,7 @@ DiscoFluxCPOrowanStressUpdate::updateStateVariables()
 }
 
 bool
-DiscoFluxCPOrowanStressUpdate::areConstitutiveStateVariablesConverged()
+DiscoFluxCPOrowanOldDDStressUpdate::areConstitutiveStateVariablesConverged()
 {
   bool flagSlipResistanceConverged;
 
@@ -856,7 +858,7 @@ DiscoFluxCPOrowanStressUpdate::areConstitutiveStateVariablesConverged()
 }
 
 void
-DiscoFluxCPOrowanStressUpdate::updateSubstepConstitutiveVariableValues()
+DiscoFluxCPOrowanOldDDStressUpdate::updateSubstepConstitutiveVariableValues()
 {
   _previous_substep_slip_resistance = _slip_resistance[_qp];
   _previous_substep_dislocation_immobile_edge_positive = _dislocation_immobile_edge_positive[_qp];
@@ -867,7 +869,7 @@ DiscoFluxCPOrowanStressUpdate::updateSubstepConstitutiveVariableValues()
 
 //----Compute the back stress based on Dislocation Deformation Compatibility(DDC)
 void
-DiscoFluxCPOrowanStressUpdate::DDCUpdate()
+DiscoFluxCPOrowanOldDDStressUpdate::DDCUpdate()
 {
   Stress_internal.zero();
   Real A_c_ij = 0.0;
@@ -997,7 +999,7 @@ DiscoFluxCPOrowanStressUpdate::DDCUpdate()
 }
 
 void
-DiscoFluxCPOrowanStressUpdate::getDisloVelocity()
+DiscoFluxCPOrowanOldDDStressUpdate::getDisloVelocity()
 {
   //  compute velocity for each slip system
   for (unsigned int i = 0; i < _number_slip_systems; ++i)
