@@ -912,17 +912,15 @@ DiscoFluxCPOrowanStressUpdate::DDCUpdate()
     }
     else
     {
-      _L_bar[i] = _Coeff_dislength * std::pow((_dislocation_mobile[_qp][i] +
-                                               _dislocation_immobile_edge_positive[_qp][i] +
-                                               _dislocation_immobile_edge_negative[_qp][i] +
-                                               _dislocation_immobile_screw_positive[_qp][i] +
-                                               _dislocation_immobile_screw_negative[_qp][i]),
-                                              -0.5);
+      _L_bar[i] = _Coeff_dislength /
+                  (_dislocation_mobile[_qp][i] + _dislocation_immobile_edge_positive[_qp][i] +
+                   _dislocation_immobile_edge_negative[_qp][i] +
+                   _dislocation_immobile_screw_positive[_qp][i] +
+                   _dislocation_immobile_screw_negative[_qp][i]);
       // Compute local internal stress
-      _tau_b_local[i] = _Coeff_backstress *
-                        ((_mu * std::pow(_L_bar[i], 1)) / (2 * 3.141 * (1 - _nu))) *
+      _tau_b_local[i] = _Coeff_backstress * ((_mu * _L_bar[i]) / (2 * 3.141 * (1 - _nu))) *
                         _burgers_vector_mag * (_DD_grad[i] * slip_direction_rotated);
-      _tau_b_local_screw[i] = _Coeff_backstress * ((_mu * std::pow(_L_bar[i], 1)) / (2 * 3.141)) *
+      _tau_b_local_screw[i] = _Coeff_backstress * ((_mu * _L_bar[i]) / (2 * 3.141)) *
                               _burgers_vector_mag *
                               (_DD_grad_screw[i] * slip_direction_rotated_screw);
     }
