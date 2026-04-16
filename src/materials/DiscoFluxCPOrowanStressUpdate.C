@@ -913,7 +913,7 @@ DiscoFluxCPOrowanStressUpdate::DDCUpdate()
     else
     {
       _L_bar[i] = _Coeff_dislength /
-                  (_dislocation_mobile[_qp][i] + _dislocation_immobile_edge_positive[_qp][i] +
+                  (1.0 + _dislocation_mobile[_qp][i] + _dislocation_immobile_edge_positive[_qp][i] +
                    _dislocation_immobile_edge_negative[_qp][i] +
                    _dislocation_immobile_screw_positive[_qp][i] +
                    _dislocation_immobile_screw_negative[_qp][i]);
