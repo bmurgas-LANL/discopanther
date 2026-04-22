@@ -34,7 +34,9 @@ protected:
 
   const PropertyReadFile * const _read_prop_user_object;
   MaterialProperty<RealVectorValue> & _Euler_angles_mat_prop;
+  MaterialProperty<RankTwoTensor> & _initial_crysrot;
   MaterialProperty<RankTwoTensor> & _crysrot;
+  const MaterialProperty<RankTwoTensor> & _updated_rotation_old;
   RotationTensor _R;
   bool _user_provided_rotation_matrix;
 

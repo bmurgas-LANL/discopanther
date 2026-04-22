@@ -108,8 +108,7 @@ ComputeMultipleCrystalPlasticityOrowanStress::initQpStatefulProperties()
 
   _total_lagrangian_strain[_qp].zero();
 
-  _updated_rotation[_qp].zero();
-  _updated_rotation[_qp].addIa(1.0);
+  _updated_rotation[_qp] = _crysrot[_qp];
 
   for (unsigned int i = 0; i < _num_models; ++i)
   {

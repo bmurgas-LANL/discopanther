@@ -24,13 +24,13 @@
   [singlecrystal]
     type = GeneratedMeshGenerator
     dim = 3
-    nx = 4
-    ny = 4
-    nz = 4
+    nx = 3
+    ny = 3
+    nz = 3
     xmax = 0.1
     ymax = 0.1
     zmax = 0.1
-    elem_type = TET4
+    elem_type = HEX8
   []
   [bot_cor]
     type = BoundingBoxNodeSetGenerator
@@ -70,7 +70,7 @@
     # []
     [out]
       type = Exodus
-      time_step_interval = 10
+      time_step_interval = 1
     []
 []
 
@@ -2530,6 +2530,7 @@
     Coeff_hardening           = 0.52
     Coeff_backstress          = 0.0
     initial_athermal          = 102.0
+    initial_athermal_screw    = 102.0
     dd_sat                    = 1.e6
     sat_A                     = 5.52e-18
     min_dd                    = 1.0

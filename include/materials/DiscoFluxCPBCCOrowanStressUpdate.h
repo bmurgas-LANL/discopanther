@@ -386,7 +386,7 @@ protected:
   // For dislocation velocity computation
   Real small2 = 1.0e-10, exp_limit = 2.0e+2;
   std::vector<Real> t_wait, t_run, vel_run, dislocation_density, tau_b, xi0, tau_eff, tau_effAbs,
-      tau_effSign, slip_r, slip_r_screw;
+      tau_effSign, slip_r, slip_r_screw, tau_eff_screw, tau_effAbs_screw, tau_effSign_screw;
   // Real vcrit = std::sqrt(mu * 1.0e+06 / rho_m) * 1000; // mm s-1
   Real deltaG0, inner, deltaG, exp_arg, dtw_dtau, dtr_dtau;
 

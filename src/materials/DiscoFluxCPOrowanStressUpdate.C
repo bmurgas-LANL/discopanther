@@ -287,11 +287,11 @@ DiscoFluxCPOrowanStressUpdate::DiscoFluxCPOrowanStressUpdate(const InputParamete
     _dislocation_immobile_screw_positive(
         declareProperty<std::vector<Real>>(_base_name + "dislocation_immobile_screw_positive")),
     _dislocation_immobile_screw_positive_old(getMaterialPropertyOld<std::vector<Real>>(
-        _base_name + "dislocation_immobile_edge_negative")),
+        _base_name + "dislocation_immobile_screw_positive")),
     _dislocation_immobile_screw_negative(
         declareProperty<std::vector<Real>>(_base_name + "dislocation_immobile_screw_negative")),
     _dislocation_immobile_screw_negative_old(getMaterialPropertyOld<std::vector<Real>>(
-        _base_name + "dislocation_immobile_edge_negative")),
+        _base_name + "dislocation_immobile_screw_negative")),
     _dislocation_mobile(declareProperty<std::vector<Real>>(_base_name + "dislocation_mobile")),
     _dislocation_mobile_edge(
         declareProperty<std::vector<Real>>(_base_name + "dislocation_mobile_edge")),

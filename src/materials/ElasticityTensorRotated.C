@@ -23,7 +23,9 @@ ElasticityTensorRotated::ElasticityTensorRotated(const InputParameters & paramet
     _Cijkl(this->template getParam<std::vector<Real>>("C_ijkl"), (RankFourTensor::FillMethod)(int)this->template getParam<MooseEnum>("fill_method")),
     _read_prop_user_object(isParamValid("read_prop_user_object") ? &getUserObject<PropertyReadFile>("read_prop_user_object") : nullptr),
     _Euler_angles_mat_prop(declareProperty<RealVectorValue>("Euler_angles")),
+    _initial_crysrot(declareProperty<RankTwoTensor>(_base_name + "initial_crysrot")),
     _crysrot(declareProperty<RankTwoTensor>(_base_name + "crysrot")),
+    _updated_rotation_old(getMaterialPropertyOld<RankTwoTensor>("updated_rotation")),
     _R(_Euler_angles),
     _Cijkl_t(this->template getParam<std::vector<Real>>("C_ijkl_t"), (RankFourTensor::FillMethod)(int)this->template getParam<MooseEnum>("fill_method")),
     _temp(getParam<Real>("temp")),
@@ -56,7 +58,8 @@ void
 ElasticityTensorRotated::initQpStatefulProperties()
 {
   getEulerAngles();
-  _crysrot[_qp] = _R.transpose();
+  _initial_crysrot[_qp] = _R.transpose();
+  _crysrot[_qp] = _initial_crysrot[_qp];
 }
 
 void
@@ -64,7 +67,11 @@ ElasticityTensorRotated::computeQpElasticityTensor()
 {
 
   getEulerAngles();
-  _crysrot[_qp] = _R.transpose();
+
+  if (_updated_rotation_old[_qp].det() == 0.0)
+    _crysrot[_qp] = _initial_crysrot[_qp];
+  else
+    _crysrot[_qp] = _updated_rotation_old[_qp];
 
   // cmpute the rotated elasticity tensor.
   _elasticity_tensor[_qp] = _Cijkl + (_temp - _temp0)*_Cijkl_t;
