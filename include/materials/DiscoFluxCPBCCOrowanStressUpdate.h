@@ -341,6 +341,7 @@ protected:
   // MaterialProperty<std::vector<RealVectorValue>> & _slip_plane_normalboth;
 
   const MaterialProperty<RankTwoTensor>         & _crysrot;
+  const MaterialProperty<RankTwoTensor>         & _updated_rotation_old;
 
   // Stores the values of the slip system resistance
   std::vector<Real> _previous_substep_slip_resistance;

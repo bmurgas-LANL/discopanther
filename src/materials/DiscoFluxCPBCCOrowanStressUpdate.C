@@ -28,6 +28,8 @@ permit others to do so.
 #include "libmesh/quadrature_gauss.h"
 #include "libmesh/remote_elem.h"
 
+#include <cmath>
+
 registerMooseObject("discopanterApp", DiscoFluxCPBCCOrowanStressUpdate);
 
 InputParameters
@@ -485,6 +487,8 @@ DiscoFluxCPBCCOrowanStressUpdate::DiscoFluxCPBCCOrowanStressUpdate(const InputPa
     //
     _crysrot(
         getMaterialProperty<RankTwoTensor>            (_base_name + "crysrot")),
+    _updated_rotation_old(
+        getMaterialPropertyOld<RankTwoTensor>         ("updated_rotation")),
 
     // resize local caching vectors used for substepping
     _previous_substep_slip_resistance(                          _number_slip_systems, 0.00),
@@ -869,15 +873,20 @@ void
 DiscoFluxCPBCCOrowanStressUpdate::storeDislocationMobilityInformation()
 {
   // CrystalPlasticityOrowanStressUpdateBase::storeDislocationMobilityInformation();
+  RankTwoTensor crystal_rotation = _crysrot[_qp];
+  const Real updated_rotation_det = _updated_rotation_old[_qp].det();
+  if (std::isfinite(updated_rotation_det) && std::abs(updated_rotation_det) > 1e-12)
+    crystal_rotation = _updated_rotation_old[_qp];
+
   for (const auto i : make_range(_number_slip_systems))
   {
     _slip_direction_edge[_qp][i]    =   _slip_direction[i];
     _slip_direction_edge[_qp][i]    /=  _slip_direction_edge[_qp][i].norm();
-    _slip_direction_edge[_qp][i]    =   _crysrot[_qp] * _slip_direction_edge[_qp][i];
+    _slip_direction_edge[_qp][i]    =   crystal_rotation * _slip_direction_edge[_qp][i];
 
     _slip_plane_normalboth[_qp][i]  =   _slip_plane_normal[i];
     _slip_plane_normalboth[_qp][i]  /=  _slip_plane_normalboth[_qp][i].norm();
-    _slip_plane_normalboth[_qp][i]  =   _crysrot[_qp] * _slip_plane_normalboth[_qp][i];
+    _slip_plane_normalboth[_qp][i]  =   crystal_rotation * _slip_plane_normalboth[_qp][i];
 
     _slip_direction_screw[_qp][i]   =
         _slip_plane_normalboth[_qp][i].cross(_slip_direction_edge[_qp][i]);

@@ -202,6 +202,7 @@ protected:
    * Note: this rotation tensor is not applied to the crystal lattice
    */
   MaterialProperty<RankTwoTensor> & _updated_rotation;
+  const MaterialProperty<RankTwoTensor> & _updated_rotation_old;
 
   /**
    * Crystal rotation in the original, or reference, configuration as defined by

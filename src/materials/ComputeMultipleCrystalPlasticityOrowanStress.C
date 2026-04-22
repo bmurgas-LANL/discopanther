@@ -14,6 +14,8 @@
 #include "Conversion.h"
 #include "MooseException.h"
 
+#include <cmath>
+
 registerMooseObject("discopanterApp", ComputeMultipleCrystalPlasticityOrowanStress);
 
 InputParameters
@@ -79,6 +81,7 @@ ComputeMultipleCrystalPlasticityOrowanStress::ComputeMultipleCrystalPlasticityOr
     
     _total_lagrangian_strain(declareProperty<RankTwoTensor>("total_lagrangian_strain")), // Lagrangian strain
     _updated_rotation(declareProperty<RankTwoTensor>("updated_rotation")),
+    _updated_rotation_old(getMaterialPropertyOld<RankTwoTensor>("updated_rotation")),
     
     _crysrot(getMaterialProperty<RankTwoTensor>(_base_name + "crysrot")), // defined in the elasticity tensor classes for crystal plasticity
     _print_convergence_message(getParam<bool>("print_state_variable_convergence_error_messages"))
@@ -193,8 +196,13 @@ ComputeMultipleCrystalPlasticityOrowanStress::updateStress(RankTwoTensor  & cauc
   // lattice
   // Not sure if we should pass in the updated or the original rotation here
   // If not, then we should not need to compute the flow direction every iteration here
+  RankTwoTensor crystal_rotation = _crysrot[_qp];
+  const Real updated_rotation_det = _updated_rotation_old[_qp].det();
+  if (std::isfinite(updated_rotation_det) && std::abs(updated_rotation_det) > 1e-12)
+    crystal_rotation = _updated_rotation_old[_qp];
+
   for (unsigned int i = 0; i < _num_models; ++i)
-    _models[i]->calculateFlowDirection(_crysrot[_qp]);
+    _models[i]->calculateFlowDirection(crystal_rotation);
 
   do
   {
@@ -287,7 +295,11 @@ ComputeMultipleCrystalPlasticityOrowanStress::postSolveQp(RankTwoTensor & cauchy
   // Calculate crystal rotation to track separately
   RankTwoTensor rot;
   _elastic_deformation_gradient.getRUDecompositionRotation(rot);
-  _updated_rotation[_qp] = rot * _crysrot[_qp];
+  RankTwoTensor crystal_rotation = _crysrot[_qp];
+  const Real updated_rotation_det = _updated_rotation_old[_qp].det();
+  if (std::isfinite(updated_rotation_det) && std::abs(updated_rotation_det) > 1e-12)
+    crystal_rotation = _updated_rotation_old[_qp];
+  _updated_rotation[_qp] = rot * crystal_rotation;
 }
 
 void
