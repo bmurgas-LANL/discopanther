@@ -3,6 +3,498 @@
   volumetric_locking_correction = true
 []
 
+[Postprocessors]
+  [./pp_DD_mobile_01]
+    type = ElementAverageValue
+    variable = DD_mobile_01
+  [../]
+  [./pp_DD_mobile_02]
+    type = ElementAverageValue
+    variable = DD_mobile_02
+  [../]
+  [./pp_DD_mobile_03]
+    type = ElementAverageValue
+    variable = DD_mobile_03
+  [../]
+  [./pp_DD_mobile_04]
+    type = ElementAverageValue
+    variable = DD_mobile_04
+  [../]
+  [./pp_DD_mobile_05]
+    type = ElementAverageValue
+    variable = DD_mobile_05
+  [../]
+  [./pp_DD_mobile_06]
+    type = ElementAverageValue
+    variable = DD_mobile_06
+  [../]
+  [./pp_DD_mobile_07]
+    type = ElementAverageValue
+    variable = DD_mobile_07
+  [../]
+  [./pp_DD_mobile_08]
+    type = ElementAverageValue
+    variable = DD_mobile_08
+  [../]
+  [./pp_DD_mobile_09]
+    type = ElementAverageValue
+    variable = DD_mobile_09
+  [../]
+  [./pp_DD_mobile_10]
+    type = ElementAverageValue
+    variable = DD_mobile_10
+  [../]
+  [./pp_DD_mobile_11]
+    type = ElementAverageValue
+    variable = DD_mobile_11
+  [../]
+  [./pp_DD_mobile_12]
+    type = ElementAverageValue
+    variable = DD_mobile_12
+  [../]
+  [./pp_DD_mobile_13]
+    type = ElementAverageValue
+    variable = DD_mobile_13
+  [../]
+  [./pp_DD_mobile_14]
+    type = ElementAverageValue
+    variable = DD_mobile_14
+  [../]
+  [./pp_DD_mobile_15]
+    type = ElementAverageValue
+    variable = DD_mobile_15
+  [../]
+  [./pp_DD_mobile_16]
+    type = ElementAverageValue
+    variable = DD_mobile_16
+  [../]
+  [./pp_DD_mobile_17]
+    type = ElementAverageValue
+    variable = DD_mobile_17
+  [../]
+  [./pp_DD_mobile_18]
+    type = ElementAverageValue
+    variable = DD_mobile_18
+  [../]
+  [./pp_DD_mobile_19]
+    type = ElementAverageValue
+    variable = DD_mobile_19
+  [../]
+  [./pp_DD_mobile_20]
+    type = ElementAverageValue
+    variable = DD_mobile_20
+  [../]
+  [./pp_DD_mobile_21]
+    type = ElementAverageValue
+    variable = DD_mobile_21
+  [../]
+  [./pp_DD_mobile_22]
+    type = ElementAverageValue
+    variable = DD_mobile_22
+  [../]
+  [./pp_DD_mobile_23]
+    type = ElementAverageValue
+    variable = DD_mobile_23
+  [../]
+  [./pp_DD_mobile_24]
+    type = ElementAverageValue
+    variable = DD_mobile_24
+  [../]
+
+  [./pp_DD_immobile_01]
+    type = ElementAverageValue
+    variable = DD_immobile_01
+  [../]
+  [./pp_DD_immobile_02]
+    type = ElementAverageValue
+    variable = DD_immobile_02
+  [../]
+  [./pp_DD_immobile_03]
+    type = ElementAverageValue
+    variable = DD_immobile_03
+  [../]
+  [./pp_DD_immobile_04]
+    type = ElementAverageValue
+    variable = DD_immobile_04
+  [../]
+  [./pp_DD_immobile_05]
+    type = ElementAverageValue
+    variable = DD_immobile_05
+  [../]
+  [./pp_DD_immobile_06]
+    type = ElementAverageValue
+    variable = DD_immobile_06
+  [../]
+  [./pp_DD_immobile_07]
+    type = ElementAverageValue
+    variable = DD_immobile_07
+  [../]
+  [./pp_DD_immobile_08]
+    type = ElementAverageValue
+    variable = DD_immobile_08
+  [../]
+  [./pp_DD_immobile_09]
+    type = ElementAverageValue
+    variable = DD_immobile_09
+  [../]
+  [./pp_DD_immobile_10]
+    type = ElementAverageValue
+    variable = DD_immobile_10
+  [../]
+  [./pp_DD_immobile_11]
+    type = ElementAverageValue
+    variable = DD_immobile_11
+  [../]
+  [./pp_DD_immobile_12]
+    type = ElementAverageValue
+    variable = DD_immobile_12
+  [../]
+  [./pp_DD_immobile_13]
+    type = ElementAverageValue
+    variable = DD_immobile_13
+  [../]
+  [./pp_DD_immobile_14]
+    type = ElementAverageValue
+    variable = DD_immobile_14
+  [../]
+  [./pp_DD_immobile_15]
+    type = ElementAverageValue
+    variable = DD_immobile_15
+  [../]
+  [./pp_DD_immobile_16]
+    type = ElementAverageValue
+    variable = DD_immobile_16
+  [../]
+  [./pp_DD_immobile_17]
+    type = ElementAverageValue
+    variable = DD_immobile_17
+  [../]
+  [./pp_DD_immobile_18]
+    type = ElementAverageValue
+    variable = DD_immobile_18
+  [../]
+  [./pp_DD_immobile_19]
+    type = ElementAverageValue
+    variable = DD_immobile_19
+  [../]
+  [./pp_DD_immobile_20]
+    type = ElementAverageValue
+    variable = DD_immobile_20
+  [../]
+  [./pp_DD_immobile_21]
+    type = ElementAverageValue
+    variable = DD_immobile_21
+  [../]
+  [./pp_DD_immobile_22]
+    type = ElementAverageValue
+    variable = DD_immobile_22
+  [../]
+  [./pp_DD_immobile_23]
+    type = ElementAverageValue
+    variable = DD_immobile_23
+  [../]
+  [./pp_DD_immobile_24]
+    type = ElementAverageValue
+    variable = DD_immobile_24
+  [../]
+
+  [./pp_shear_resistance_01]
+    type = ElementAverageValue
+    variable = shear_resistance_01
+  [../]
+  [./pp_shear_resistance_02]
+    type = ElementAverageValue
+    variable = shear_resistance_02
+  [../]
+  [./pp_shear_resistance_03]
+    type = ElementAverageValue
+    variable = shear_resistance_03
+  [../]
+  [./pp_shear_resistance_04]
+    type = ElementAverageValue
+    variable = shear_resistance_04
+  [../]
+  [./pp_shear_resistance_05]
+    type = ElementAverageValue
+    variable = shear_resistance_05
+  [../]
+  [./pp_shear_resistance_06]
+    type = ElementAverageValue
+    variable = shear_resistance_06
+  [../]
+  [./pp_shear_resistance_07]
+    type = ElementAverageValue
+    variable = shear_resistance_07
+  [../]
+  [./pp_shear_resistance_08]
+    type = ElementAverageValue
+    variable = shear_resistance_08
+  [../]
+  [./pp_shear_resistance_09]
+    type = ElementAverageValue
+    variable = shear_resistance_09
+  [../]
+  [./pp_shear_resistance_10]
+    type = ElementAverageValue
+    variable = shear_resistance_10
+  [../]
+  [./pp_shear_resistance_11]
+    type = ElementAverageValue
+    variable = shear_resistance_11
+  [../]
+  [./pp_shear_resistance_12]
+    type = ElementAverageValue
+    variable = shear_resistance_12
+  [../]
+  [./pp_shear_resistance_13]
+    type = ElementAverageValue
+    variable = shear_resistance_13
+  [../]
+  [./pp_shear_resistance_14]
+    type = ElementAverageValue
+    variable = shear_resistance_14
+  [../]
+  [./pp_shear_resistance_15]
+    type = ElementAverageValue
+    variable = shear_resistance_15
+  [../]
+  [./pp_shear_resistance_16]
+    type = ElementAverageValue
+    variable = shear_resistance_16
+  [../]
+  [./pp_shear_resistance_17]
+    type = ElementAverageValue
+    variable = shear_resistance_17
+  [../]
+  [./pp_shear_resistance_18]
+    type = ElementAverageValue
+    variable = shear_resistance_18
+  [../]
+  [./pp_shear_resistance_19]
+    type = ElementAverageValue
+    variable = shear_resistance_19
+  [../]
+  [./pp_shear_resistance_20]
+    type = ElementAverageValue
+    variable = shear_resistance_20
+  [../]
+  [./pp_shear_resistance_21]
+    type = ElementAverageValue
+    variable = shear_resistance_21
+  [../]
+  [./pp_shear_resistance_22]
+    type = ElementAverageValue
+    variable = shear_resistance_22
+  [../]
+  [./pp_shear_resistance_23]
+    type = ElementAverageValue
+    variable = shear_resistance_23
+  [../]
+  [./pp_shear_resistance_24]
+    type = ElementAverageValue
+    variable = shear_resistance_24
+  [../]
+
+  [./pp_shear_stress_14]
+    type = ElementAverageValue
+    variable = shear_stress_14
+  [../]
+  [./pp_shear_stress_17]
+    type = ElementAverageValue
+    variable = shear_stress_17
+  [../]
+  [./pp_shear_stress_20]
+    type = ElementAverageValue
+    variable = shear_stress_20
+  [../]
+  [./pp_shear_stress_23]
+    type = ElementAverageValue
+    variable = shear_stress_23
+  [../]
+
+  [./pp_back_stress_14]
+    type = ElementAverageValue
+    variable = back_stress_14
+  [../]
+  [./pp_back_stress_17]
+    type = ElementAverageValue
+    variable = back_stress_17
+  [../]
+  [./pp_back_stress_20]
+    type = ElementAverageValue
+    variable = back_stress_20
+  [../]
+  [./pp_back_stress_23]
+    type = ElementAverageValue
+    variable = back_stress_23
+  [../]
+
+  [./pp_sat_edgepos_14]
+    type = ElementAverageValue
+    variable = sat_edgepos_14
+  [../]
+  [./pp_sat_edgepos_17]
+    type = ElementAverageValue
+    variable = sat_edgepos_17
+  [../]
+  [./pp_sat_edgepos_20]
+    type = ElementAverageValue
+    variable = sat_edgepos_20
+  [../]
+  [./pp_sat_edgepos_23]
+    type = ElementAverageValue
+    variable = sat_edgepos_23
+  [../]
+
+  [./pp_sat_edgeneg_14]
+    type = ElementAverageValue
+    variable = sat_edgeneg_14
+  [../]
+  [./pp_sat_edgeneg_17]
+    type = ElementAverageValue
+    variable = sat_edgeneg_17
+  [../]
+  [./pp_sat_edgeneg_20]
+    type = ElementAverageValue
+    variable = sat_edgeneg_20
+  [../]
+  [./pp_sat_edgeneg_23]
+    type = ElementAverageValue
+    variable = sat_edgeneg_23
+  [../]
+
+  [./pp_sat_screwpos_14]
+    type = ElementAverageValue
+    variable = sat_screwpos_14
+  [../]
+  [./pp_sat_screwpos_17]
+    type = ElementAverageValue
+    variable = sat_screwpos_17
+  [../]
+  [./pp_sat_screwpos_20]
+    type = ElementAverageValue
+    variable = sat_screwpos_20
+  [../]
+  [./pp_sat_screwpos_23]
+    type = ElementAverageValue
+    variable = sat_screwpos_23
+  [../]
+
+  [./pp_sat_screwneg_14]
+    type = ElementAverageValue
+    variable = sat_screwneg_14
+  [../]
+  [./pp_sat_screwneg_17]
+    type = ElementAverageValue
+    variable = sat_screwneg_17
+  [../]
+  [./pp_sat_screwneg_20]
+    type = ElementAverageValue
+    variable = sat_screwneg_20
+  [../]
+  [./pp_sat_screwneg_23]
+    type = ElementAverageValue
+    variable = sat_screwneg_23
+  [../]
+
+  [./pp_slip_increment_01]
+    type = ElementAverageValue
+    variable = slip_increment_01
+  [../]
+  [./pp_slip_increment_02]
+    type = ElementAverageValue
+    variable = slip_increment_02
+  [../]
+  [./pp_slip_increment_03]
+    type = ElementAverageValue
+    variable = slip_increment_03
+  [../]
+  [./pp_slip_increment_04]
+    type = ElementAverageValue
+    variable = slip_increment_04
+  [../]
+  [./pp_slip_increment_05]
+    type = ElementAverageValue
+    variable = slip_increment_05
+  [../]
+  [./pp_slip_increment_06]
+    type = ElementAverageValue
+    variable = slip_increment_06
+  [../]
+  [./pp_slip_increment_07]
+    type = ElementAverageValue
+    variable = slip_increment_07
+  [../]
+  [./pp_slip_increment_08]
+    type = ElementAverageValue
+    variable = slip_increment_08
+  [../]
+  [./pp_slip_increment_09]
+    type = ElementAverageValue
+    variable = slip_increment_09
+  [../]
+  [./pp_slip_increment_10]
+    type = ElementAverageValue
+    variable = slip_increment_10
+  [../]
+  [./pp_slip_increment_11]
+    type = ElementAverageValue
+    variable = slip_increment_11
+  [../]
+  [./pp_slip_increment_12]
+    type = ElementAverageValue
+    variable = slip_increment_12
+  [../]
+  [./pp_slip_increment_13]
+    type = ElementAverageValue
+    variable = slip_increment_13
+  [../]
+  [./pp_slip_increment_14]
+    type = ElementAverageValue
+    variable = slip_increment_14
+  [../]
+  [./pp_slip_increment_15]
+    type = ElementAverageValue
+    variable = slip_increment_15
+  [../]
+  [./pp_slip_increment_16]
+    type = ElementAverageValue
+    variable = slip_increment_16
+  [../]
+  [./pp_slip_increment_17]
+    type = ElementAverageValue
+    variable = slip_increment_17
+  [../]
+  [./pp_slip_increment_18]
+    type = ElementAverageValue
+    variable = slip_increment_18
+  [../]
+  [./pp_slip_increment_19]
+    type = ElementAverageValue
+    variable = slip_increment_19
+  [../]
+  [./pp_slip_increment_20]
+    type = ElementAverageValue
+    variable = slip_increment_20
+  [../]
+  [./pp_slip_increment_21]
+    type = ElementAverageValue
+    variable = slip_increment_21
+  [../]
+  [./pp_slip_increment_22]
+    type = ElementAverageValue
+    variable = slip_increment_22
+  [../]
+  [./pp_slip_increment_23]
+    type = ElementAverageValue
+    variable = slip_increment_23
+  [../]
+  [./pp_slip_increment_24]
+    type = ElementAverageValue
+    variable = slip_increment_24
+  [../]
+[]
+
 # [Mesh]
 #   [./MeshFile]
 #    type = FileMeshGenerator
@@ -3695,6 +4187,91 @@
 
 # slip_resistance
 [AuxVariables]
+  [./back_stress_14]
+    order = CONSTANT
+    family = MONOMIAL
+  [../]
+  [./back_stress_17]
+    order = CONSTANT
+    family = MONOMIAL
+  [../]
+  [./back_stress_20]
+    order = CONSTANT
+    family = MONOMIAL
+  [../]
+  [./back_stress_23]
+    order = CONSTANT
+    family = MONOMIAL
+  [../]
+
+  [./sat_edgepos_14]
+    order = CONSTANT
+    family = MONOMIAL
+  [../]
+  [./sat_edgepos_17]
+    order = CONSTANT
+    family = MONOMIAL
+  [../]
+  [./sat_edgepos_20]
+    order = CONSTANT
+    family = MONOMIAL
+  [../]
+  [./sat_edgepos_23]
+    order = CONSTANT
+    family = MONOMIAL
+  [../]
+
+  [./sat_edgeneg_14]
+    order = CONSTANT
+    family = MONOMIAL
+  [../]
+  [./sat_edgeneg_17]
+    order = CONSTANT
+    family = MONOMIAL
+  [../]
+  [./sat_edgeneg_20]
+    order = CONSTANT
+    family = MONOMIAL
+  [../]
+  [./sat_edgeneg_23]
+    order = CONSTANT
+    family = MONOMIAL
+  [../]
+
+  [./sat_screwpos_14]
+    order = CONSTANT
+    family = MONOMIAL
+  [../]
+  [./sat_screwpos_17]
+    order = CONSTANT
+    family = MONOMIAL
+  [../]
+  [./sat_screwpos_20]
+    order = CONSTANT
+    family = MONOMIAL
+  [../]
+  [./sat_screwpos_23]
+    order = CONSTANT
+    family = MONOMIAL
+  [../]
+
+  [./sat_screwneg_14]
+    order = CONSTANT
+    family = MONOMIAL
+  [../]
+  [./sat_screwneg_17]
+    order = CONSTANT
+    family = MONOMIAL
+  [../]
+  [./sat_screwneg_20]
+    order = CONSTANT
+    family = MONOMIAL
+  [../]
+  [./sat_screwneg_23]
+    order = CONSTANT
+    family = MONOMIAL
+  [../]
+
   [./shear_resistance_01]
     order = CONSTANT
     family = MONOMIAL
@@ -3794,6 +4371,131 @@
 []
 
 [AuxKernels]
+  [./back_stress_14]
+    type = MaterialStdVectorAux
+    variable = back_stress_14
+    property = back_stress
+    index = 13
+  [../]
+  [./back_stress_17]
+    type = MaterialStdVectorAux
+    variable = back_stress_17
+    property = back_stress
+    index = 16
+  [../]
+  [./back_stress_20]
+    type = MaterialStdVectorAux
+    variable = back_stress_20
+    property = back_stress
+    index = 19
+  [../]
+  [./back_stress_23]
+    type = MaterialStdVectorAux
+    variable = back_stress_23
+    property = back_stress
+    index = 22
+  [../]
+
+  [./sat_edgepos_14]
+    type = MaterialStdVectorAux
+    variable = sat_edgepos_14
+    property = saturation_immobile_density_edgepos
+    index = 13
+  [../]
+  [./sat_edgepos_17]
+    type = MaterialStdVectorAux
+    variable = sat_edgepos_17
+    property = saturation_immobile_density_edgepos
+    index = 16
+  [../]
+  [./sat_edgepos_20]
+    type = MaterialStdVectorAux
+    variable = sat_edgepos_20
+    property = saturation_immobile_density_edgepos
+    index = 19
+  [../]
+  [./sat_edgepos_23]
+    type = MaterialStdVectorAux
+    variable = sat_edgepos_23
+    property = saturation_immobile_density_edgepos
+    index = 22
+  [../]
+
+  [./sat_edgeneg_14]
+    type = MaterialStdVectorAux
+    variable = sat_edgeneg_14
+    property = saturation_immobile_density_edgeneg
+    index = 13
+  [../]
+  [./sat_edgeneg_17]
+    type = MaterialStdVectorAux
+    variable = sat_edgeneg_17
+    property = saturation_immobile_density_edgeneg
+    index = 16
+  [../]
+  [./sat_edgeneg_20]
+    type = MaterialStdVectorAux
+    variable = sat_edgeneg_20
+    property = saturation_immobile_density_edgeneg
+    index = 19
+  [../]
+  [./sat_edgeneg_23]
+    type = MaterialStdVectorAux
+    variable = sat_edgeneg_23
+    property = saturation_immobile_density_edgeneg
+    index = 22
+  [../]
+
+  [./sat_screwpos_14]
+    type = MaterialStdVectorAux
+    variable = sat_screwpos_14
+    property = saturation_immobile_density_screwpos
+    index = 13
+  [../]
+  [./sat_screwpos_17]
+    type = MaterialStdVectorAux
+    variable = sat_screwpos_17
+    property = saturation_immobile_density_screwpos
+    index = 16
+  [../]
+  [./sat_screwpos_20]
+    type = MaterialStdVectorAux
+    variable = sat_screwpos_20
+    property = saturation_immobile_density_screwpos
+    index = 19
+  [../]
+  [./sat_screwpos_23]
+    type = MaterialStdVectorAux
+    variable = sat_screwpos_23
+    property = saturation_immobile_density_screwpos
+    index = 22
+  [../]
+
+  [./sat_screwneg_14]
+    type = MaterialStdVectorAux
+    variable = sat_screwneg_14
+    property = saturation_immobile_density_screwneg
+    index = 13
+  [../]
+  [./sat_screwneg_17]
+    type = MaterialStdVectorAux
+    variable = sat_screwneg_17
+    property = saturation_immobile_density_screwneg
+    index = 16
+  [../]
+  [./sat_screwneg_20]
+    type = MaterialStdVectorAux
+    variable = sat_screwneg_20
+    property = saturation_immobile_density_screwneg
+    index = 19
+  [../]
+  [./sat_screwneg_23]
+    type = MaterialStdVectorAux
+    variable = sat_screwneg_23
+    property = saturation_immobile_density_screwneg
+    index = 22
+  [../]
+
   [./shear_resistance_01]
     type = MaterialStdVectorAux
     variable = shear_resistance_01
@@ -4689,4 +5391,3 @@
     index = 23
   [../]
 []
-

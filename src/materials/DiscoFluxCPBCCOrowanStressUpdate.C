@@ -701,19 +701,19 @@ DiscoFluxCPBCCOrowanStressUpdate::initQpStatefulProperties()
     //               _dislocation_immobile_screw_negative[_qp][i] +
     //               _dislocation_immobile_screw_positive[_qp][i]),-0.5);
 
-    Real slip_rate  =   _DD_EdgePositive[i]  * std::abs(_dislo_velocity_edge[_qp][i]);
+    Real slip_rate  =   _DD_EdgePositive[i]  * std::abs(_dislo_velocity_edge[_qp][i]) * _burgers_vector_mag;
     _dislocation_immobile_sat_edgepos[_qp][i] = _dd_sat * std::pow(slip_rate / _gamdot_ref, _boltz*_temp/_sat_A);
     _dislocation_immobile_sat_edgepos[_qp][i] = std::max(_dislocation_immobile_sat_edgepos[_qp][i], _min_dd);
 
-    slip_rate       =   _DD_EdgeNegative[i]  * std::abs(_dislo_velocity_edge[_qp][i]);
+    slip_rate       =   _DD_EdgeNegative[i]  * std::abs(_dislo_velocity_edge[_qp][i]) * _burgers_vector_mag;
     _dislocation_immobile_sat_edgeneg[_qp][i] = _dd_sat * std::pow(slip_rate / _gamdot_ref, _boltz*_temp/_sat_A);
     _dislocation_immobile_sat_edgeneg[_qp][i] = std::max(_dislocation_immobile_sat_edgeneg[_qp][i], _min_dd);
 
-    slip_rate       =   _DD_ScrewPositive[i]  * std::abs(_dislo_velocity_screw[_qp][i]);
+    slip_rate       =   _DD_ScrewPositive[i]  * std::abs(_dislo_velocity_screw[_qp][i]) * _burgers_vector_mag;
     _dislocation_immobile_sat_screwpos[_qp][i] = _dd_sat * std::pow(slip_rate / _gamdot_ref, _boltz*_temp/_sat_A);
     _dislocation_immobile_sat_screwpos[_qp][i] = std::max(_dislocation_immobile_sat_screwpos[_qp][i], _min_dd);
 
-    slip_rate       =   _DD_ScrewNegative[i]  * std::abs(_dislo_velocity_screw[_qp][i]);
+    slip_rate       =   _DD_ScrewNegative[i]  * std::abs(_dislo_velocity_screw[_qp][i]) * _burgers_vector_mag;
     _dislocation_immobile_sat_screwneg[_qp][i] = _dd_sat * std::pow(slip_rate / _gamdot_ref, _boltz*_temp/_sat_A);
     _dislocation_immobile_sat_screwneg[_qp][i] = std::max(_dislocation_immobile_sat_screwneg[_qp][i], _min_dd);
   }
@@ -842,19 +842,19 @@ DiscoFluxCPBCCOrowanStressUpdate::setInitialConstitutiveVariableValues()
     _previous_substep_dislocation_mobile_edge[i]        = _dislocation_mobile_edge[_qp][i];
     _previous_substep_dislocation_mobile_screw[i]       = _dislocation_mobile_screw[_qp][i];
 
-    Real slip_rate  =   _DD_EdgePositive[i]  * std::abs(_dislo_velocity_edge[_qp][i]);
+    Real slip_rate  =   _DD_EdgePositive[i]  * std::abs(_dislo_velocity_edge[_qp][i]) * _burgers_vector_mag;
     _dislocation_immobile_sat_edgepos[_qp][i] = _dd_sat * std::pow(slip_rate / _gamdot_ref, _boltz*_temp/_sat_A);
     _dislocation_immobile_sat_edgepos[_qp][i] = std::max(_dislocation_immobile_sat_edgepos[_qp][i], _min_dd);
 
-    slip_rate       =   _DD_EdgeNegative[i]  * std::abs(_dislo_velocity_edge[_qp][i]);
+    slip_rate       =   _DD_EdgeNegative[i]  * std::abs(_dislo_velocity_edge[_qp][i]) * _burgers_vector_mag;
     _dislocation_immobile_sat_edgeneg[_qp][i] = _dd_sat * std::pow(slip_rate / _gamdot_ref, _boltz*_temp/_sat_A);
     _dislocation_immobile_sat_edgeneg[_qp][i] = std::max(_dislocation_immobile_sat_edgeneg[_qp][i], _min_dd);
 
-    slip_rate       =   _DD_ScrewPositive[i]  * std::abs(_dislo_velocity_screw[_qp][i]);
+    slip_rate       =   _DD_ScrewPositive[i]  * std::abs(_dislo_velocity_screw[_qp][i]) * _burgers_vector_mag;
     _dislocation_immobile_sat_screwpos[_qp][i] = _dd_sat * std::pow(slip_rate / _gamdot_ref, _boltz*_temp/_sat_A);
     _dislocation_immobile_sat_screwpos[_qp][i] = std::max(_dislocation_immobile_sat_screwpos[_qp][i], _min_dd);
 
-    slip_rate       =   _DD_ScrewNegative[i]  * std::abs(_dislo_velocity_screw[_qp][i]);
+    slip_rate       =   _DD_ScrewNegative[i]  * std::abs(_dislo_velocity_screw[_qp][i]) * _burgers_vector_mag;
     _dislocation_immobile_sat_screwneg[_qp][i] = _dd_sat * std::pow(slip_rate / _gamdot_ref, _boltz*_temp/_sat_A);
     _dislocation_immobile_sat_screwneg[_qp][i] = std::max(_dislocation_immobile_sat_screwneg[_qp][i], _min_dd);
   }
@@ -1221,19 +1221,19 @@ DiscoFluxCPBCCOrowanStressUpdate::getDDIncrements()
       //         std::abs(_slip_increment[_qp][i]) -
       //     (_C_im_ann * _dislocation_immobile[_qp][i]) * std::abs(_slip_increment[_qp][i]);
 
-      Real slip_rate  =   _DD_EdgePositive[i]  * std::abs(_dislo_velocity_edge[_qp][i]);
+      Real slip_rate  =   _DD_EdgePositive[i]  * std::abs(_dislo_velocity_edge[_qp][i]) * _burgers_vector_mag;
       _dislocation_immobile_sat_edgepos[_qp][i] = _dd_sat * std::pow(slip_rate / _gamdot_ref, _boltz*_temp/_sat_A);
       _dislocation_immobile_sat_edgepos[_qp][i] = std::max(_dislocation_immobile_sat_edgepos[_qp][i], _min_dd);
 
-      slip_rate       =   _DD_EdgeNegative[i]  * std::abs(_dislo_velocity_edge[_qp][i]);
+      slip_rate       =   _DD_EdgeNegative[i]  * std::abs(_dislo_velocity_edge[_qp][i]) * _burgers_vector_mag;
       _dislocation_immobile_sat_edgeneg[_qp][i] = _dd_sat * std::pow(slip_rate / _gamdot_ref, _boltz*_temp/_sat_A);
       _dislocation_immobile_sat_edgeneg[_qp][i] = std::max(_dislocation_immobile_sat_edgeneg[_qp][i], _min_dd);
 
-      slip_rate       =   _DD_ScrewPositive[i]  * std::abs(_dislo_velocity_screw[_qp][i]);
+      slip_rate       =   _DD_ScrewPositive[i]  * std::abs(_dislo_velocity_screw[_qp][i]) * _burgers_vector_mag;
       _dislocation_immobile_sat_screwpos[_qp][i] = _dd_sat * std::pow(slip_rate / _gamdot_ref, _boltz*_temp/_sat_A);
       _dislocation_immobile_sat_screwpos[_qp][i] = std::max(_dislocation_immobile_sat_screwpos[_qp][i], _min_dd);
 
-      slip_rate       =   _DD_ScrewNegative[i]  * std::abs(_dislo_velocity_screw[_qp][i]);
+      slip_rate       =   _DD_ScrewNegative[i]  * std::abs(_dislo_velocity_screw[_qp][i]) * _burgers_vector_mag;
       _dislocation_immobile_sat_screwneg[_qp][i] = _dd_sat * std::pow(slip_rate / _gamdot_ref, _boltz*_temp/_sat_A);
       _dislocation_immobile_sat_screwneg[_qp][i] = std::max(_dislocation_immobile_sat_screwneg[_qp][i], _min_dd);
 
@@ -1255,16 +1255,9 @@ DiscoFluxCPBCCOrowanStressUpdate::getDDIncrements()
       Real frec_screwneg  = 1.0 - std::pow((_dislocation_immobile_screw_negative[_qp][i]  / _dislocation_immobile_sat_screwneg[_qp][i]), 1.0/_nrec);
 
       if      (frec_edgepos < 0) frec_edgepos = 0.0;
-      else if (frec_edgepos > 1) frec_edgepos = 1.0;
-
       if      (frec_edgeneg < 0) frec_edgeneg = 0.0;
-      else if (frec_edgeneg > 1) frec_edgeneg = 1.0;
-
       if      (frec_screwpos < 0) frec_screwpos = 0.0;
-      else if (frec_screwpos > 1) frec_screwpos = 1.0;
-
       if      (frec_screwneg < 0) frec_screwneg = 0.0;
-      else if (frec_screwneg > 1) frec_screwneg = 1.0;
 
       _dislocation_immobile_increment_edge_positive[i]  =  frec_edgepos   * _C_trap * std::pow(_dislocation_forest[_qp][i], 0.5) * std::abs(_DD_EdgePositive[i] * _dislo_velocity_edge[_qp][i]);
       _dislocation_immobile_increment_edge_negative[i]  =  frec_edgeneg   * _C_trap * std::pow(_dislocation_forest[_qp][i], 0.5) * std::abs(_DD_EdgeNegative[i] * _dislo_velocity_edge[_qp][i]);
