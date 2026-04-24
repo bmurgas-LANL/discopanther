@@ -1609,7 +1609,7 @@ DiscoFluxCPBCCOrowanStressUpdate::getDisloVelocity()
           // second form of waiting time with exponential
           t_wait[i] = (exp(exp_arg) - 1.0) / _omega0;
           dtw_dtau = (exp(exp_arg) / _omega0) * _q1 * _q2 * deltaG0 / (_boltz * _temp * slip_r_screw[i]) *
-                     std::pow(inner, _q2 - 1.0) * std::pow((tau_eff[i] / slip_r_screw[i]), _q1 - 1.0) *
+                     std::pow(inner, _q2 - 1.0) * std::pow((tau_eff_screw[i] / slip_r_screw[i]), _q1 - 1.0) *
                      tau_effSign_screw[i];
         }
         else

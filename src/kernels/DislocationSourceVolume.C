@@ -22,6 +22,9 @@ DislocationSourceVolume::validParams()
 {
   InputParameters params = Kernel::validParams();
   params.addClassDescription("Updates the dislocation density based on local evolution law of DiscoFlux crystal plasticity material model.");
+  params.addParam<std::string>(
+      "base_name",
+      "Optional parameter that allows the user to define multiple mechanics material systems on the same block, i.e. for multiple phases");
   
   // parameters for local evolution of dislocation density.
   params.addParam<Real>                 ("dislo_density_factor_CDT",  1.0,                    "factor to convert the dislocation density from CDT to CP, this is for scaling of solution variable");
@@ -46,6 +49,7 @@ DislocationSourceVolume::validParams()
 
 DislocationSourceVolume::DislocationSourceVolume(const InputParameters & parameters)
   : Kernel(parameters),
+    _base_name(isParamValid("base_name") ? getParam<std::string>("base_name") + "_" : ""),
     _dislo_density_factor_CDT(              getParam<Real>("dislo_density_factor_CDT")),
     _C_multi(                               getParam<Real>("C_multi")),
     _C_trap(                                getParam<Real>("C_trap")),
@@ -56,20 +60,20 @@ DislocationSourceVolume::DislocationSourceVolume(const InputParameters & paramet
     _zeta_sat(                              getParam<Real>("zeta")),
     _number_slip_systems(                   getParam<unsigned int>("number_slip_systems")),
 
-    _dislo_velocity_CP_edge(                getMaterialProperty<std::vector<Real>>("dislo_velocity_edge")),
-    _dislo_velocity_CP_screw(               getMaterialProperty<std::vector<Real>>("dislo_velocity_screw")),
+    _dislo_velocity_CP_edge(                getMaterialProperty<std::vector<Real>>(_base_name + "dislo_velocity_edge")),
+    _dislo_velocity_CP_screw(               getMaterialProperty<std::vector<Real>>(_base_name + "dislo_velocity_screw")),
 
-    _slip_direction_edge(                   getMaterialProperty<std::vector<RealVectorValue>>("slip_direction_edge")),
-    _slip_plane_normalboth(                 getMaterialProperty<std::vector<RealVectorValue>>("slip_plane_normalboth")),
+    _slip_direction_edge(                   getMaterialProperty<std::vector<RealVectorValue>>(_base_name + "slip_direction_edge")),
+    _slip_plane_normalboth(                 getMaterialProperty<std::vector<RealVectorValue>>(_base_name + "slip_plane_normalboth")),
 
     _dislocationcharacter(                  getParam<MooseEnum>("dislocation_character").getEnum<DislocationCharacter>()),
     _dislocationsign(                       getParam<MooseEnum>("dislocation_sign").getEnum<DislocationSign>()),
 
-    _dislocation_forest(                    getMaterialProperty<std::vector<Real>>("dislocation_forest")),
-    _dislocation_immobile_sat_edgepos(      getMaterialProperty<std::vector<Real>>("saturation_immobile_density_edgepos")),
-    _dislocation_immobile_sat_edgeneg(      getMaterialProperty<std::vector<Real>>("saturation_immobile_density_edgeneg")),
-    _dislocation_immobile_sat_screwpos(     getMaterialProperty<std::vector<Real>>("saturation_immobile_density_screwpos")),
-    _dislocation_immobile_sat_screwneg(     getMaterialProperty<std::vector<Real>>("saturation_immobile_density_screwneg")),
+    _dislocation_forest(                    getMaterialProperty<std::vector<Real>>(_base_name + "dislocation_forest")),
+    _dislocation_immobile_sat_edgepos(      getMaterialProperty<std::vector<Real>>(_base_name + "saturation_immobile_density_edgepos")),
+    _dislocation_immobile_sat_edgeneg(      getMaterialProperty<std::vector<Real>>(_base_name + "saturation_immobile_density_edgeneg")),
+    _dislocation_immobile_sat_screwpos(     getMaterialProperty<std::vector<Real>>(_base_name + "saturation_immobile_density_screwpos")),
+    _dislocation_immobile_sat_screwneg(     getMaterialProperty<std::vector<Real>>(_base_name + "saturation_immobile_density_screwneg")),
     // _dislocation_mobile_edge(               getMaterialProperty<std::vector<Real>>("dislocation_mobile_edge")),
     // _dislocation_mobile_screw(              getMaterialProperty<std::vector<Real>>("dislocation_mobile_screw")),
     // _dislocation_immobile(                  getMaterialProperty<std::vector<Real>>("dislocation_immobile")),

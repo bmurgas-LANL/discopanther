@@ -3023,13 +3023,13 @@
     Coeff_backstress          = 0.0
     initial_athermal          = 102.0
     initial_athermal_screw    = 102.0
-    dd_sat                    = 1.e6
+    dd_sat                    = 2.e7
     sat_A                     = 5.52e-18
     min_dd                    = 1.0
     nrec                      = 4.0
     gamdot_ref                = 1e-3 #0.01971736462951501e6
-    q1                        = 0.3137048561088953
-    q2                        = 1.8103019457710243
+    q1                        = 0.3 # 0.3137048561088953
+    q2                        = 1.8 # 1.8103019457710243
     B0                        = 1.25e-12
     B0s                       = 1.25e-12
     vs_edge                   = 2.e6
@@ -3175,8 +3175,8 @@
   number_slip_systems     = 24
   dislo_density_initial   = 247500
   zeta                    = 0.1
-  C_multi                 = 0.4
-  C_trap                  = 0.1 
+  C_multi                 = 0.50
+  C_trap                  = 0.45
   C_m_ann                 = 0.0 
   C_im_ann                = 0.0 
   burgers_vector_mag      = 2.8579e-7

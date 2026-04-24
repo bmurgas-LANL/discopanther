@@ -29,6 +29,7 @@ protected:
   virtual Real computeQpJacobian() override;
   // void computeDisloVelocity();
 
+  const std::string _base_name;
   const Real _dislo_density_factor_CDT;
   const Real _C_multi, _C_trap, _C_m_ann, _C_im_ann, _dd_sat, _burgers_vector_mag;
   const Real _zeta_sat;
