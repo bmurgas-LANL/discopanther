@@ -1291,7 +1291,7 @@ DiscoFluxCPBCCOrowanStressUpdate::getDDIncrements()
 bool
 DiscoFluxCPBCCOrowanStressUpdate::updateStateVariables()
 {
-  Real Hij, eff_dislocation_density = 0.00;
+  Real eff_dislocation_density = 0.00;
 
   for (unsigned int i = 0; i < _number_slip_systems; ++i)
   {
@@ -1313,13 +1313,17 @@ DiscoFluxCPBCCOrowanStressUpdate::updateStateVariables()
     eff_dislocation_density = 0.00;
     for (unsigned int j = 0; j < _number_slip_systems; ++j)
     {
-      if (i == j ? Hij = 1.0 : Hij = 0.1)
-        // similar proportion of mobile and immobile dislocations:
-        eff_dislocation_density += Hij * ( _dislocation_mobile[_qp][j] + _dislocation_immobile[_qp][j]);
-                                    // _dislocation_immobile_edge_positive[_qp][j] +
-                                    // _dislocation_immobile_edge_negative[_qp][j] +
-                                    // _dislocation_immobile_screw_positive[_qp][j] +
-                                    // _dislocation_immobile_screw_negative[_qp][j]);
+      const RealVectorValue q =
+          _slip_plane_normalboth[_qp][j].cross(_slip_direction_edge[_qp][j]);
+      const Real hij = _slip_plane_normalboth[_qp][i].cross(q).norm();
+
+      // Hardening uses the geometric interaction between slip-system normals
+      // and the line direction associated with system j.
+      eff_dislocation_density += hij * (_dislocation_mobile[_qp][j] + _dislocation_immobile[_qp][j]);
+                                // _dislocation_immobile_edge_positive[_qp][j] +
+                                // _dislocation_immobile_edge_negative[_qp][j] +
+                                // _dislocation_immobile_screw_positive[_qp][j] +
+                                // _dislocation_immobile_screw_negative[_qp][j]);
     }
     Real tau_eff     = (_tau[_qp][i] - _tau_b[_qp][i]);
     if (i < 12)
