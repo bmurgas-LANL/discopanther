@@ -1311,11 +1311,29 @@ DiscoFluxCPBCCOrowanStressUpdate::updateStateVariables()
   for (unsigned int i = 0; i < _number_slip_systems; ++i)
   {
     eff_dislocation_density = 0.00;
+    Real hij_offdiag_sum = 0.0;
+
     for (unsigned int j = 0; j < _number_slip_systems; ++j)
     {
+      if (i == j)
+        continue;
+
       const RealVectorValue q =
           _slip_plane_normalboth[_qp][j].cross(_slip_direction_edge[_qp][j]);
-      const Real hij = _slip_plane_normalboth[_qp][i].cross(q).norm();
+      hij_offdiag_sum += _slip_plane_normalboth[_qp][i].cross(q).norm();
+    }
+
+    for (unsigned int j = 0; j < _number_slip_systems; ++j)
+    {
+      Real hij = 1.0;
+      if (i != j)
+      {
+        const RealVectorValue q =
+            _slip_plane_normalboth[_qp][j].cross(_slip_direction_edge[_qp][j]);
+        hij = hij_offdiag_sum > 0.0
+                  ? 0.5 * _slip_plane_normalboth[_qp][i].cross(q).norm() / hij_offdiag_sum
+                  : 0.0;
+      }
 
       // Hardening uses the geometric interaction between slip-system normals
       // and the line direction associated with system j.
