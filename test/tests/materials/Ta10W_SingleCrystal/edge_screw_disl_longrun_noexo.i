@@ -516,11 +516,9 @@
   [singlecrystal]
     type = GeneratedMeshGenerator
     dim = 3
-    # Transport is off in this benchmark, so a single element is sufficient
-    # for constitutive calibration and makes parameter sweeps much cheaper.
-    nx = 1
-    ny = 1
-    nz = 1
+    nx = 4
+    ny = 4
+    nz = 4
     xmax = 0.1
     ymax = 0.1
     zmax = 0.1
@@ -551,20 +549,10 @@
 []
 
 [Outputs]
-    # Recommended output prefix for the calibrated benchmark deck.
-    file_base = edge_screw_disl_recommended
+    file_base = method_Discoflux
     csv = true
-    # Keep Exodus output for visual inspection and debugging.
-    [out]
-      type = Exodus
-      time_step_interval = 1
-    []
-    # Keep restart files on an hourly wall-clock cadence for long runs.
-    [checkpoint]
-      type = Checkpoint
-      wall_time_interval = 3600
-      num_files = 2
-    []
+    console = false
+    time_step_interval = 10
 []
 
 [UserObjects]
@@ -3010,8 +2998,6 @@
     type = ComputeMultipleCrystalPlasticityOrowanStress
     crystal_plasticity_models = 'CP_DiscoFlux'
     tan_mod_type = exact
-    # Substepping was not needed to recover the hardening trend in this case.
-    maximum_substep_iteration = 1
     print_state_variable_convergence_error_messages = false
   []
   [./CP_DiscoFlux]
@@ -3033,9 +3019,8 @@
     gamdot_ref                = 1e-3 #0.01971736462951501e6
     q1                        = 0.3 # 0.3137048561088953
     q2                        = 1.8 # 1.810301  9457710243
-    # Requested drag-coefficient branch used for the final calibration sweep.
-    B0                        = 1.25e-11
-    B0s                       = 1.25e-11
+    B0                        = 1.25e-10
+    B0s                       = 1.25e-10
     vs_edge                   = 2.e6
     vs_screw                  = 2.e6
     temp                      = 400
@@ -3152,7 +3137,7 @@
     DD_ScrewNegative_23  = DD_ScrewNegative_23
     DD_ScrewNegative_24  = DD_ScrewNegative_24
 
-    print_state_variable_convergence_error_messages = false
+    print_state_variable_convergence_error_messages = true
   [../]
   [updated_euler_angle]
     type = ComputeUpdatedEulerAngle
@@ -3179,14 +3164,8 @@
   number_slip_systems     = 24
   dislo_density_initial   = 247500
   zeta                    = 0.1
-  # Recommended balanced hardening set:
-  #   C_multi = 0.45
-  #   C_trap  = 0.449505  (ratio = 0.9989)
-  # Stronger hardening options tested successfully:
-  #   C_trap = 0.44982    (ratio = 0.9996)
-  #   C_trap = 0.449955   (ratio = 0.9999)
-  C_multi                 = 0.45
-  C_trap                  = 0.449505
+  C_multi                 = 0.50
+  C_trap                  = 0.45
   C_m_ann                 = 0.0 
   C_im_ann                = 0.0 
   burgers_vector_mag      = 2.8579e-7
@@ -3217,12 +3196,9 @@
   nl_abs_tol = 1e-6 #1e-6
   l_abs_tol = 1e-6
 
-  # Constant dt = 0.05 was adequate; smaller dt changed the peak slightly but
-  # did not change the qualitative hardening trend.
   dtmax = 0.05
   dtmin = 1e-10
-  # The calibrated window focuses on the activation and early hardening regime.
-  end_time = 3.0
+  end_time = 20  #100 200
 
   [./TimeStepper]
     type = ConstantDT
